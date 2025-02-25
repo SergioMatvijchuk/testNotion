@@ -67,6 +67,7 @@ export function BannerUp() {
                 }
             }
         }, 3000);
+        
         return () => clearInterval(interval);
     },
 

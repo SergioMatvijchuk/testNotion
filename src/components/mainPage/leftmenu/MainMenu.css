@@ -53,6 +53,7 @@
     padding: 10px;
     margin: 10px;
     box-sizing: border-box;
+
 }
 
 .sideBarFirstBlock>div>ul>li {
@@ -62,11 +63,13 @@
     margin: 0px;
     cursor: pointer;
     transition: 0.3s ease-in-out;
+
 }
 
 .sideBarFirstBlock>div>ul>li>a {
     color: antiquewhite;
-        text-decoration: none;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 
@@ -74,6 +77,7 @@
     background: rgb(142, 142, 142, 0.1);
     transition: 1;
     border-radius: 40px;
+    cursor: pointer;
 }
 
 

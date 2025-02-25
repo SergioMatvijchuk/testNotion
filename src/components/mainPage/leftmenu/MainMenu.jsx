@@ -7,10 +7,9 @@ import { NewPage } from '../newPage/NewPage.jsx'; // Импортируй NewPag
 
 
 
-export function MainMenu() {
+export function MainMenu({ setComponent }) {
 
     const pathImg = 'img/mainPage/';
-
     let staticImages = {
         iconImgriff: 'icons/iconImgriff.svg',
         iconSearch: 'icons/iconSearch.svg',
@@ -25,10 +24,7 @@ export function MainMenu() {
     for (let value in staticImages) {
         staticImages[value] = pathImg + staticImages[value];
     }
-
-
-
-    <li><NavLink to='/home'>MainPage</NavLink></li>
+    <li><NavLink to='/'>MainPage</NavLink></li>
     return (
         <div className='mainMenu'>
             <aside >
@@ -37,8 +33,8 @@ export function MainMenu() {
                     <div>
                         <ul>
                             <li><img src={staticImages.iconSearch} />Search</li>
-                            <li><NavLink to='/create_page'><img src={staticImages.iconPlus} />New Page</NavLink></li>
-                            <li><img src={staticImages.iconTemplates} />Templates</li>
+                            <li><a onClick={() => setComponent(<NewPage setComponent={setComponent} />)}><img src={staticImages.iconPlus} />New Page</a></li>
+                            <li><a onClick={() => setComponent(<Board setComponent={setComponent} />)}><img src={staticImages.iconTemplates} />Templates</a></li>
                         </ul>
                     </div>
                 </div>
@@ -54,8 +50,8 @@ export function MainMenu() {
                         </ul>
                     </div>
                 </div>
-            </aside>
-        </div>
+            </aside >
+        </div >
     )
 }
 

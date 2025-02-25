@@ -61,7 +61,7 @@ export function Board() {
                 </div>
 
 
-                <div id="boxForListComponent" className="borderBoxForList">
+                <div id="boxForListComponent" className="borderBoxForList scrollable">
                     {lists.map(list => (
                         <ListComponent
                             key={list.id}
