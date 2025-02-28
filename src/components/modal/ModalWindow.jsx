@@ -58,10 +58,14 @@ export default function ModalWindow({ modalData }) {
                     placeholder="Card_name"
                 /> <button onClick={close}><img src={staticImage.iconClose} alt="" /></button>
             </div>
+
             <div className='modal-content-main'>
-                <div></div>
-                <div></div>
+                <div className='left-modal-content-main'></div>
+                <div className='right-modal-content-main'>
+                    <textarea name="" id="" placeholder='Add a description...'>asasd</textarea>
+                </div>
             </div>
+            <hr className='separator' />
         </div>
     )
 }
