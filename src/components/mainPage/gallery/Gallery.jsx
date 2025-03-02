@@ -12,7 +12,10 @@ export function Gallery() {
 
 
     const addnewGalleryCard = () => {
-        setInputNewImageCard((inputNewImageCard) => [...inputNewImageCard, <GalleryCard key={inputNewImageCard.length} staticImage={staticImage} />]);
+        setInputNewImageCard((inputNewImageCard) =>
+            [...inputNewImageCard,
+            <GalleryCard key={inputNewImageCard.length} staticImage={staticImage} id={`card${inputNewImageCard?.length || 0}`} />
+            ]);
     }
 
 

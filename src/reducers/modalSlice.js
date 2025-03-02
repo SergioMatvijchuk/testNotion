@@ -17,7 +17,7 @@ const modalSlice = createSlice({
         },
         closeModal(state) {
             state.isModalOpen = false;
-            // state.modalData = null; //очизщаем данные при закрытии
+            state.modalData = null; //очизщаем данные при закрытии
         },
         updateModalData(state, action) {
             state.modalData = action.payload;  // обновление данных 
