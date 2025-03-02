@@ -21,13 +21,13 @@
     flex-grow: 1;
     justify-content: flex-start;
     overflow: hidden;
-    padding-left: 10%;
     position: relative;
 }
 
 /*верх */
 .modal>:nth-child(1) {
     flex: 1.9;
+    padding-left: 10%;
 }
 
 .modal>:nth-child(1)>button {
@@ -75,19 +75,12 @@
 .modal>:nth-child(2) {
     flex: 5;
     display: flex;
-    padding-left: 0%;
     position: relative;
+
 }
 
 
-.left-modal-content-main {
-    flex: 1;
-    width: 50%;
-    background: red;
-    height: 100%;
-}
-
-
+/*право начало*/
 .right-modal-content-main {
     width: 50%;
     height: 100%;
@@ -96,6 +89,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     text-align: center;
+    padding-left: 6%;
 }
 
 .right-modal-content-main>textarea {
@@ -113,23 +107,60 @@
     font-weight: 400;
     gap: 15px;
     line-height: 20px;
-    margin-left: 10%;
+
     min-height: 20%;
     max-height: 70%;
     height: auto;
     outline: none;
-    overflow: auto;
     padding: 10px 7px 10px 10px;
     resize: none;
     user-select: none;
     width: 75%;
+
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+
+    /* Установите нужную высоту */
+    resize: none;
+
+    /* Отключаем возможность изменения размера вручную */
+    /* Стили для всей вертикальной полосы прокрутки */
+    &::-webkit-scrollbar {
+        width: 8px;
+        /* Ширина вертикальной полосы прокрутки */
+    }
+
+    /* Стили для трека вертикальной полосы прокрутки */
+    &::-webkit-scrollbar-track {
+        background: transparent;
+        /* Цвет фона */
+        border-radius: 4px;
+        /* Скругленные углы */
+    }
+
+    /* Стили для ползунка вертикальной полосы прокрутки */
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+        /* Цвет ползунка */
+        border-radius: 5px;
+        /* Скругленные углы */
+    }
+
+    /* Стили при наведении курсора на ползунок */
+    &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+        /* Цвет ползунка при наведении */
+    }
+
+
+
 }
 
+/*право конец*/
 
-
-/*низ лево*/
-
-
+/*сепор начало*/
 .separator {
     position: absolute;
     width: 1px;
@@ -140,3 +171,106 @@
     top: 166px;
     border: 1px solid #363636;
 }
+
+/*сепор конец*/
+
+
+/*лево начало*/
+.left-modal-content-main {
+    flex: 1;
+    padding: 0;
+    width: 50%;
+    height: 100%;
+
+}
+
+.left-modal-content-main>ul {
+    margin-top: -2%;
+}
+
+.left-modal-content-main>ul>li {
+    list-style-type: none;
+    width: 80%;
+    margin-left: 25%;
+
+
+
+}
+
+
+
+.gallery_card_property {
+    flex-direction: row;
+    display: flex;
+    justify-content: space-around;
+    height: 64px;
+    width: 100%;
+}
+
+.gallery_card_property>:nth-child(1) {
+
+    width: 50%;
+    height: 50%;
+    text-align: center;
+    padding: 2px;
+    gap: 13px;
+    display: flex;
+    color: rgba(255, 255, 255);
+    opacity: 0.6;
+    transition: 0.3s ease-in-out;
+    margin-right: 13px;
+    padding-left: 8px;
+    padding-top: 5px;
+
+    &:hover {
+        opacity: 1;
+        background: #2E2E2E;
+        border-radius: 10px;
+    }
+
+    cursor: pointer;
+}
+
+.gallery_card_property>:nth-child(1)>* {
+    gap: 13px;
+    height: 22px;
+    font-size: 22px;
+    text-align: center;
+}
+
+.gallery_card_property>:nth-child(2) {
+    width: 50%;
+    height: 50%;
+
+    text-align: center;
+    margin-right: 13px;
+    padding-left: 18px;
+    padding-top: 5px;
+}
+
+.gallery_card_property>:nth-child(2) {
+    width: 50%;
+    height: 50%;
+    text-align: center;
+    padding: 2px;
+    gap: 13px;
+    display: flex;
+    color: rgba(255, 255, 255);
+    opacity: 0.6;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+        opacity: 1;
+        border-radius: 10px;
+        background: #2E2E2E;
+    }
+}
+
+
+
+
+
+
+
+
+/*лево конец */

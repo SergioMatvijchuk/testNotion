@@ -25,7 +25,6 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={openCustomModal}>Открыть модальное окно</button>
       <Router>
         <Routes>
           <Route path='/' element={<MainPage />} />
