@@ -4,9 +4,11 @@ import { BannerUp } from './banner/BannerUp.jsx';
 import { NewPage } from './newPage/NewPage.jsx';
 import { useState } from 'react';
 import { Gallery } from './gallery/Gallery.jsx';
+import { EmptyPage } from './emptyPage/EmptyPage.jsx';
+import StartPage from './startPAge/StartPage.jsx';
 
 export function MainPage() {
-    const [childComponent, setChildComponent] = useState(<Gallery />)
+    const [childComponent, setChildComponent] = useState(<StartPage />)
     const [fading, setFading] = useState(false);
 
     const setComponent = (component) => {

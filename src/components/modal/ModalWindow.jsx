@@ -13,6 +13,8 @@ export default function ModalWindow({ modalData }) {
     const { text, id, imageUrl, description } = modalData;
     /** получаем жданные из модалки  ( modalState ) */
     const modalState = useSelector((state) => state.modal);
+
+    /**  Состояние для отслеживания изменений в модальном окне */
     /**имя карточки + имя в модалке */
     const [inputText, setInputText] = useState(modalState.modalData?.text || '');
     /**картинка сеттер , должно работать на имнпуте файл */
@@ -20,7 +22,12 @@ export default function ModalWindow({ modalData }) {
     /**пикер-календарь */
     const [showPicker, setShowPicker] = useState(false);
     const datepickerRef = useRef(null); //чтобы пикер закрывался при нажатии не на него
+    const modalRef = useRef(null); // Ссылка на сам модальный контейнер
     const [selectedDate, setSelectedDate] = useState(null);
+
+
+
+
     // Закрытие календаря при клике вне него
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -31,6 +38,29 @@ export default function ModalWindow({ modalData }) {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [showPicker]);
+
+    // Закрытие модалки при клике вне её
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                closeAndReset(); // Закрыть и сбросить данные, если кликнули вне модалки
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+
+    // Функция для закрытия и сброса данных
+    const closeAndReset = () => {
+        dispatch(closeModal()); // Закрыть модалку
+        setInputText(''); // Сбросить данные
+        setImageFile(null); // Сбросить файл
+        setSelectedDate(null); // Сбросить выбранную дату
+    };
+
+
 
     /**Временные картинки */
     const path = 'img/mainPage/icons/'
@@ -96,7 +126,7 @@ export default function ModalWindow({ modalData }) {
 
 
     return (
-        <div className="modal">
+        <div className="modal" ref={modalRef}>
             <div className="modal-content">
                 <input
                     type='text'
