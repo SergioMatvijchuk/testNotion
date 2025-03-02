@@ -1,21 +1,38 @@
 import React from 'react';
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, updateModalData, setModalText } from '../../reducers/modalSlice';
 import './ModalWindow.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 export default function ModalWindow({ modalData }) {
     const dispatch = useDispatch();
-    const { text, id } = modalData;
+    /* */
+    const { text, id, imageUrl, description } = modalData;
+    /** получаем жданные из модалки  ( modalState ) */
     const modalState = useSelector((state) => state.modal);
+    /**имя карточки + имя в модалке */
     const [inputText, setInputText] = useState(modalState.modalData?.text || '');
-    const [currentDate, setCurrentDate] = useState(new Date());
+    /**картинка сеттер , должно работать на имнпуте файл */
     const [imageFile, setImageFile] = useState();
-    const formattedDate = currentDate.toISOString().split('T')[0]; // Формат: год-месяц-день
-    console.log(formattedDate);
+    /**пикер-календарь */
+    const [showPicker, setShowPicker] = useState(false);
+    const datepickerRef = useRef(null); //чтобы пикер закрывался при нажатии не на него
+    const [selectedDate, setSelectedDate] = useState(null);
+    // Закрытие календаря при клике вне него
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (datepickerRef.current && !datepickerRef.current.contains(event.target)) {
+                setShowPicker(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [showPicker]);
 
-
+    /**Временные картинки */
     const path = 'img/mainPage/icons/'
     const staticImage = {
         iconEmptyPage: 'iconEmptyPage',
@@ -73,6 +90,9 @@ export default function ModalWindow({ modalData }) {
             alert("yes")
         }
     }
+    const togglePicker = () => {
+        setShowPicker(prev => !prev);  // Более явное обновление состояния
+    };
 
 
     return (
@@ -90,8 +110,10 @@ export default function ModalWindow({ modalData }) {
                 <div className='left-modal-content-main'>
                     <ul>
                         <li>
-                            <div className='gallery_card_property'>
-                                <p><img src={staticImage.iconCalendar} alt="date" />Date</p><p>{formattedDate}</p>
+                            <div className='gallery_card_property' onClick={togglePicker} >
+                                <p><img src={staticImage.iconCalendar} alt="date" />Date</p>
+                                <p>{selectedDate ? selectedDate.toLocaleDateString() : "Выберите дату"}</p>
+
                             </div>
                         </li>
                         <li>
@@ -120,6 +142,19 @@ export default function ModalWindow({ modalData }) {
                 onChange={onFileChange}
                 accept='image/*'
             />
+
+            {showPicker && (<div ref={datepickerRef} className='datePicker' >
+                <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => {
+                        setSelectedDate(date);
+                        setShowPicker(false);
+                    }}
+
+                    autoFocus
+                />
+            </div>
+            )}
         </div>
     )
 }
