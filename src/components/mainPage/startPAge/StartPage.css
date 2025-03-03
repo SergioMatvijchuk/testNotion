@@ -96,6 +96,12 @@
 
     &:hover {
         opacity: 1;
+
+    }
+
+    &:hover img {
+        transform: scale(2);
+
     }
 
     background: #202020;
@@ -108,6 +114,10 @@
     cursor: pointer;
 }
 
+.startBoxComp img {
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    /* Плавный эффект */
+}
 
 
 .startBoxComp>:nth-child(1) {
@@ -120,15 +130,20 @@
     font-size: 20px;
     line-height: 23px;
     color: #D5D5D5;
+    margin-left: 25px;
+    margin-right: 25px;
 
 }
 
 
 .startBoxComp>:nth-child(2) {
-    width: 100%;
+    width: auto;
     height: 40%;
     font-size: 14px;
-    margin-bottom: 15%
+    margin-bottom: 15%;
+    margin-left: 25px;
+    margin-right: 25px;
+
 }
 
 /* .startBoxComp>p {

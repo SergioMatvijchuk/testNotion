@@ -1,7 +1,12 @@
+import { Board } from '../board/Board';
+import { EmptyPage } from '../emptyPage/EmptyPage';
+import { Gallery } from '../gallery/Gallery';
+import { ListComponent } from '../listComponent/ListComponent';
+import { TableComponent } from '../tableComponent/TableComponent';
 import './StartPage.css';
 import { useState } from 'react';
 
-export default function StartPage() {
+export default function StartPage({ setComponent }) {
 
     const [inputNameBoard, setInputNameBoard] = useState('Untitled');
 
@@ -17,7 +22,38 @@ export default function StartPage() {
         iconTable: 'img/mainPage/icons/iconTable.svg',
     }
 
-
+    const linksComponent = {
+        emptyPage: {
+            'name': "Empty page",
+            'img': staticImage.iconEmptyPage,
+            'description': 'Create a new Empty page for notes',
+            'linkElement': <EmptyPage />
+        },
+        board: {
+            'name': "Board",
+            'img': staticImage.iconBoard,
+            'description': 'Organize your thoughts on a visual Board',
+            'linkElement': <Board />
+        },
+        list: {
+            'name': "List",
+            'img': staticImage.iconList,
+            'description': 'Make a List to structure your tasks and ideas',
+            'linkElement': <ListComponent />
+        },
+        gallery: {
+            'name': "Gallery",
+            'img': staticImage.iconBoard,
+            'description': 'Save and view your images and media files',
+            'linkElement': <Gallery />
+        },
+        table: {
+            'name': "Table",
+            'img': staticImage.iconTable,
+            'description': 'Create a Table for structured data',
+            'linkElement': <TableComponent />
+        }
+    }
 
     return (
         <div className='startBox'>
@@ -33,54 +69,18 @@ export default function StartPage() {
 
             <div className="startBoxComponents">
 
-                <div className='startBoxComp' >
-                    <div>
-                        <img src={staticImage.iconEmptyPage} alt="iconEmptyPage" />
-                        <p>Empty page</p>
+                {Object.entries(linksComponent).map(([key, item]) => (
+                    <div className='startBoxComp' key={key} onClick={() => setComponent(item.linkElement)}>
+                        <div>
+                            <img src={item.img} alt="key" />
+                            <p>{item.name}</p>
+                        </div>
+                        <div>
+                            <p>{item.description}</p>
+                        </div>
                     </div>
-                    <div>
-                        <p>Create a new Empty page for notes</p>
-                    </div>
+                ))}
 
-                </div>
-
-
-                <div className='startBoxComp' >
-                    <div> <img src={staticImage.iconBoard} alt="iconBoard" />
-                        <p>Board</p>
-                    </div>
-                    <div>
-                        <p>Organize your thoughts
-                            on a visual Board</p>
-                    </div>
-                </div>
-                <div className='startBoxComp' >
-                    <div> <img src={staticImage.iconList} alt="iconList" />
-                        <p>List</p>
-                    </div>
-                    <div>
-                        <p>Make a List to structure
-                            your tasks and ideas</p>
-                    </div>
-                </div>
-                <div className='startBoxComp' >
-                    <div> <img src={staticImage.iconGallery} alt="Plus" />
-                        <p>Gallery</p>
-                    </div>
-                    <div>
-                        <p>Save and view your images
-                            and media files</p>
-                    </div>
-                </div>
-                <div className='startBoxComp' >
-                    <div> <img src={staticImage.iconTable} alt="Plus" />
-                        <p>Table</p>
-                    </div>
-                    <div>
-                        <p>Create a Table
-                            for structured data</p>
-                    </div>
-                </div>
 
             </div>
         </div>
