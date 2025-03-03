@@ -1,10 +1,18 @@
 import './EmptyPage.css';
-
+import { useState } from 'react';
 
 export function EmptyPage() {
-
+    const [inputNameBoard, setInputNameBoard] = useState('Empty page');
 
     return (
-        <div>EmptyPage</div>
+        <div className="emptyPage">
+            <div>
+                <input type='text' className='inputName' value={inputNameBoard} onChange={(e) => {
+                    setInputNameBoard(e.target.value);
+                }
+                } />
+                <hr />
+            </div>
+        </div>
     )
 }

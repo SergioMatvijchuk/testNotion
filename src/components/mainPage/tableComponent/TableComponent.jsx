@@ -1,14 +1,21 @@
 import './TableComponent.css';
-
+import { useState } from 'react';
 
 
 
 
 export function TableComponent() {
-
-
+    const [inputNameBoard, setInputNameBoard] = useState('Table');
 
     return (
-        <div>TableComponent</div>
+        <div className="tableComponent">
+            <div>
+                <input type='text' className='inputName' value={inputNameBoard} onChange={(e) => {
+                    setInputNameBoard(e.target.value);
+                }
+                } />
+                <hr />
+            </div>
+        </div>
     )
 }
