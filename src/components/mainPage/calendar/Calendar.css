@@ -1,20 +1,26 @@
 .calendarComponent {
     width: 80%;
+
     max-width: 80vw;
-    height: 50vh;
-    max-height: 60%;
+    height: 70vh;
+    max-height: 100vh;
     flex-direction: column;
-    /* overflow: auto; */
+    box-sizing: border-box;
+    overflow: hidden;
+
 
 }
 
 .calendarComponent>:nth-child(1) {
-    height: 20%;
+    height: 100vh;
+    margin-top: -1%;
     width: 100%;
     text-align: left;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
+
 
 
 .calendarComponent>:nth-child(1)>input {
@@ -37,7 +43,6 @@
     line-height: 58px;
     user-select: none;
     outline: none;
-
     opacity: 0.5;
     transition: 0.3s ease-in;
 
@@ -57,5 +62,47 @@
     border: 1px solid #363636;
     order: 1;
     flex-grow: 0;
+
+}
+
+
+
+.btnAddCalender {
+
+    opacity: 0;
+    cursor: pointer;
+    height: 14px;
+    width: 14px;
+}
+
+.dayBox {
+    min-width: 160px;
+    width: 100%;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+
+
+}
+
+.dayBox>:nth-child(1),
+.dayBox>:nth-child(2) {}
+
+.fc-day:hover {
+
+    /* Или любой другой цвет для эффекта наведения */
+    & .btnAddCalender {
+        opacity: 1;
+        background: #363636;
+    }
+}
+
+.fc-day .fc-day-number:hover {
+    background-color: transparent;
+    /* Можно добавить, чтобы не мешать числу */
+}
+
+.fc-header-toolbar {
+    height: 10px;
 
 }

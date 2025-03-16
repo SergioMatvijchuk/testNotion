@@ -8,6 +8,7 @@ import { EmptyPage } from './emptyPage/EmptyPage.jsx';
 import StartPage from './startPAge/StartPage.jsx';
 import { ListComponent } from './listComponent/ListComponent.jsx';
 import { TableComponent } from './tableComponent/TableComponent.jsx';
+import { Calendar } from './calendar/Calendar.jsx';
 
 export function MainPage() {
 
@@ -22,7 +23,7 @@ export function MainPage() {
             }, 300); // Дополнительная задержка для появления нового компонента
         }, 300); // Задержка на 300 мс
     };
-    const [childComponent, setChildComponent] = useState(<TableComponent setComponent={setComponent} />)
+    const [childComponent, setChildComponent] = useState(<Calendar setComponent={setComponent} />)
     return (
         <div className='mainPage '>
             <MainMenu setComponent={setComponent} />
