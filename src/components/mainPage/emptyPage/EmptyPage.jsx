@@ -13,6 +13,10 @@ export function EmptyPage() {
                 } />
                 <hr />
             </div>
+            <div>
+                <textarea className='cardBox scrollableVertical' type="text" name="" id="" />
+            </div>
+
         </div>
     )
 }

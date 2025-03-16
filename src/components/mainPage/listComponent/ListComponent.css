@@ -44,9 +44,6 @@
     &:hover,
     &:focus {
         opacity: 1;
-
-        opacity: 1;
-
     }
 }
 
@@ -58,4 +55,125 @@
     order: 1;
     flex-grow: 0;
 
+}
+
+
+
+/*child 2 */
+.listComponent>:nth-child(2) {
+    height: 80%;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow-y: auto;
+
+}
+
+
+
+.listComponent>:nth-child(2)>ul {
+    list-style: none;
+    /* Убираем стандартные маркеры */
+    padding-left: 0;
+
+}
+
+.listComponent> :nth-child(2)>ul>li::after {
+    opacity: 0;
+    /* Изначально иконка скрыта */
+}
+
+.listComponent>:nth-child(2)>ul>li {
+    position: relative;
+    height: 24px;
+    padding-left: 30px;
+    margin: 0 0 4px 0;
+
+    transition: 0.3s ease-in-out;
+    border-radius: 4px;
+    opacity: 0.5;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+        background: #232323;
+        opacity: 1;
+    }
+}
+
+.list-item .icon {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 20px;
+    height: 16px;
+    background: url("../../../../public/img/mainPage/icons/iconList2.svg") no-repeat center / contain;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.list-item:hover .icon {
+    opacity: 1;
+    cursor: pointer;
+    /* Показываем иконку при наведении */
+}
+
+.listComponent>:nth-child(2)>ul>li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 20px;
+    /* Размер значка */
+    height: 16px;
+    background: url("../../../../public/img/mainPage/icons/iconList2.svg") no-repeat center / contain;
+    transform: translateY(-50%);
+}
+
+.listComponent>:nth-child(2)>ul>.liAddNew::before {
+    background: url("../../../../public/img/mainPage/icons/iconPlus2.svg") no-repeat center / contain;
+}
+
+.listComponent>:nth-child(2)>ul>.liAddNew {
+
+    opacity: 0.2;
+    transition: 0.3 ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 1;
+        background: transparent;
+
+        &::after {
+            background: none;
+        }
+    }
+}
+
+
+.listComponent input {
+    align-items: center;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    box-sizing: border-box;
+    color: #BCBCBC;
+    display: flex;
+    flex-direction: row;
+    font-family: 'Jost';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    overflow: hidden;
+    resize: none;
+    width: 100%;
+}
+
+.listComponent input:focus {
+    border: 2px solid #434BF3;
+    outline: none;
 }

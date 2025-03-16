@@ -59,3 +59,31 @@
     flex-grow: 0;
 
 }
+
+.cardBox {
+    align-items: center;
+    background: rgba(46, 46, 46, 0.2);
+    border: none;
+    border-radius: 6px;
+    box-sizing: border-box;
+    color: #BCBCBC;
+    display: flex;
+    flex-direction: row;
+    font-family: 'Jost';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    gap: 15px;
+    line-height: 20px;
+    overflow: auto;
+    padding: 10px 7px 10px 10px;
+    resize: none;
+    width: 100%;
+    min-height: 400px;
+
+}
+
+.cardBox:focus {
+    border: 2px solid rgb(88, 88, 237, 0.2);
+    outline: none;
+}

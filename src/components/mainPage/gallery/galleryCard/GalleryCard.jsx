@@ -11,8 +11,6 @@ export function GalleryCard({ id, staticImage }) {
 
     useEffect(() => {
         if (modalData && modalData.text && modalData.id == id) {
-            console.log(id);
-
             setImageName(modalData.text)
         }
     }, [modalData]);

@@ -8,9 +8,6 @@ export function Gallery() {
     const [inputNameBoard, setInputNameBoard] = useState('Gallery');
     const [inputNewImageCard, setInputNewImageCard] = useState([]);
 
-
-
-
     const addnewGalleryCard = () => {
         setInputNewImageCard((inputNewImageCard) =>
             [...inputNewImageCard,

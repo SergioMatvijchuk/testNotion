@@ -86,6 +86,46 @@
     /* Цвет ползунка при наведении */
 }
 
+
+/*scrolling*/
+.scrollableVertical {
+    scroll-behavior: smooth;
+}
+
+/* Стили для всей полосы прокрутки */
+.scrollableVertical::-webkit-scrollbar {
+    scroll-behavior: smooth;
+    width: 4px;
+    height: 7px;
+    /* Ширина полосы прокрутки */
+}
+
+/* Стили для трека полосы прокрутки */
+.scrollableVertical::-webkit-scrollbar-track {
+    background: transparent;
+    /* Цвет фона */
+    border-radius: 4px;
+    /* Скругленные углы */
+}
+
+/* Стили для ползунка полосы прокрутки */
+.scrollableVertical::-webkit-scrollbar-thumb {
+    background: #888;
+    /* Цвет ползунка */
+    border-radius: 5px;
+    /* Скругленные углы */
+}
+
+/* Стили при наведении курсора на ползунок */
+.scrollableVertical::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* Цвет ползунка при наведении */
+}
+
+
+
+
+
 .fade-in {
     opacity: 1;
     transition: opacity 300ms ease-in-out;
