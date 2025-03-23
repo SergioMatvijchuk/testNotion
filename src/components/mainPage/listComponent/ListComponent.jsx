@@ -5,8 +5,8 @@ import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import './ListComponent.css';
 
-export function ListComponent() {
-    const [inputNameBoard, setInputNameBoard] = useState('List');
+export function ListComponent({ cardName }) {
+    const [inputNameBoard, setInputNameBoard] = useState(cardName);
     const [collectionList, setCollectionList] = useState([
         { id: 'card_list_0', context: 'newList', position: 1 },
         { id: 'card_list_1', context: 'newList', position: 2 }]);
@@ -119,11 +119,11 @@ function DraggableItem({ item, moveCard, setCardId, handleCardClick, handleInput
             }
         }
     });
- 
+
     return (
         <li ref={(node) => drag(drop(node))}
             className={`list-item ${isDragging ? 'dragging' : ''}`}
-          
+
         >
             <span className="icon"
                 onClick={(e) => {

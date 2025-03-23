@@ -4,8 +4,8 @@ import { useState } from 'react';
 
 
 
-export function TableComponent() {
-    const [inputNameBoard, setInputNameBoard] = useState('Table');
+export function TableComponent({ cardName }) {
+    const [inputNameBoard, setInputNameBoard] = useState(cardName);
 
     const path = 'img/mainPage/icons/'
     const staticImage = {

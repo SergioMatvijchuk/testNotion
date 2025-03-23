@@ -27,31 +27,31 @@ export default function StartPage({ setComponent }) {
             'name': "Empty page",
             'img': staticImage.iconEmptyPage,
             'description': 'Create a new Empty page for notes',
-            'linkElement': <EmptyPage />
+            'linkElement': <EmptyPage setComponent={setComponent} cardName={inputNameBoard} />
         },
         board: {
             'name': "Board",
             'img': staticImage.iconBoard,
             'description': 'Organize your thoughts on a visual Board',
-            'linkElement': <Board />
+            'linkElement': <Board setComponent={setComponent} cardName={inputNameBoard} />
         },
         list: {
             'name': "List",
             'img': staticImage.iconList,
             'description': 'Make a List to structure your tasks and ideas',
-            'linkElement': <ListComponent />
+            'linkElement': <ListComponent setComponent={setComponent} cardName={inputNameBoard} />
         },
         gallery: {
             'name': "Gallery",
             'img': staticImage.iconBoard,
             'description': 'Save and view your images and media files',
-            'linkElement': <Gallery />
+            'linkElement': <Gallery setComponent={setComponent} cardName={inputNameBoard} />
         },
         table: {
             'name': "Table",
             'img': staticImage.iconTable,
             'description': 'Create a Table for structured data',
-            'linkElement': <TableComponent />
+            'linkElement': <TableComponent setComponent={setComponent} cardName={inputNameBoard} />
         }
     }
 

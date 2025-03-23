@@ -11,11 +11,9 @@ import { TemplatesComponent } from '../templates/TemplatesComponent'
 
 
 export function NewPage({ setComponent }) {
+  const [name, setName] = useState('Untitled');
 
-  const [name, setName] = useState('Untitled')
-
-
-  const path = 'img/mainPage/icons/'
+  const path = 'img/mainPage/icons/';
   const staticImage = {
     iconEmptyPage: 'iconEmptyPage',
     iconList: 'iconList',
@@ -42,33 +40,30 @@ export function NewPage({ setComponent }) {
       <div>
         <ul>
           <li>
-            <div onClick={(e) => setComponent(<EmptyPage setComponent={setComponent} />)}><img src={staticImage.iconEmptyPage} alt="" />Empty Page</div>
+            <div onClick={(e) => setComponent(<EmptyPage setComponent={setComponent} cardName={name} />)}><img src={staticImage.iconEmptyPage} alt="" />Empty Page</div>
           </li>
           <li>
-            <div onClick={(e) => setComponent(<TableComponent setComponent={setComponent} />)}><img src={staticImage.iconTable} alt="" />Table</div>
+            <div onClick={(e) => setComponent(<TableComponent setComponent={setComponent} cardName={name} />)}><img src={staticImage.iconTable} alt="" />Table</div>
           </li>
           <li>
-            <div onClick={(e) => setComponent(<ListComponent setComponent={setComponent} />)}><img src={staticImage.iconList} alt="" />List</div>
+            <div onClick={(e) => setComponent(<ListComponent setComponent={setComponent} cardName={name} />)}><img src={staticImage.iconList} alt="" />List</div>
           </li>
           <li>
-            <div onClick={(e) => setComponent(<Gallery setComponent={setComponent} />)}><img src={staticImage.iconGallery} alt="" />Gallery</div>
+            <div onClick={(e) => setComponent(<Gallery setComponent={setComponent} cardName={name} />)}><img src={staticImage.iconGallery} alt="" />Gallery</div>
           </li>
           <li>
-            <div onClick={(e) => setComponent(<Board setComponent={setComponent} />)}><img src={staticImage.iconBoard} alt="" />Board</div>
+            <div onClick={(e) => setComponent(<Board setComponent={setComponent} cardName={name} />)}><img src={staticImage.iconBoard} alt="" />Board</div>
           </li>
           <li>
-            <div onClick={(e) => setComponent(<Calendar setComponent={setComponent} />)}><img src={staticImage.iconCalendar} alt="" />Calendar</div>
+            <div onClick={(e) => setComponent(<Calendar setComponent={setComponent} cardName={name} />)}><img src={staticImage.iconCalendar} alt="" />Calendar</div>
           </li>
           <li>
-            <div onClick={(e) => setComponent(<TemplatesComponent setComponent={setComponent} />)}><img src={staticImage.iconTemplates} alt="" />Templates</div>
+            <div onClick={(e) => setComponent(<TemplatesComponent setComponent={setComponent} cardName={name} />)}><img src={staticImage.iconTemplates} alt="" />Templates</div>
           </li>
 
         </ul>
       </div>
-      <div>
-        <button >Create</button>
-      </div>
-
+  
     </div>
   );
 

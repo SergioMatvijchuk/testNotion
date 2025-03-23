@@ -4,13 +4,13 @@ import { ListComponent } from './listComponent/ListComponent';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
-export function Board() {
+export function Board({ cardName }) {
 
     // Состояние с массивом списков. Каждый список имеет id, заголовок и массив карточек.
     const [lists, setLists] = useState([
         { id: 'list_0', title: 'List 0', cards: [] }
     ]);
-    const [inputNameBoard, setInputNameBoard] = useState('Board');
+    const [inputNameBoard, setInputNameBoard] = useState(cardName);
     // Добавление нового списка
     const addNewList = () => {
         setLists(prev => [

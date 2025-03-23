@@ -6,8 +6,8 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../../reducers/modalSlice';
 
-export function Calendar() {
-    const [inputNameBoard, setInputNameBoard] = useState('Calendar');
+export function Calendar(cardName) {
+    const [inputNameBoard, setInputNameBoard] = useState(cardName);
     const [events, setEvents] = useState([])
     //общая коллекция карточек
     const [cards, setCards] = useState([]);

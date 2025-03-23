@@ -1,8 +1,9 @@
 import './EmptyPage.css';
 import { useState } from 'react';
 
-export function EmptyPage() {
-    const [inputNameBoard, setInputNameBoard] = useState('Empty page');
+export function EmptyPage({ cardName }) {
+    const [inputNameBoard, setInputNameBoard] = useState(cardName);
+ 
 
     return (
         <div className="emptyPage">
