@@ -23,7 +23,7 @@ export function MainPage() {
             }, 300); // Дополнительная задержка для появления нового компонента
         }, 300); // Задержка на 300 мс
     };
-    const [childComponent, setChildComponent] = useState(<Calendar setComponent={setComponent} />)
+    const [childComponent, setChildComponent] = useState(<StartPage setComponent={setComponent} />)
     return (
         <div className='mainPage '>
             <MainMenu setComponent={setComponent} />

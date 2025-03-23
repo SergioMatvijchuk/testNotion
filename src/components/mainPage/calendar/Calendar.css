@@ -1,6 +1,5 @@
 .calendarComponent {
     width: 80%;
-
     max-width: 80vw;
     height: 70vh;
     max-height: 100vh;
@@ -78,15 +77,103 @@
 .dayBox {
     min-width: 160px;
     width: 100%;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-
+    min-height: 30px;
+    display: flex;
+    margin-bottom: 0%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 
 }
 
-.dayBox>:nth-child(1),
-.dayBox>:nth-child(2) {}
+.dayBox:nth-child(1) {}
+
+.dayBox:nth-child(2) {}
+
+/* Устанавливаем максимальную высоту для ячейки дня */
+.fc-daygrid-day {
+    max-height: 100px !important;
+    /* Максимальная высота, можно настроить под свои нужды */
+    overflow-y: auto;
+    /* Добавляем вертикальный скролл */
+}
+
+/* Если хочешь сделать плавную прокрутку */
+.fc-daygrid-day {
+    scroll-behavior: smooth;
+}
+
+.fc-daygrid-day-frame {
+    max-height: 110px !important;
+    /* Максимальная высота, можно настроить под свои нужды */
+    overflow-y: auto !important;
+    scroll-behavior: smooth;
+
+}
+
+/* Стили для всей полосы прокрутки */
+.fc-daygrid-day-frame::-webkit-scrollbar {
+    scroll-behavior: smooth;
+    width: 4px;
+    height: 7px;
+    /* Ширина полосы прокрутки */
+}
+
+/* Стили для трека полосы прокрутки */
+.fc-daygrid-day-frame::-webkit-scrollbar-track {
+    background: transparent;
+    /* Цвет фона */
+    border-radius: 4px;
+    /* Скругленные углы */
+}
+
+/* Стили для ползунка полосы прокрутки */
+.fc-daygrid-day-frame::-webkit-scrollbar-thumb {
+    background: #888;
+    /* Цвет ползунка */
+    border-radius: 5px;
+    /* Скругленные углы */
+}
+
+/* Стили при наведении курсора на ползунок */
+.fc-daygrid-day-frame::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* Цвет ползунка при наведении */
+}
+
+
+
+
+/* Стили для всей полосы прокрутки */
+.fc-scroller::-webkit-scrollbar {
+    scroll-behavior: smooth;
+    width: 4px;
+    height: 7px;
+    /* Ширина полосы прокрутки */
+}
+
+/* Стили для трека полосы прокрутки */
+.fc-scroller::-webkit-scrollbar-track {
+    background: transparent;
+    /* Цвет фона */
+    border-radius: 4px;
+    /* Скругленные углы */
+}
+
+/* Стили для ползунка полосы прокрутки */
+.fc-scroller::-webkit-scrollbar-thumb {
+    background: #888;
+    /* Цвет ползунка */
+    border-radius: 5px;
+    /* Скругленные углы */
+}
+
+/* Стили при наведении курсора на ползунок */
+.fc-scroller::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* Цвет ползунка при наведении */
+}
+
 
 .fc-day:hover {
 
@@ -99,10 +186,35 @@
 
 .fc-day .fc-day-number:hover {
     background-color: transparent;
+    box-sizing: border-box;
+
     /* Можно добавить, чтобы не мешать числу */
 }
 
 .fc-header-toolbar {
     height: 10px;
 
+}
+
+
+
+
+
+
+
+/*Day cards*/
+.cardContainer {
+    display: flex;
+    overflow-y: auto;
+    margin-top: 10px;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+.cardItem {
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    min-width: 100px;
+    text-align: center;
 }
