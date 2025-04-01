@@ -22,7 +22,7 @@
 .newPageComponent>:nth-child(1) {
     margin: -10% -10% 5% -6%;
     padding-left: 10%;
-    flex: 1.5;
+    flex: 1;
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;

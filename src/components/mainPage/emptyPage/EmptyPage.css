@@ -60,7 +60,7 @@
 
 }
 
-.cardBox {
+.cardBoxEmpty {
     align-items: center;
     background: rgba(46, 46, 46, 0.2);
     border: none;
@@ -83,7 +83,7 @@
 
 }
 
-.cardBox:focus {
+.cardBoxEmpty:focus {
     border: 2px solid rgb(88, 88, 237, 0.2);
     outline: none;
 }

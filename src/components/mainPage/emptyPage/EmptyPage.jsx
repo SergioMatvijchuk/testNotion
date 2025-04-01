@@ -15,7 +15,7 @@ export function EmptyPage({ cardName }) {
                 <hr />
             </div>
             <div>
-                <textarea className='cardBox scrollableVertical' type="text" name="" id="" />
+                <textarea className='cardBoxEmpty scrollableVertical' type="text" name="" id="" />
             </div>
 
         </div>
