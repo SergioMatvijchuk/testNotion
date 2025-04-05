@@ -18,12 +18,13 @@ export function TableComponent({ cardName }) {
 
 
 
-    const [data, setData] = useState([
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-
-    ])
+    const [data, setData] = useState(
+        [
+            [4, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
+        ]
+    )
 
     const addNewCol = () => {
         const newArr = data.map(row => [...row, '']);
@@ -75,41 +76,68 @@ export function TableComponent({ cardName }) {
     return (
         <div className="tableComponent">
             <div>
-                <input type='text' className='inputName' value={inputNameBoard} onChange={(e) => {
-                    setInputNameBoard(e.target.value);
-                }
-                } />
+                <input
+                    type='text'
+                    className='inputName'
+                    value={inputNameBoard}
+                    onChange={(e) => {
+                        setInputNameBoard(e.target.value);
+                    }}
+                />
                 <hr />
             </div>
             <div className='scrollableVertical scrollable'>
-                <table >
-                    {data.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
-                            {row.map((cell, colIndex) => (
-                                <td key={colIndex}
-                                    draggable
-                                    onDragStart={(e) => handleDragStart(e, rowIndex, colIndex)}
-                                    onDrop={(e) => handleDrop(e, rowIndex, colIndex)}
-                                    onDragOver={handleDragOver}
-                                >
-                                    <input type="text" value={cell}
-                                        onChange={(e) => {
-                                            const updatedData = [...data];
-                                            updatedData[rowIndex][colIndex] = e.target.value;
-                                            setData(updatedData);
-                                        }}
-                                    />
-                                </td>
-
-
-                            ))}
-                            {rowIndex === 0 ? <td id='newCol' onClick={addNewCol}><img src={staticImage.iconPlus} alt="" /><input type="submit" value="New" /></td> : null}
-
+                <table>
+                    <thead>
+                        <tr>
+                            {/* Например, можно добавить заголовки столбцов */}
+                            <th>Header 1</th>
+                            <th>Header 2</th>
+                            {/* и так далее */}
                         </tr>
-                    ))}
-                    <tr><td id='newRow' onClick={addNewRow}><img src={staticImage.iconPlus} alt="" /><input type="submit" value="New" /></td></tr>
+                    </thead>
+                    <tbody>
+                        {data.map((row, rowIndex) => (
+                            <tr key={rowIndex}>
+                                {row.map((cell, colIndex) => (
+                                    <td
+                                        key={colIndex}
+                                        draggable
+                                        onDragStart={(e) => handleDragStart(e, rowIndex, colIndex)}
+                                        onDrop={(e) => handleDrop(e, rowIndex, colIndex)}
+                                        onDragOver={handleDragOver}
+                                    >
+                                        <input
+                                            type="text"
+                                            value={cell}
+                                            onChange={(e) => {
+                                                const updatedData = [...data];
+                                                updatedData[rowIndex][colIndex] = e.target.value;
+                                                setData(updatedData);
+                                            }}
+                                        />
+                                    </td>
+                                ))}
+                                {rowIndex === 0 ? (
+                                    <td id='newCol' onClick={addNewCol}>
+                                        <img src={staticImage.iconPlus} alt="" />
+                                        <input type="submit" value="New" />
+                                    </td>
+                                ) : null}
+                            </tr>
+                        ))}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td id='newRow' onClick={addNewRow}>
+                                <img src={staticImage.iconPlus} alt="" />
+                                <input type="submit" value="New" />
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
+
     )
 }

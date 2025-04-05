@@ -9,10 +9,14 @@ import StartPage from './startPAge/StartPage.jsx';
 import { ListComponent } from './listComponent/ListComponent.jsx';
 import { TableComponent } from './tableComponent/TableComponent.jsx';
 import { Calendar } from './calendar/Calendar.jsx';
+import { useSelector } from 'react-redux';
+
 
 export function MainPage() {
-
     const [fading, setFading] = useState(false);
+    const user = useSelector((state) => state.user);
+
+
 
     const setComponent = (component) => {
         setFading(true); // Начало анимации затухания
@@ -24,6 +28,8 @@ export function MainPage() {
         }, 300); // Задержка на 300 мс
     };
     const [childComponent, setChildComponent] = useState(<StartPage setComponent={setComponent} />)
+
+
     return (
         <div className='mainPage '>
             <MainMenu setComponent={setComponent} />

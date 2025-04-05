@@ -7,12 +7,13 @@ import { ListComponent } from '../listComponent/ListComponent';
 import { TableComponent } from '../tableComponent/TableComponent';
 import { EmptyPage } from '../emptyPage/EmptyPage';
 import { TemplatesComponent } from '../templates/TemplatesComponent'
-
+import { useNavigate } from 'react-router-dom';
+import StartPage from '../startPAge/StartPage';
 
 
 export function NewPage({ setComponent }) {
   const [name, setName] = useState('Untitled');
-
+  const navigate = useNavigate();
   const path = 'img/mainPage/icons/';
   const staticImage = {
     iconEmptyPage: 'iconEmptyPage',
@@ -28,14 +29,15 @@ export function NewPage({ setComponent }) {
   Object.entries(staticImage).forEach(([key, value]) => {
     staticImage[key] = path + value + '.svg'
   });
-
+  const closeNewPage = () => {
+    setComponent(<StartPage setComponent={setComponent} />);
+  }
 
   return (
     <div className='newPageComponent'>
       <div>
-
         <input type='text' value={name} onChange={(e) => setName(e.target.value)} />
-        <img src={staticImage.iconClose} alt="" />
+        <img src={staticImage.iconClose} onClick={closeNewPage} alt="" />
       </div>
       <div>
         <ul>
@@ -63,7 +65,7 @@ export function NewPage({ setComponent }) {
 
         </ul>
       </div>
-  
+
     </div>
   );
 
