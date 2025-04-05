@@ -55,7 +55,7 @@ export function Card({ card, index, moveCard, handleInputChange, listId, onExter
     return (
         <textarea
             ref={ref}
-            className={`cardBox ${isDragging ? 'dragging' : ''}`}
+            className={`cardBox  scrollableVertical ${isDragging ? 'dragging' : ''}`}
             value={card.value}
             onChange={(e) => handleInputChange(e, index)}
             placeholder="Card_name"

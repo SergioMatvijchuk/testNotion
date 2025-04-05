@@ -3,13 +3,10 @@ import { useState } from 'react';
 import { GalleryCard } from './galleryCard/GalleryCard';
 
 
-export function Gallery() {
+export function Gallery({ cardName }) {
 
-    const [inputNameBoard, setInputNameBoard] = useState('Gallery');
+    const [inputNameBoard, setInputNameBoard] = useState(cardName);
     const [inputNewImageCard, setInputNewImageCard] = useState([]);
-
-
-
 
     const addnewGalleryCard = () => {
         setInputNewImageCard((inputNewImageCard) =>

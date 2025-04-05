@@ -14,6 +14,7 @@ const modalSlice = createSlice({
         openModal(state, action) {
             state.isModalOpen = true;
             state.modalData = action.payload; // данные передаваемые при открытии
+        
         },
         closeModal(state) {
             state.isModalOpen = false;
@@ -22,14 +23,34 @@ const modalSlice = createSlice({
         updateModalData(state, action) {
             state.modalData = action.payload;  // обновление данных 
         },
-        setModalText(state, action) {
+        setModalCardName(state, action) {
             if (state.modalData) {
-                state.modalData.text = action.payload;
+                state.modalData.cardName = action.payload;
+            }
+        },
+        setModalDescription(state, action) {
+            if (state.modalData) {
+                state.modalData.description = action.payload;
+            }
+        },
+        setModalNumber(state, action) {
+            if (state.modalData) {
+                state.modalData.number = action.payload
+            }
+        },
+        setModalColor(state, action) {
+            if (state.modalData) {
+                state.modalData.color = action.payload
+            }
+        },
+        setModalDate(state, action) {
+            if (state.modalData) {
+                state.modalData.date = action.payload
             }
         }
     },
 });
 
 //Экспрт actions и редьюсер
-export const { openModal, closeModal, updateModalData, setModalText } = modalSlice.actions;
+export const { openModal, closeModal, updateModalData, setModalCardName, setModalDescription, setModalNumber, setModalColor, setModalDate } = modalSlice.actions;
 export default modalSlice.reducer;

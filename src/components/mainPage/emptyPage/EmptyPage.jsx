@@ -1,10 +1,23 @@
 import './EmptyPage.css';
+import { useState } from 'react';
 
-
-export function EmptyPage() {
-
+export function EmptyPage({ cardName }) {
+    const [inputNameBoard, setInputNameBoard] = useState(cardName);
+ 
 
     return (
-        <div>EmptyPage</div>
+        <div className="emptyPage">
+            <div>
+                <input type='text' className='inputName' value={inputNameBoard} onChange={(e) => {
+                    setInputNameBoard(e.target.value);
+                }
+                } />
+                <hr />
+            </div>
+            <div>
+                <textarea className='cardBoxEmpty scrollableVertical' type="text" name="" id="" />
+            </div>
+
+        </div>
     )
 }

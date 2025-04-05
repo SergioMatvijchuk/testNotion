@@ -4,10 +4,12 @@ import './MainMenu.css';
 
 import { Board } from '../board/Board.jsx'; // Импортируй Board
 import { NewPage } from '../newPage/NewPage.jsx'; // Импортируй NewPage
+import { getTokenFromUser } from '../../../utils/getUserFromCookies.js';
+import { useEffect, useState } from 'react';
 
 
 
-export function MainMenu({ setComponent }) {
+export function MainMenu({ setComponent, data }) {
 
     const pathImg = 'img/mainPage/';
     let staticImages = {
@@ -24,7 +26,15 @@ export function MainMenu({ setComponent }) {
     for (let value in staticImages) {
         staticImages[value] = pathImg + staticImages[value];
     }
-    <li><NavLink to='/'>MainPage</NavLink></li>
+
+
+    const [pages, setPages] = useState(null);
+    useEffect(() => {
+        console.log("datas", data);
+        if (data) setPages(data);
+    }, [data, pages]);
+
+
     return (
         <div className='mainMenu'>
             <aside >
@@ -39,7 +49,17 @@ export function MainMenu({ setComponent }) {
                     </div>
                 </div>
                 <hr />
-                <div className='sideBarSecondBlock'></div>
+                <div className='sideBarSecondBlock'>
+                    <ul>
+                        {pages ? (
+                            pages.map((page) => (
+                                <li key={page.id}>{page.title}</li>  // Пример использования данных
+                            ))
+                        ) : (
+                            <li>Нет страниц</li>
+                        )}
+                    </ul>
+                </div>
                 <hr />
                 <div className='sideBarThirdBlock'>
                     <div>
