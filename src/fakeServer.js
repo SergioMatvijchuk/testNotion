@@ -29,9 +29,11 @@ app.listen(PORT, () => {
 })
 
 
+
+
 // POST-запрос для создания данных
 app.post('/create', (req, res) => {
-    console.log('Data on server:', JSON.stringify(req.body));
+
     const { email, code } = req.body;  // получаем данные из тела запроса
     const user = {
         email: email,
@@ -60,23 +62,36 @@ app.post('/test', (req, res) => {
     }
 })
 
-app.get('/imgriff/pages', (req, res) => {
+app.post('/imgriff/pages', (req, res) => {
 
     const pagestypes = ['empty', 'board', 'list', 'calendur', 'table', 'galllery', 'library'];
 
 
 
-    const pages = {
-        id: 'id_page',
+
+
+    const pages = [{
+        id: 'id_page1',
         owner_id: 'id',
-        title: 'title',
+        title: 'EmptyPagenumber1',
         banner: 'banner.img',
         icon: 'icon.ico',
         slug: 'slug.page',
-        type: 'type',
+        type: 'empty',
         delete_date: 'date',
         content: 'Приходит страница через новый запрос по слагу ?? null'
-    }
+    },
+    {
+        id: 'id_page2',
+        owner_id: 'id',
+        title: 'BoardNumber1',
+        banner: 'banner.img',
+        icon: 'icon.ico',
+        slug: 'slug.page',
+        type: 'board',
+        delete_date: 'date',
+        content: 'Приходит страница через новый запрос по слагу ?? null'
+    }]
 
 
 
@@ -220,16 +235,25 @@ app.get('/imgriff/pages', (req, res) => {
 
 
 
-
-
-
     const token = JSON.parse(req.cookies.user).token;
+    console.log(token);
+    const user = JSON.parse(req.cookies.user);
 
     if (!token) {
         console.log("Ne Token");
 
     } else {
         console.log('Token');
+        res.json({
+            message: `ales gut`,
+            status: `success`,
+            user: user,
+            pages
+        });
     }
+
+
+
+
 })
 

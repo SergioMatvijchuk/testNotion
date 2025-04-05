@@ -5,10 +5,11 @@ import './MainMenu.css';
 import { Board } from '../board/Board.jsx'; // Импортируй Board
 import { NewPage } from '../newPage/NewPage.jsx'; // Импортируй NewPage
 import { getTokenFromUser } from '../../../utils/getUserFromCookies.js';
+import { useEffect, useState } from 'react';
 
 
 
-export function MainMenu({ setComponent }) {
+export function MainMenu({ setComponent, data }) {
 
     const pathImg = 'img/mainPage/';
     let staticImages = {
@@ -25,32 +26,13 @@ export function MainMenu({ setComponent }) {
     for (let value in staticImages) {
         staticImages[value] = pathImg + staticImages[value];
     }
-    <li><NavLink to='/'>MainPage</NavLink></li>
 
 
-    const sendTokenToServer = async () => { 
-        const token = getTokenFromUser() ?? 'null';
-        try {
-            const response = await fetch('http://localhost:5000/test', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ token }), // отправляем токен в теле запроса
-                credentials: 'include',  // для отправки куков с запросом
-            });
-
-            if (!response.ok) {
-                throw new Error('Request failed with status ' + response.status);
-            }
-
-            const data = await response.json();  // предполагаем, что сервер вернет JSON
-            console.log('Response from server:', data);
-        } catch (error) {
-            console.error('Error sending token:', error);
-        }
-    };
-
+    const [pages, setPages] = useState(null);
+    useEffect(() => {
+        console.log("datas", data);
+        if (data) setPages(data);
+    }, [data, pages]);
 
 
     return (
@@ -60,14 +42,24 @@ export function MainMenu({ setComponent }) {
                     <img src={staticImages.iconImgriff} alt="imgriff_icon" />
                     <div>
                         <ul>
-                            <li><img src={staticImages.iconSearch} onClick={sendTokenToServer} />Search</li>
+                            <li><img src={staticImages.iconSearch} />Search</li>
                             <li><a onClick={() => setComponent(<NewPage setComponent={setComponent} />)}><img src={staticImages.iconPlus} />New Page</a></li>
                             <li><a onClick={() => setComponent(<Board setComponent={setComponent} />)}><img src={staticImages.iconTemplates} />Templates</a></li>
                         </ul>
                     </div>
                 </div>
                 <hr />
-                <div className='sideBarSecondBlock'></div>
+                <div className='sideBarSecondBlock'>
+                    <ul>
+                        {pages ? (
+                            pages.map((page) => (
+                                <li key={page.id}>{page.title}</li>  // Пример использования данных
+                            ))
+                        ) : (
+                            <li>Нет страниц</li>
+                        )}
+                    </ul>
+                </div>
                 <hr />
                 <div className='sideBarThirdBlock'>
                     <div>

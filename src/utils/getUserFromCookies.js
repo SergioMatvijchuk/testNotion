@@ -6,9 +6,8 @@ export const getUsersFromCookies = () => {
 }
 /**делаем куки на 10 минут */
 export const setUserToCookie = (user) => {
-
     const tenMinutes = new Date();
-    tenMinutes.setMinutes(tenMinutes.getMinutes() + 10);
+    tenMinutes.setMinutes(tenMinutes.getMinutes() + 1000);
     Cookies.set('user', JSON.stringify(user), { expires: tenMinutes, path: '/' });
 }
 

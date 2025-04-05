@@ -36,7 +36,7 @@ export function Login(props) {
     const handleAuthorisation = async () => {
         if (!email || !loginCode)
             return;
-        
+
         const requestData = {
             email: email,
             code: loginCode,
@@ -69,6 +69,10 @@ export function Login(props) {
         }
     }
 
+    const continueWirhGoole = () => {
+
+        //     navigate("https://localhost:7114/imgriff/auth/login");  // Redirect to backend
+    }
 
 
     const objState = {
@@ -83,7 +87,8 @@ export function Login(props) {
             <div className="RegistrationBox">
                 <div>
                     <p>Log in</p>
-                    <a href=""><img src={objState.google_icon} alt="" />Continue with Google</a>
+                    <a href="" onClick={continueWirhGoole}><img src={objState.google_icon} alt=""
+                    />Continue with Google</a>
                     <hr />
                 </div>
                 <div>

@@ -22,14 +22,23 @@ function App() {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen); // получаем состояние модалки
   const modalData = useSelector((state) => state.modal.modalData); //данные для модалки
   const user = useSelector((state) => state.user);
+  const [isUserChecked, setIsUserChecked] = useState(false);
 
   useEffect(() => {
     const currentUser = getUsersFromCookies();
     if (currentUser) {
       dispatch(setUser(currentUser));
     }
+    setIsUserChecked(true);
+
   }, [dispatch]);
- 
+
+
+
+
+
+  if (!isUserChecked) return null;   // проблема была в том ,  что роутинг отрабатывает
+  // до того, как dispatch(setUser(...)) успевает обновить Redux. Поэтому ставим етот флаг
 
 
   /**DeviceProvider позволит нам использовать useDevice во всех вложенных компонентах. Так
