@@ -66,35 +66,6 @@ app.post('/imgriff/pages', (req, res) => {
 
     const pagestypes = ['empty', 'board', 'list', 'calendur', 'table', 'galllery', 'library'];
 
-
-
-
-
-    const pages = [{
-        id: 'id_page1',
-        owner_id: 'id',
-        title: 'EmptyPagenumber1',
-        banner: 'banner.img',
-        icon: 'icon.ico',
-        slug: 'slug.page',
-        type: 'empty',
-        delete_date: 'date',
-        content: 'Приходит страница через новый запрос по слагу ?? null'
-    },
-    {
-        id: 'id_page2',
-        owner_id: 'id',
-        title: 'BoardNumber1',
-        banner: 'banner.img',
-        icon: 'icon.ico',
-        slug: 'slug.page',
-        type: 'board',
-        delete_date: 'date',
-        content: 'Приходит страница через новый запрос по слагу ?? null'
-    }]
-
-
-
     const list = {
         id: 'айди листа',
         parent_page: 'id',
@@ -120,8 +91,6 @@ app.post('/imgriff/pages', (req, res) => {
         deleteDt: 'date'
 
     };
-
-
 
     const table = {
         id: 'id',
@@ -225,14 +194,64 @@ app.post('/imgriff/pages', (req, res) => {
     };
     const emptypage = [
         {
-            id: 'id',
-            title: 'name',
-            text: 'description',
-            parent_page: 'id'
+            id: 'id_emptypage_1',
+            title: 'name1',
+            text: 'description1',
+            parent_page: 'id1'
+        },
+        {
+            id: 'id_emptypage_2',
+            title: 'name2',
+            text: 'description2',
+            parent_page: 'id2'
         }
     ];
 
 
+    const pages = [{
+        id: 'id_page1',
+        owner_id: 'id',
+        title: 'EmptyPagenumber1',
+        banner: 'banner.img',
+        icon: 'icon.ico',
+        slug: 'slug.page',
+        type: 'empty',
+        delete_date: 'date',
+        content: 'ссылка на эту страницу'
+    },
+    {
+        id: 'id_page2',
+        owner_id: 'id',
+        title: 'BoardNumber1',
+        banner: 'banner.img',
+        icon: 'icon.ico',
+        slug: 'slug.page',
+        type: 'board',
+        delete_date: 'date',
+        content: 'ссылка на эту страницу'
+    },
+    {
+        id: 'id_page3',
+        owner_id: 'id',
+        title: 'Календарь 2025',
+        banner: 'banner.img',
+        icon: 'icon.ico',
+        slug: 'calendar_2025',
+        type: 'board',
+        delete_date: 'date',
+        content: 'ссылка на эту страницу'
+    }, {
+        id: 'id_page4',
+        owner_id: 'id',
+        title: 'BoardNumber1',
+        banner: 'banner.img',
+        icon: 'icon.ico',
+        slug: 'slug.page',
+        type: 'board',
+        delete_date: 'date',
+        content: 'Приходит страница через новый запрос по слагу ?? null'
+    },
+    ]
 
 
     const token = JSON.parse(req.cookies.user).token;

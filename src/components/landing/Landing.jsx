@@ -37,13 +37,12 @@ export function Landing() {
                 <Nav />
             </div>
             <hr id='hr1' />
-
-            {/* <UnlockPotential objState={objState} />
+            <UnlockPotential objState={objState} />
             <ThirdBlock objState={objState} />
             <div id='aboutUs'><AboutUs /></div>
             <div id='faq'><Faq /></div>
             <div id='contacts'><Contacts /></div>
-            <div><ScrollToTop /></div> */}
+            <div><ScrollToTop /></div>
 
 
         </div>

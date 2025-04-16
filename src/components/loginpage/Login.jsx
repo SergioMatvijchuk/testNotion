@@ -69,6 +69,46 @@ export function Login(props) {
         }
     }
 
+
+    const sendEmail = async () => {
+        const mail = email;
+        const requestData = {
+            email: email,
+        };
+
+        try {
+            const response = await fetch(`https://localhost:7114/imgriff/auth?email=${mail}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+
+            console.log(response);
+
+            if (!response.ok) {
+                throw new Error('response not OK');
+            }
+
+            const data = await response.json();
+            console.log(data);
+
+            if (data.status === 'success') {
+                dispatch(setUser(data.user));
+                console.log('авторизация норм, куки впорядке.Навигируем.');
+                navigate('/');
+            }
+        } catch (error) {
+            console.error(`Error ` + error);
+        }
+
+
+    }
+
+
+
+
     const continueWirhGoole = () => {
 
         //     navigate("https://localhost:7114/imgriff/auth/login");  // Redirect to backend
@@ -78,11 +118,12 @@ export function Login(props) {
     const objState = {
         obj_state_fon: 'img/loginpage/Login_main.png',
         google_icon: 'img/loginpage/google_icon.svg',
+        link_left: 'img/loginpage/left_link.svg'
 
     }
 
     return (<div className="containerLogin" >
-        <div><img src={objState.obj_state_fon} alt="" /></div>
+        <div><img src={objState.obj_state_fon} alt="haha" /></div>
         <div>
             <div className="RegistrationBox">
                 <div>
@@ -94,7 +135,7 @@ export function Login(props) {
                 <div>
                     <p>Email</p>
                     <input type="text" placeholder="Enter your email" onChange={emailChange} />
-                    <a href="">Check your inbox</a>
+                    <button onClick={sendEmail}>Check your inbox</button>
                 </div>
                 <div>
                     <p>Login code</p>
@@ -102,8 +143,9 @@ export function Login(props) {
                     <button onClick={handleAuthorisation}>Continue with login code</button>
                     <a href="">Didn't receive the code?</a>
                 </div>
-
+                <div className="linktoLanding"><img src={objState.link_left} alt="" /></div>
             </div>
+
         </div>
     </div >
 
