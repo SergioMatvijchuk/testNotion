@@ -90,11 +90,51 @@
 /*mid-menu-block*/
 .sideBarSecondBlock {
     min-height: 30%;
+    max-height: 60%;
     width: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
 
+.sideBarSecondBlock>div>ul>li>a>img,
+.sideBarSecondBlock>div>ul>li>img {
+    padding-right: 8px;
+}
+
+.sideBarSecondBlock>div>ul {
+    max-width: 100%;
+    padding: 10px;
+    margin: 10px;
     box-sizing: border-box;
 
 }
+
+.sideBarSecondBlock>div>ul>li {
+    list-style-type: none;
+    text-align: left;
+    padding: 4px;
+    margin: 0px;
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+    white-space: nowrap;
+        /* Отключает перенос строк */
+        font-size: clamp(12px, 2vw, 16px);
+
+}
+
+.sideBarSecondBlock>div>ul>li:hover {
+    background: rgb(142, 142, 142, 0.1);
+    transition: 1;
+    border-radius: 40px;
+    cursor: pointer;
+}
+
+.sideBarFirstBlock>div>ul>li>a {
+    color: antiquewhite;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 
 /*bottom-menu-block*/
 .sideBarThirdBlock {

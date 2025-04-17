@@ -1,14 +1,13 @@
-.container {
+.craft_container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    border: 1px white solid;
     margin: auto 26vh;
     border-radius: 12px;
 }
 
-.container p {
+.craft_container p {
 
     font-family: 'Jost';
     font-style: normal;
@@ -19,7 +18,7 @@
     color: #D9D9D9;
 }
 
-.container>:nth-child(2) {
+.craft_container>:nth-child(2) {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -30,7 +29,7 @@
 
 }
 
-.container>:nth-child(2)>a {
+.craft_container>:nth-child(2)>a {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
@@ -49,7 +48,7 @@
     color: #ADADAD
 }
 
-.container>:nth-child(2)>a.active {
+.craft_container>:nth-child(2)>a.active {
     background: #ADADAD;
     color: black;
 }

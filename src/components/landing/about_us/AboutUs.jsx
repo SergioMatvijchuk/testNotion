@@ -57,7 +57,7 @@ reign in your note, you harness your creativity and reign in your note`,
                 <p>About us</p>
             </div>
             <div>
-                <dv>
+                <div>
                     <div>
                         <div>
                             <ul>
@@ -72,7 +72,7 @@ reign in your note, you harness your creativity and reign in your note`,
                             </span>
                         </div>
                     </div>
-                </dv>
+                </div>
                 <hr id='vector7' />
                 <div>
                     <div><img src={person.photo} alt="Photo" /></div>

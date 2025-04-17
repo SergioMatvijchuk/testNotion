@@ -1,34 +1,112 @@
-
 .containerLogin {
     position: relative;
-    width: auto;
-    height: 90vh;
+    width: 100%;
+    height: 100vh;
     display: flex;
     overflow-y: hidden;
 }
 
 .containerLogin>:first-child {
-    height: 100%;
+    height: 100vh;
     width: 55%;
-
+    flex: 1;
+    min-width: 0;
+    transition: opacity 0.3s ease, width 0.3s ease;
 }
 
 .containerLogin>:first-child>img {
-    height: auto;
+    height: 100%;
     width: 100%;
+    object-fit: cover;
 }
 
+/**/
 .containerLogin>:nth-child(2) {
     width: 45%;
+    min-width: 768px;
     display: flex;
-
+    background: #181818;
     justify-content: center;
     align-items: center;
-
 }
 
-.containerLogin>:nth-child(2)>:first-child {
+.linktoLanding {
+    display: none;
+}
 
+@media (max-width: 768px) {
+    .containerLogin>:first-child {
+        width: 0;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .containerLogin>:nth-child(2) {
+        width: 100vw;
+        min-width: unset;
+        padding: 0 16px;
+
+    }
+
+    .containerLogin>:nth-child(2) input,
+    a {
+        max-width: 300px;
+        min-width: 200px;
+    }
+
+    .containerLogin>:nth-child(2) div {
+        width: 90vw;
+        min-width: 50vw;
+        margin: 0 10vw;
+        align-items: center;
+    }
+
+    .RegistrationBox>:first-child p {
+        font-size: 32px;
+        line-height: 44px;
+    }
+
+    .RegistrationBox>:nth-child(3)>a,
+    .RegistrationBox>:nth-child(2)>button {
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+
+
+    .linktoLanding {
+        display: block;
+        position: absolute;
+        top: 6vh;
+        left: -40vw;
+    }
+}
+
+
+
+
+@media (max-width: 480px) {
+    .RegistrationBox>:first-child p {
+        font-size: 24px;
+        line-height: 36px;
+    }
+
+    .RegistrationBox {
+        gap: 16px;
+    }
+
+    .RegistrationBox>:nth-child(3)>button {
+        padding: 8px 16px;
+    }
+
+    .RegistrationBox>:nth-child(3)>a {
+        margin-right: 10%;
+        margin-left: 10%;
+    }
+}
+
+
+.containerLogin>:nth-child(2)>:first-child {
     width: 44%;
     height: 60vh;
 }
@@ -47,7 +125,6 @@
 
 .RegistrationBox>:first-child p {
     text-align: center;
-
     font-family: 'Jost';
     font-style: normal;
     font-weight: 500;
@@ -89,11 +166,11 @@
     margin-top: 0vh;
 }
 
-.RegistrationBox>:nth-child(2)>input {
-    width: 89%;
+.RegistrationBox>:nth-child(2)>input,
+.RegistrationBox>:nth-child(3)>input {
+    width: 100%;
     height: 34px;
     margin: 0;
-    margin-top: -1vh;
     background: transparent;
     border: 1px solid white;
     border-radius: 4px;
@@ -101,28 +178,39 @@
     color: white;
 }
 
-.RegistrationBox>:nth-child(2)>input:focus {
+
+
+.RegistrationBox>:nth-child(2)>input:focus,
+.RegistrationBox>:nth-child(3)>input:focus {
     padding-left: 2%;
-    width: 97%;
+    width: 100%;
 }
 
-.RegistrationBox>:nth-child(2)>input:focus::placeholder {
+.RegistrationBox>:nth-child(2)>input:focus::placeholder,
+.RegistrationBox>:nth-child(3)>input:focus::placeholder {
     color: transparent;
 }
 
 
-.RegistrationBox>:nth-child(2)>a {
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-decoration: none;
+.RegistrationBox>:nth-child(2)>button {
+    background: none;
+    border: none;
+    color: #898A8D;
+    cursor: pointer;
+    font: inherit;
     font-family: 'Jost';
+    font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    font-size: 14px;
     line-height: 20px;
-    color: #898A8D;
+    margin: 0;
+    padding: 0;
+    text-decoration: underline;
+
+    &:hover {
+        color: #f0f2f7;
+    }
+
 }
 
 .RegistrationBox>:nth-child(2)>input>::placeholder {
@@ -130,32 +218,10 @@
     color: white;
 }
 
-
 .RegistrationBox>:nth-child(3) {
     color: white;
     display: flex;
     flex-direction: column;
-}
-
-.RegistrationBox>:nth-child(3)>input {
-    width: 89%;
-    height: 34px;
-    margin: 0;
-    margin-top: -1vh;
-    background: transparent;
-    border: 1px solid white;
-    border-radius: 4px;
-    padding-left: 4vh;
-    color: white;
-}
-
-.RegistrationBox>:nth-child(3)>input:focus {
-    padding-left: 2%;
-    width: 97%;
-}
-
-.RegistrationBox>:nth-child(3)>input:focus::placeholder {
-    color: transparent;
 }
 
 .RegistrationBox>:nth-child(3)>button {
@@ -179,11 +245,9 @@
     width: auto;
     margin-right: 22%;
     margin-left: 22%;
-
     text-align: center;
     align-items: center;
     justify-content: center;
-    color: white;
     font-family: 'Jost';
     font-style: normal;
     font-weight: 400;
@@ -191,4 +255,8 @@
     line-height: 20px;
     color: #898A8D;
     margin-top: 2vh;
+
+    &:hover {
+        color: #f0f2f7;
+    }
 }

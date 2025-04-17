@@ -1,13 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import './MainMenu.css';
-
-
 import { Board } from '../board/Board.jsx'; // Импортируй Board
 import { NewPage } from '../newPage/NewPage.jsx'; // Импортируй NewPage
 import { getTokenFromUser } from '../../../utils/getUserFromCookies.js';
 import { useEffect, useState } from 'react';
-
-
 
 export function MainMenu({ setComponent, data }) {
 
@@ -50,15 +46,20 @@ export function MainMenu({ setComponent, data }) {
                 </div>
                 <hr />
                 <div className='sideBarSecondBlock'>
-                    <ul>
-                        {pages ? (
-                            pages.map((page) => (
-                                <li key={page.id}>{page.title}</li>  // Пример использования данных
-                            ))
-                        ) : (
-                            <li>Нет страниц</li>
-                        )}
-                    </ul>
+                    <div>
+                        <ul>
+                            {pages ? (
+                                pages.map((page) => (
+
+                                    <li key={page.id}>
+                                        <a><img src={staticImages.iconPlus} />{page.title}</a>
+                                    </li>  // Пример использования данных
+                                ))
+                            ) : (
+                                <li>Нет страниц</li>
+                            )}
+                        </ul>
+                    </div>
                 </div>
                 <hr />
                 <div className='sideBarThirdBlock'>
