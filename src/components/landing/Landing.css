@@ -9,8 +9,9 @@
      color: white;
      border-radius: 24px;
      background: #181818;
-
  }
+
+
 
  .header {
      display: flex;
@@ -19,8 +20,6 @@
      padding: 4vh 7vw;
      box-sizing: border-box;
      width: 100%;
-     z-index: 1;
-
  }
 
  .header>.leftIconLanding {

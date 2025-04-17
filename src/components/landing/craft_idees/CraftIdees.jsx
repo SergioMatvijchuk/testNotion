@@ -1,13 +1,23 @@
-function CraftIdees() {
+import './CraftIdees.css'
+import { NavLink } from 'react-router-dom';
+
+
+export function CraftIdees() {
     const setActive = ({ isActive }) => (isActive ? "active" : "");
 
 
 
 
     return (
-        <div className='container'>
+        <div className='craft_container'>
             <div>
-                <p>Craft your ideas in your style</p>
+                <p>
+                    Craft your <span style={{
+                        textDecoration: 'underline',
+                        textDecorationColor: '#434BF3',
+                        textUnderlineOffset: '10px'
+                    }}>ideas</span> in your style
+                </p>
             </div>
             <div>
                 <NavLink to="/" className={setActive}>Board</NavLink>

@@ -7,6 +7,7 @@ import { ScrollToTop } from '.././ScrollToTop/ScrollToTop.jsx';
 import UnlockPotential from './unlock_potential/unlock_potential.jsx';
 import ThirdBlock from './third_block/ThirdBlock.jsx';
 import { useDevice } from '../../deviceProvider.js';
+import { CraftIdees } from './craft_idees/CraftIdees.jsx';
 
 
 export function Landing() {
@@ -38,6 +39,7 @@ export function Landing() {
             </div>
             <hr id='hr1' />
             <UnlockPotential objState={objState} />
+            <CraftIdees objState={objState} />
             <ThirdBlock objState={objState} />
             <div id='aboutUs'><AboutUs /></div>
             <div id='faq'><Faq /></div>
