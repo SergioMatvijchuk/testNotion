@@ -52,6 +52,9 @@
          height: auto;
          color: white;
          border-radius: 24px;
+         justify-content: center;
+         align-items: center;
+
 
      }
 
