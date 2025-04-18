@@ -90,10 +90,7 @@ export function TableComponent({ cardName }) {
                 <table>
                     <thead>
                         <tr>
-                            {/* Например, можно добавить заголовки столбцов */}
-                            <th>Header 1</th>
-                            <th>Header 2</th>
-                            {/* и так далее */}
+                     
                         </tr>
                     </thead>
                     <tbody>

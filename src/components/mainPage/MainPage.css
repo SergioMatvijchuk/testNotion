@@ -3,6 +3,7 @@
     width: 100%;
     height: 100%;
     color: antiquewhite;
+
 }
 
 /*> MainMenu*/
@@ -27,16 +28,12 @@
 .mainPage>:nth-child(2)>:nth-child(1) {
     width: 100%;
     height: 25%;
-
-
 }
 
 /*> MainMenu - div - mainContent*/
 .mainPage>:nth-child(2)>:nth-child(2) {
     width: 100%;
     height: 75%;
-
-
 }
 
 .mainContent {
