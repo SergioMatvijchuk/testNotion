@@ -9,6 +9,10 @@
      color: white;
      border-radius: 24px;
      background: #181818;
+     display: inline-block;
+     justify-content: center;
+     text-align: center;
+     align-items: center;
  }
 
 
@@ -53,9 +57,8 @@
          color: white;
          border-radius: 24px;
          justify-content: center;
+         text-align: center;
          align-items: center;
-
-
      }
 
      .header {
@@ -83,7 +86,14 @@
          margin-left: 0;
          padding: 0;
      }
+ }
 
 
 
+
+ #aboutUs,
+ #faq,
+ #contacts {
+     display: flex;
+     justify-content: center;
  }

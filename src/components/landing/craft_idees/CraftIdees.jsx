@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import './CraftIdees.css'
-import { NavLink } from 'react-router-dom';
+
 
 
 export function CraftIdees() {
     const [activeTab, setActiveTab] = useState('Board');
+
+
+
     const objState = {
         image_board: 'img/landing/Board.png',
         image_list: 'img/landing/List.png',
