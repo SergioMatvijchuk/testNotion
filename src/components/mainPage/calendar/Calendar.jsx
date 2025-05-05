@@ -6,24 +6,30 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../../reducers/modalSlice';
 
-export function Calendar(cardName) {
+export function Calendar({ cardName, data }) {
     const [inputNameBoard, setInputNameBoard] = useState(cardName);
+
     const [events, setEvents] = useState([])
     //общая коллекция карточек
     const [cards, setCards] = useState([]);
+    useEffect(() => {
+        if (data) {
+            setCards(data.content?.internalContent);
+        };
+    }, [data])
 
     //для отправки действий в редакс
     const dispatch = useDispatch();
+
     //тащим данные из модалки
     const modalData = useSelector((state) => state.modal.modalData);
 
-    //useEffect на модалку
+    //useEffect на модалку , чтоб все красиво изменялось
     useEffect(() => {
-
         if (modalData) {
-            const storedCards = JSON.parse(localStorage.getItem('card')) || {};
+            const storedCards = cards || {};
             storedCards[modalData.id] = { ...modalData };
-            localStorage.setItem('card', JSON.stringify(storedCards));
+            localStorage.setItem('card', JSON.stringify(storedCards));  //Здесь нужно путом закинуть карточку
 
 
             const updatedEvents = Object.values(storedCards).map(card => ({
@@ -76,10 +82,8 @@ export function Calendar(cardName) {
         const today = new Date();
         const year = today.getFullYear();
         const month = today.getMonth(); // Текущий месяц (0 - январь)
-
         const daysInMonth = new Date(year, month + 1, 0).getDate(); // Количество дней в месяце
         const newEvents = [];
-
         for (let day = 1; day <= daysInMonth; day++) {
             newEvents.push({
                 title: "+ New",
@@ -87,10 +91,11 @@ export function Calendar(cardName) {
                 allDay: true,
             });
         }
+        /**получаем карточки из Пропсов дата */
+        const storedCards = cards || {};
 
 
-        /**получаем карточки из storage */
-        const storedCards = JSON.parse(localStorage.getItem('card')) || {};
+
         const storedEvents = Object.values(storedCards).map(card => ({
             title: card.cardName,
             start: new Date(card.date),
@@ -144,7 +149,7 @@ export function Calendar(cardName) {
                         );
 
                         // Обновляем карточки в localStorage
-                        const storedCards = JSON.parse(localStorage.getItem('card')) || {};
+                        const storedCards = cards || {};
                         if (storedCards[cardId]) {
                             storedCards[cardId] = {
                                 ...storedCards[cardId],

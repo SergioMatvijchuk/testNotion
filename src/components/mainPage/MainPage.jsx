@@ -33,38 +33,14 @@ export function MainPage() {
     const [childComponent, setChildComponent] = useState(<StartPage setComponent={setComponent} />)
 
     useEffect(() => {
-        const pagesDatas = async () => {
-            try {
-                const token = getTokenFromUser();
-                const requestData = {
-                    token: token,
-                }
-                const response = await fetch('http://localhost:5000/imgriff/pages', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(requestData),
-                    credentials: 'include',
-                });
-                if (!response.ok) {
-                    throw new Error(`Response not OK: ${response.status}`);
-                }
-                const data = await response.json();
-                setPagesData(data.pages);
-            } catch (error) {
-                console.error(`Error ` + error);
-            }
 
-        }
-        pagesDatas();
     }, []);
 
 
 
     return (
         <div className='mainPage '>
-            <MainMenu setComponent={setComponent} data={pagesData} />
+            <MainMenu setComponent={setComponent} />
             <div className='contentWrapper'>
                 <div className='bannerUp'>
                     <BannerUp />

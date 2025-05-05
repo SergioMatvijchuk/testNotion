@@ -1,9 +1,23 @@
+import {
+    getEmptyPagesFromLocalStorage,
+    setEmptyPagesToLoclStorage,
+    updateEmptyPageInLocalStorage,
+    deleteEmptyPageFromLocalStorage
+} from '../../../dataManager';
 import './EmptyPage.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
 
 export function EmptyPage({ cardName }) {
     const [inputNameBoard, setInputNameBoard] = useState(cardName);
- 
+    const [textComponent, setTextComponent] = useState();
+    useEffect(() => {
+        
+    })
+
+
+
+
 
     return (
         <div className="emptyPage">

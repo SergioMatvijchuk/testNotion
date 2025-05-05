@@ -5,7 +5,7 @@ export const getUsersFromCookies = () => {
     const user = JSON.stringify({
         name: 'Sergio',
         email: 'azekaggg@gmail.com',
-        token: 'token bla bla bla '
+        token: 'token bla bla bla'
     })
 
 

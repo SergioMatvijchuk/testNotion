@@ -43,8 +43,8 @@ export function Login(props) {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/create', {
-                method: 'POST',
+            const response = await fetch('https://localhost:7114/imgriff/auth', {
+                method: '',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -72,12 +72,11 @@ export function Login(props) {
 
     const sendEmail = async () => {
         const mail = email;
-        const requestData = {
-            email: email,
-        };
+
+        console.log(mail);
 
         try {
-            const response = await fetch(`https://localhost:7114/imgriff/auth?email=${mail}`, {
+            const response = await fetch(`https://localhost:7114/imgriff/auth/get-otp?email=${mail}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,7 +84,7 @@ export function Login(props) {
                 credentials: 'include',
             });
 
-            console.log(response);
+            console.log("RESPONSE", response);
 
             if (!response.ok) {
                 throw new Error('response not OK');
@@ -109,9 +108,8 @@ export function Login(props) {
 
 
 
-    const continueWirhGoole = () => {
-
-        //     navigate("https://localhost:7114/imgriff/auth/login");  // Redirect to backend
+    const continueWithGoogle = async () => {
+        const data = await (window.location.href = "https://localhost:7114/imgriff/auth/login");
     }
 
 
@@ -128,7 +126,7 @@ export function Login(props) {
             <div className="RegistrationBox">
                 <div>
                     <p>Log in</p>
-                    <a href="" onClick={continueWirhGoole}><img src={objState.google_icon} alt=""
+                    <a onClick={continueWithGoogle}><img src={objState.google_icon} alt=""
                     />Continue with Google</a>
                     <hr />
                 </div>

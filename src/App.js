@@ -11,6 +11,7 @@ import { setUser } from './reducers/userSlice.js';
 import ModalWindow from './components/modal/ModalWindow.jsx';
 import { DeviceProvider } from './deviceProvider.js';
 import { getTokenFromUser, getUsersFromCookies } from './utils/getUserFromCookies.js';
+import LoginSuccess from './components/loginpage/LoginSuccess.jsx';
 
 
 
@@ -52,6 +53,7 @@ function App() {
             <Route path='/' element={user ? <MainPage /> : <Navigate to='/login' />} />
             <Route path='/landing' element={user ? <Landing /> : <Navigate to='/login' />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/login/success' element={<LoginSuccess />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </Router>

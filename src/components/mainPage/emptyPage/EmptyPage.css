@@ -1,7 +1,7 @@
 .emptyPage {
     width: 80%;
     max-width: 80vw;
-    height: 50vh;
+    height: 95%;
     max-height: 60%;
     flex-direction: column;
     /* overflow: auto; */

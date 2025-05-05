@@ -57,7 +57,7 @@ export function ListComponent({ listId, cards, updateList, moveCardBetweenLists,
     }
 
     return (
-        <div ref={drop} className="listComponentBox">
+        <div ref={drop} className="listComponentBox scrollableVertical">
             {isInputName === true ? (
                 <><input type="text" value={inputName} onChange={(e) => setInputName(e.target.value)} className='nameListComponentCreated' />
 

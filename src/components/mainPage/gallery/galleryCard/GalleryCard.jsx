@@ -10,14 +10,14 @@ export function GalleryCard({ id, staticImage }) {
     const modalData = useSelector((state) => state.modal.modalData); // получает данные модального окна
 
     useEffect(() => {
-        if (modalData && modalData.text && modalData.id == id) {
-            setImageName(modalData.text)
+        if (modalData && modalData.cardName && modalData.id == id) {
+            setImageName(modalData.cardName)
         }
     }, [modalData]);
 
 
     const handleCardClick = () => {
-        dispatch(openModal({ text: imageName, id: id })); //передаем данные в модалку
+        dispatch(openModal({ cardName: imageName, id: id })); //передаем данные в модалку
     }
 
     return (

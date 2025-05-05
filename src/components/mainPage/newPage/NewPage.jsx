@@ -13,7 +13,9 @@ import StartPage from '../startPAge/StartPage';
 
 export function NewPage({ setComponent }) {
   const [name, setName] = useState('Untitled');
+  const [type, setType] = useState();
   const navigate = useNavigate();
+  
   const path = 'img/mainPage/icons/';
   const staticImage = {
     iconEmptyPage: 'iconEmptyPage',
@@ -24,7 +26,6 @@ export function NewPage({ setComponent }) {
     iconGallery: 'iconGallery',
     iconCalendar: 'iconCalendar',
     iconClose: 'iconClose',
-
   }
   Object.entries(staticImage).forEach(([key, value]) => {
     staticImage[key] = path + value + '.svg'
@@ -32,6 +33,9 @@ export function NewPage({ setComponent }) {
   const closeNewPage = () => {
     setComponent(<StartPage setComponent={setComponent} />);
   }
+
+
+
 
   return (
     <div className='newPageComponent'>
