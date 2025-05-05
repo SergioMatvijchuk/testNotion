@@ -30,7 +30,7 @@ export function Calendar({ cardName, data }) {
             const storedCards = cards || {};
             storedCards[modalData.id] = { ...modalData };
             localStorage.setItem('card', JSON.stringify(storedCards));  //Здесь нужно путом закинуть карточку
-
+ 
 
             const updatedEvents = Object.values(storedCards).map(card => ({
                 title: card.cardName,
