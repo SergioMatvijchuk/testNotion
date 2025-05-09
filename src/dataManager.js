@@ -1,27 +1,38 @@
+import { getTokenFromUser } from "./utils/getUserFromCookies";
+
 const pagestypes = ['empty', 'board', 'list', 'calendur', 'table', 'galllery', 'library'];
-const localHost = 'https://localhost:7114';
+//const localHost = 'https://localhost:7114';
 const methodGetAll = '/imgriff/pages/get-all';
+const localHost = 'https://26.211.160.167:7114'
+const pathMainController = '/imgriff/pages'; //гетСлаг 
+const pathMethodPut = '/imgriff/pages'; //изменения
+const pathMethodPost = '/imgriff/pages'; //изменения
+const pathAuthbyEmail = '/imgriff/auth/user-by-email';
+const pathAuthLogin = '/imgriff/auth/login';
+const pathGetOtp = '/imgriff/auth/get-otp'
+const pathSendPostEmailAndCode = '/imgriff/auth/';
 
 
-
-
-/**(userId) */
-/**`
- * https://localhost:7114/imgriff/pages/get-all?id=${id}
- * ` */
-
-/**добавить айди юзера */
+/**добавить тьокен? юзера */
 export const getAllPages = async () => {
-    console.log('зашли в getAllPages');
-
     try {
-        const response = await fetch(localHost + methodGetAll) //,{
-        //     credentials: 'include', // Отправляем куки ALEX!!!
-        // }));
+        const token = getTokenFromUser();
+
+        const response = await fetch(localHost + methodGetAll,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                },
+                credentials: 'include'
+
+            }
+        );
         const data = await response.json();
+        console.log("GET ALL PAGES", data);
         return data;
 
-    } catch {
+    } catch (error) {
         console.log(`error`);
         return null;
     }
@@ -30,11 +41,17 @@ export const getAllPages = async () => {
 
 export const getPageBySlug = async (slug) => {
     console.log('зашли в getPageBySlug');
-
+    const token = getTokenFromUser();
     try {
-        const response = await fetch(`https://localhost:7114/imgriff/pages?slug=${slug}`);
+
+        const response = await fetch(`${localHost}${pathMainController}?slug=${slug}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            },
+            credentials: 'include'
+        });
         const data = await response.json();
-        console.log(data);
 
         return data;
 
@@ -45,30 +62,107 @@ export const getPageBySlug = async (slug) => {
 }
 
 
+export const createNewPage = async (namePage, type, bannerURL, iconURL, content) => {
+    console.log("Зашли в createNewPage");
+    const token = getTokenFromUser();
+    const response = await fetch(localHost + pathMethodPost, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${token}`,
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            "title": namePage,
+            "banner": bannerURL,
+            "icon": iconURL,
+            "type": type,
+            "content": null
+        })
+    });
+    const data = await response.json();
+    console.log("Вышли в createNewPage");
+    return data;
 
 
+}
 
-// export const getDataFromLocalStorage = (key) => {
-//     const savedData = localStorage.getItem(key);
-//     return savedData ? JSON.parse(savedData) : null;
-// }
+export async function AuthByEmail(email) {
+    console.log("Зашли в authByEmail");
 
+    const response = await fetch(localHost + pathAuthbyEmail + `?email=${email}`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
 
-// export const saveDataToLocaleStorage = (key, data) => {
-//     localStorage.setItem(key, JSON.stringify(data));
-// }
-
-
-// export const updateDataInLocalStorage = (key, newData) => {
-//     const currentData = getDataFromLocalStorage(key);  //have a current data
-//     const updatedData = { ...currentData, ...newData }; // update current data
-//     saveDataToLocaleStorage(updatedData);
-// }
+        },
+        credentials: 'include',
+    });
 
 
+    return await response.json();
 
 
+}
 
+export async function sendEmailAndCode(email, code) {
+    console.log("Зашли в sendEmailAndCode");
+    const requestData = {
+        "email": email,
+        "passcode": code,
+    };
+    const response = await fetch(localHost + pathSendPostEmailAndCode, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(requestData),
+    });
+    const data = await response.json();
+
+    return data;
+
+}
+
+
+export async function continueWithGoogle() {
+    console.log("Зашли в Continue with Google");
+
+    return await (window.location.href = localHost + pathAuthLogin);
+}
+
+
+export async function sendEmail(email) {
+    console.log("Зашли в sendEmail", email);
+    if (!email) {
+        console.log("sendEmail 102 dataManager Error");
+
+        throw new Error("sendEmail 102 dataManager Error");
+    }
+    try {
+        const response = await fetch(localHost + pathGetOtp + `?email=${email}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        });
+
+        console.log("RESPONSE DATA MANAGER ", response);
+
+        if (!response.ok) {
+            console.log("ERROR (% STR ", response);
+
+            throw new Error('response not OK');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.log("ERROR", error);
+
+    }
+}
 
 
 

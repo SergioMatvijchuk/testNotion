@@ -23,36 +23,42 @@ function App() {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen); // получаем состояние модалки
   const modalData = useSelector((state) => state.modal.modalData); //данные для модалки
   const user = useSelector((state) => state.user);
-  const [isUserChecked, setIsUserChecked] = useState(false);
+  const [isUserChecked, setIsUserChecked] = useState(null);
+
 
   useEffect(() => {
     const currentUser = getUsersFromCookies();
-    if (currentUser) {
-      dispatch(setUser(currentUser));
+    const currentToken = getTokenFromUser();
+    if (currentUser && currentToken) {
+      console.log("user && Token OK ");
+
+      setIsUserChecked(true);
     }
-    setIsUserChecked(true);
-
-  }, [dispatch]);
-
-
-
+    else {
+      console.log("user && Token FALSE ");
+      setIsUserChecked(false);
+    }
 
 
-  if (!isUserChecked) return null;   // проблема была в том ,  что роутинг отрабатывает
+  }, [user]);
+
+
+  // проблема была в том ,  что роутинг отрабатывает
   // до того, как dispatch(setUser(...)) успевает обновить Redux. Поэтому ставим етот флаг
 
 
   /**DeviceProvider позволит нам использовать useDevice во всех вложенных компонентах. Так
    *  мы будем получать везде чере контекст размеры екрана. 
    */
+  if (isUserChecked == null) return null;
   return (
     <DeviceProvider>
       <div className="App">
         <Router>
           <Routes>
-            <Route path='/' element={user ? <MainPage /> : <Navigate to='/login' />} />
-            <Route path='/landing' element={user ? <Landing /> : <Navigate to='/login' />} />
-            <Route path='/login' element={<Login />} />
+            <Route path='/' element={isUserChecked ? <MainPage /> : <Navigate to='/login' />} />
+            <Route path='/landing' element={isUserChecked ? <Landing /> : <Navigate to='/login' />} />
+            <Route path='/login' element={isUserChecked ? <Navigate to='/' /> : <Login />} />
             <Route path='/login/success' element={<LoginSuccess />} />
             <Route path='*' element={<NotFound />} />
           </Routes>

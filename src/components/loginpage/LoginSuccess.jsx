@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser, logout } from "../../reducers/userSlice";
-
+import { AuthByEmail, continueWithGoogle } from "../../dataManager";
+import { setUserToCookie } from "../../utils/getUserFromCookies";
 
 function LoginSuccess() {
     const location = useLocation();
@@ -14,49 +15,22 @@ function LoginSuccess() {
     useEffect(() => {
         res();
     }, [])
+
     const res = async () => {
-        const params = new URLSearchParams(location.search);
+        const params = new URLSearchParams(location.search); //
         const email = params.get("email");
 
 
-
-        const response = await fetch(`https://localhost:7114/imgriff/auth/user-by-email?email=${email}`, {
-            method: 'get',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
+        const data = await AuthByEmail(email);
+        if (data) {
+            dispatch(setUser(data.data));
+          return navigate('/');
+        }
+        else console.log("No navigate");
 
 
-        const data = await response.json();
-
-        dispatch(setUser(data.user));
-        console.log('авторизация норм, куки впорядке.Навигируем.');
-        navigate('/');
-
-
-        setress(response);
     }
-
-
-
-
-
-
-
-
-    // if (email) {
-
-    //     console.log(email);
-
-    //     navigate("/");
-    // } else {
-    //     console.error("email не найден");
-    //     navigate("/login");
-    // }
-
-
+   
     return <div>Логинимся...</div>;
 }
 

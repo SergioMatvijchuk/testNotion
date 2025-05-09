@@ -11,8 +11,16 @@ import { ListComponent } from '../listComponent/ListComponent.jsx';
 import { Gallery } from '../gallery/Gallery.jsx';
 import { TableComponent } from '../tableComponent/TableComponent.jsx';
 
-export function MainMenu({ setComponent }) {
+export function MainMenu(state) {
 
+    const setComponent = state.setComponent;
+    const pagesInLeftMenu = state.pagesInLeftMenu;
+    const setPagesInLeftMenu = state.setPagesInLeftMenu;
+
+    useEffect(() => {
+        console.log("ChangesInLeftmenu");
+
+    }, [pagesInLeftMenu]);
     /**работа с иконкаим */
     const pathImg = 'img/mainPage/';
     let staticImages = {
@@ -29,18 +37,13 @@ export function MainMenu({ setComponent }) {
     for (let value in staticImages) {
         staticImages[value] = pathImg + staticImages[value];
     }
-    /**конец работы с иконками */
 
-    /**обновление страничек */
 
-    const [pages, setPages] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await getAllPages(); //получаем все страницы 
-                console.log(response.data);
-                
-                setPages(response.data);
+                await setPagesInLeftMenu(response.data);
             } catch (error) {
                 console.log("Error fetching data:", error);
             }
@@ -59,24 +62,25 @@ export function MainMenu({ setComponent }) {
         Default: (data) => <div>Unknown page type: {data?.type}</div>
     }
 
-    const handleGetPageBySlug = (slug) => {
-        const fetchData = async () => {
-            try {
-                const response = await getPageBySlug(slug);
-                const pageType = response?.data?.type || 'Default';
-                const Component = typePages[pageType];
-                setComponent(Component(response.data));
+    const handleGetPageBySlug = async (slug) => {
 
-            } catch (error) {
-                console.log("Error fetching data:", error);
-            }
-        };
+        try {
+            const response = await getPageBySlug(slug);
+            const pageType = response?.data?.type || 'Default';
+            const Component = typePages[pageType];
+            setComponent(Component(response.data ));
 
-        fetchData();
+        } catch (error) {
+            console.log("Error fetching data:", error);
+        }
+
     }
 
+    const handleSetnewPageComponent = async () => {
 
-
+        setComponent(<NewPage setComponent={setComponent} setPagesInLeftMenu={setPagesInLeftMenu} />);
+       
+    }
 
     return (
         <div className='mainMenu'>
@@ -86,8 +90,8 @@ export function MainMenu({ setComponent }) {
                     <div>
                         <ul>
                             <li><img src={staticImages.iconSearch} />Search</li>
-                            <li><a onClick={() => setComponent(<NewPage setComponent={setComponent} />)}><img src={staticImages.iconPlus} />New Page</a></li>
-                            <li><a onClick={() => setComponent(<Board setComponent={setComponent} />)}><img src={staticImages.iconTemplates} />Templates</a></li>
+                            <li><a onClick={handleSetnewPageComponent}><img src={staticImages.iconPlus} />New Page</a></li>
+                            <li><a onClick={() => alert("Templates")}><img src={staticImages.iconTemplates} />Templates</a></li>
                         </ul>
                     </div>
                 </div>
@@ -95,10 +99,10 @@ export function MainMenu({ setComponent }) {
                 <div className='sideBarSecondBlock'>
                     <div>
                         <ul>
-                            {pages ? (
-                                pages.map((page) => (
+                            {pagesInLeftMenu ? (
+                                pagesInLeftMenu.map((page) => (
 
-                                    <li key={page.id} onClick={() => setComponent()} >
+                                    <li key={page.id} >
                                         <a onClick={() => handleGetPageBySlug(page.slug)}><img src={staticImages.iconPlus} />{page.title}</a>
                                     </li>
                                 ))

@@ -2,7 +2,7 @@ import './MainPage.css';
 import { MainMenu } from './leftmenu/MainMenu.jsx';
 import { BannerUp } from './banner/BannerUp.jsx';
 import { NewPage } from './newPage/NewPage.jsx';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Gallery } from './gallery/Gallery.jsx';
 import { EmptyPage } from './emptyPage/EmptyPage.jsx';
 import StartPage from './startPAge/StartPage.jsx';
@@ -18,29 +18,23 @@ import { useNavigate } from 'react-router-dom';
 export function MainPage() {
     const [fading, setFading] = useState(false);
     const user = useSelector((state) => state.user);
-    const [pagesData, setPagesData] = useState([]);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const setComponent = (component) => {
-        setFading(true); // Начало анимации затухания
+    const [pagesInLeftMenu, setPagesInLeftMenu] = useState(null);
+    const setComponent = useCallback((component) => {
+        setFading(true);
         setTimeout(() => {
-            setChildComponent(component); // Замена компонента после анимации затухания
+            setChildComponent(component);
             setTimeout(() => {
-                setFading(false); // Конец анимации затухания и начало анимации появления
-            }, 300); // Дополнительная задержка для появления нового компонента
-        }, 300); // Задержка на 300 мс
-    };
-    const [childComponent, setChildComponent] = useState(<StartPage setComponent={setComponent} />)
-
-    useEffect(() => {
-
+                setFading(false);
+            }, 300);
+        }, 300);
     }, []);
+    const [childComponent, setChildComponent] = useState(<StartPage setComponent={setComponent} />)
 
 
 
     return (
         <div className='mainPage '>
-            <MainMenu setComponent={setComponent} />
+            <MainMenu setComponent={setComponent} setPagesInLeftMenu={setPagesInLeftMenu} pagesInLeftMenu={pagesInLeftMenu} />
             <div className='contentWrapper'>
                 <div className='bannerUp'>
                     <BannerUp />

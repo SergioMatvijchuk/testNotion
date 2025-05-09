@@ -1,12 +1,11 @@
 import './TableComponent.css';
 import { useState } from 'react';
 
-
-
-
-export function TableComponent({ cardName }) {
-    const [inputNameBoard, setInputNameBoard] = useState(cardName);
-
+export function TableComponent(state) {
+    console.log(state);
+    const [inputNameBoard, setInputNameBoard] = useState(state.data.title);
+    
+    
     const path = 'img/mainPage/icons/'
     const staticImage = {
         iconPlus: 'iconPlus2',

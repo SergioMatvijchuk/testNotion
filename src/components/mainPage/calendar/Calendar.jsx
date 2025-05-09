@@ -13,11 +13,13 @@ export function Calendar({ cardName, data }) {
     //общая коллекция карточек
     const [cards, setCards] = useState([]);
     useEffect(() => {
-        if (data) {
-            setCards(data.content?.internalContent);
-        };
-    }, [data])
 
+        if (data &&
+            data.content &&
+            Array.isArray(data.content.internalContent)) {
+            setCards(data.content.internalContent);
+        }
+    }, [data?.content?.internalContent]);
     //для отправки действий в редакс
     const dispatch = useDispatch();
 
@@ -27,10 +29,13 @@ export function Calendar({ cardName, data }) {
     //useEffect на модалку , чтоб все красиво изменялось
     useEffect(() => {
         if (modalData) {
+            console.log("MODAL USE EFFECT");
+
             const storedCards = cards || {};
             storedCards[modalData.id] = { ...modalData };
             localStorage.setItem('card', JSON.stringify(storedCards));  //Здесь нужно путом закинуть карточку
- 
+
+            console.log("StoredCards", storedCards);
 
             const updatedEvents = Object.values(storedCards).map(card => ({
                 title: card.cardName,
@@ -40,9 +45,55 @@ export function Calendar({ cardName, data }) {
                 extendedProps: { ...card }
             }));
             setEvents(updatedEvents);
+            console.log("UpdateEvents", updatedEvents);
+
         }
 
     }, [modalData]);
+    // Функция для генерации событий "+ New" на каждый день месяца
+    useEffect(() => {
+        if (cards) {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth(); // Текущий месяц (0 - январь)
+            const daysInMonth = new Date(year, month + 1, 0).getDate(); // Количество дней в месяце
+            const newEvents = [];
+            for (let day = 1; day <= daysInMonth; day++) {
+                newEvents.push({
+                    title: "+ New",
+                    start: new Date(year, month, day), // Дата для каждого дня
+                    allDay: true,
+                });
+            }
+            /**получаем карточки из Пропсов дата */
+            const storedCards = cards || {};
+            console.log("storedCards", storedCards);
+
+
+            const storedEvents = Object.values(storedCards).map(card => {
+                const dd = new Date(card.planedDate);
+
+                return {
+                    title: card.title,
+                    start: new Date(card.planedDate),
+                    backgroundColor: card.color || "#3788d8",
+                    allDay: true,
+                    extendedProps: {
+                        id: card.id,
+                        number: card.number,
+                        description: card.description,
+                        color: card.color,
+                        cardName: card.cardName,
+                        files: card.files,
+                        date: card.planedDate
+                    }
+                };
+            });
+            setEvents([...storedEvents]);
+
+
+        }
+    }, [cards]);
 
 
     const handleCardClick = (imageName, id, date, color, number, description) => {
@@ -70,6 +121,7 @@ export function Calendar({ cardName, data }) {
         iconCalendar: 'iconCalendar',
         iconClose: 'iconClose',
 
+
     }
     Object.entries(staticImage).forEach(([key, value]) => {
         staticImage[key] = path + value + '.svg'
@@ -77,48 +129,15 @@ export function Calendar({ cardName, data }) {
 
 
 
-    // Функция для генерации событий "+ New" на каждый день месяца
-    useEffect(() => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth(); // Текущий месяц (0 - январь)
-        const daysInMonth = new Date(year, month + 1, 0).getDate(); // Количество дней в месяце
-        const newEvents = [];
-        for (let day = 1; day <= daysInMonth; day++) {
-            newEvents.push({
-                title: "+ New",
-                start: new Date(year, month, day), // Дата для каждого дня
-                allDay: true,
-            });
-        }
-        /**получаем карточки из Пропсов дата */
-        const storedCards = cards || {};
 
-
-
-        const storedEvents = Object.values(storedCards).map(card => ({
-            title: card.cardName,
-            start: new Date(card.date),
-            backgroundColor: card.color || "#3788d8",
-            allDay: true,
-            extendedProps: { // доп данные
-                id: card.id,
-                number: card.number,
-                description: card.description,
-                color: card.color,
-                cardName: card.cardName,
-                files: card.files,
-                date: card.date
-            }
-        }))
-        setEvents([...storedEvents]);
-        setCards(storedCards);
-
-    }, []);
 
     const handleAddNote = ({ date, id }) => {
         handleCardClick("imageName", id, date);
     }
+
+
+
+
     return (
         <div className="calendarComponent">
             <div>
@@ -155,7 +174,7 @@ export function Calendar({ cardName, data }) {
                                 ...storedCards[cardId],
                                 date: newDate.toISOString() // Обновляем дату
                             };
-                            localStorage.setItem('card', JSON.stringify(storedCards)); // Сохраняем обновленные карточки
+                            //   localStorage.setItem('card', JSON.stringify(storedCards)); // Сохраняем обновленные карточки
                         }
                     }}
 
@@ -192,5 +211,3 @@ export function Calendar({ cardName, data }) {
         </div>
     )
 }
-
-
