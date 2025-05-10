@@ -2,10 +2,11 @@ import {
     getEmptyPagesFromLocalStorage,
     setEmptyPagesToLoclStorage,
     updateEmptyPageInLocalStorage,
-    deleteEmptyPageFromLocalStorage
+    deleteEmptyPageFromLocalStorage,
+    putChangesOfPage
 } from '../../../dataManager';
 import './EmptyPage.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 
 export function EmptyPage(state) {
@@ -20,28 +21,63 @@ export function EmptyPage(state) {
         content: state.data.content
 
     };
-    const [inputNameBoard, setInputNameBoard] = useState('');
-    const [textComponent, setTextComponent] = useState('');
+
+    const [page, setPage] = useState({});
+    const lastPageRef = useRef({});
+
+
 
     useEffect(() => {
-        setInputNameBoard(pageProps.title);
-        setTextComponent(pageProps.content?.text || null);
+        console.log("Entry to  Empty component");
+        const initialPage = {
+            "title": pageProps.title,
+            "banner": pageProps.banner,
+            "icon": pageProps.icon,
+            "type": pageProps.type,
+            "content": {
+                "text": pageProps.content?.text,
+            },
+            "slug" : pageProps.slug
+        };
+        setPage(initialPage)
+        lastPageRef.current = initialPage;
     }, [state]);
 
+
+    useEffect(() => {
+        lastPageRef.current = page;
+    }, [page]);
+
+    useEffect(() => {
+        console.log("Mounted Empty component");
+        return () => {
+            console.log("Exit from Empty component");
+        };
+    }, []);
+    useEffect(() => {
+        return () => {
+            console.log("Exit from Empty component");
+            putChangesOfPage(lastPageRef.current);
+        };
+    }, []);
 
 
     return (
         <div className="emptyPage">
             <div>
-                <input type='text' className='inputName' value={inputNameBoard} onChange={(e) => {
-                    setInputNameBoard(e.target.value);
-                }
-                } />
+                <input type='text' className='inputName' value={page.title || ''} onChange={(e) => {
+                    setPage(prev => ({ ...prev, title: e.target.value }))
+                }} />
                 <hr />
             </div>
             <div>
-                <textarea className='cardBoxEmpty scrollableVertical' value={textComponent} onChange={(e) => {
-                    setTextComponent(e.target.value);
+                <textarea className='cardBoxEmpty scrollableVertical' value={page.content?.text || ''} onChange={(e) => {
+                    setPage(prev => ({
+                        ...prev, content: {
+                            ...prev.content,
+                            text: e.target.value
+                        }
+                    }))
                 }} type="text" name="" id="" />
             </div>
 

@@ -18,6 +18,7 @@ export function Login(props) {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     useEffect(() => {
         cleanCookie();
     }, []);
@@ -55,8 +56,9 @@ export function Login(props) {
         try {
 
             const data = await sendEmailAndCode(email, loginCode);
-
-            if (data.status.code < 200 && data.status.code >= 300) {
+            console.log("Login DATA!!!!!",data);
+            
+            if (data.status.code < 200 || data.status.code >= 300) {
                 throw new Error('response not OK');
             }
 

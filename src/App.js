@@ -29,8 +29,8 @@ function App() {
   useEffect(() => {
     const currentUser = getUsersFromCookies();
     const currentToken = getTokenFromUser();
-    if (currentUser && currentToken) {
-      console.log("user && Token OK ");
+    if (currentUser !== null && currentUser != undefined && currentToken !== null && currentToken != undefined) {
+      console.log("user && Token OK ", currentUser + " " + currentToken);
 
       setIsUserChecked(true);
     }

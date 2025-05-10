@@ -61,6 +61,44 @@ export const getPageBySlug = async (slug) => {
     }
 }
 
+export const putChangesOfPage = async (page) => {
+    console.log("SAVECHANGESDATA MANAGER", page);
+    try {
+        const token = getTokenFromUser();
+        const body = {
+            "title": page.title,
+            "banner": page.banner,
+            "icon": page.icon,
+            "type": page.type,
+            "content": {
+                "text": page.content?.text || null,
+            },
+            "slug" : page.slug,
+        };
+        // console.log("BOOOOODY POSITIV", body);
+
+        const response = await fetch(localHost + pathMethodPut,
+            {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-type" : "application/json ; charset=UTF-8"
+                },
+                credentials: 'include',
+                body: JSON.stringify(body)
+            }
+        );
+        const data = await response.json();
+        console.log("GET ALL PAGES", data);
+        return data;
+
+    } catch (error) {
+        console.log(`error`);
+        return null;
+    }
+
+}
+
 
 export const createNewPage = async (namePage, type, bannerURL, iconURL, content) => {
     console.log("Зашли в createNewPage");

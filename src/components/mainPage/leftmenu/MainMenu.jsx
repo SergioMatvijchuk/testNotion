@@ -4,6 +4,7 @@ import { Board } from '../board/Board.jsx'; // Импортируй Board
 import { NewPage } from '../newPage/NewPage.jsx'; // Импортируй NewPage
 import { getTokenFromUser } from '../../../utils/getUserFromCookies.js';
 import { useEffect, useState } from 'react';
+import React from 'react';
 import { getAllPages, getPageBySlug } from '../../../dataManager.js';
 import { EmptyPage } from '../emptyPage/EmptyPage.jsx';
 import { Calendar } from '../calendar/Calendar.jsx';
@@ -53,22 +54,22 @@ export function MainMenu(state) {
     }, []);
 
     const typePages = {
-        Board: (data) => <Board data={data} setComponent={setComponent} />,
-        Empty: (data) => <EmptyPage data={data} setComponent={setComponent} />,
-        Calendar: (data) => <Calendar data={data} setComponent={setComponent} />,
-        List: (data) => <ListComponent data={data} setComponent={setComponent} />,
-        Gallery: (data) => <Gallery data={data} setComponent={setComponent} />,
-        Table: (data) => <TableComponent data={data} setComponent={setComponent} />,
+        Board: (data, slug) => <Board data={data} setComponent={setComponent} key={slug} />,
+        Empty: (data, slug) => <EmptyPage data={data} setComponent={setComponent} key={slug} />,
+        Calendar: (data, slug) => <Calendar data={data} setComponent={setComponent} key={slug} />,
+        List: (data, slug) => <ListComponent data={data} setComponent={setComponent} key={slug} />,
+        Gallery: (data, slug) => <Gallery data={data} setComponent={setComponent} key={slug} />,
+        Table: (data, slug) => <TableComponent data={data} setComponent={setComponent} key={slug} />,
         Default: (data) => <div>Unknown page type: {data?.type}</div>
     }
 
     const handleGetPageBySlug = async (slug) => {
-
         try {
             const response = await getPageBySlug(slug);
             const pageType = response?.data?.type || 'Default';
             const Component = typePages[pageType];
-            setComponent(Component(response.data ));
+            const element = Component(response.data, response.data.slug);
+            setComponent(React.cloneElement(element, { key: response.data.slug }));
 
         } catch (error) {
             console.log("Error fetching data:", error);
@@ -79,7 +80,7 @@ export function MainMenu(state) {
     const handleSetnewPageComponent = async () => {
 
         setComponent(<NewPage setComponent={setComponent} setPagesInLeftMenu={setPagesInLeftMenu} />);
-       
+
     }
 
     return (
