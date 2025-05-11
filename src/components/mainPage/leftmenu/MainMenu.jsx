@@ -18,10 +18,10 @@ export function MainMenu(state) {
     const pagesInLeftMenu = state.pagesInLeftMenu;
     const setPagesInLeftMenu = state.setPagesInLeftMenu;
 
-    useEffect(() => {
-        console.log("ChangesInLeftmenu");
 
-    }, [pagesInLeftMenu]);
+    useEffect(() => {
+        updateLeftMenu();
+    }, []);
     /**работа с иконкаим */
     const pathImg = 'img/mainPage/';
     let staticImages = {
@@ -40,26 +40,25 @@ export function MainMenu(state) {
     }
 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getAllPages(); //получаем все страницы 
-                await setPagesInLeftMenu(response.data);
-            } catch (error) {
-                console.log("Error fetching data:", error);
-            }
-        };
+ 
 
-        fetchData();
-    }, []);
-
+    const updateLeftMenu = async () => {
+        try {
+            console.log("updateLeftMenu");
+            
+            const response = await getAllPages(); //получаем все страницы 
+            await setPagesInLeftMenu(response.data);
+        } catch (error) {
+            console.log("Error fetching data:", error);
+        }
+    };
     const typePages = {
-        Board: (data, slug) => <Board data={data} setComponent={setComponent} key={slug} />,
-        Empty: (data, slug) => <EmptyPage data={data} setComponent={setComponent} key={slug} />,
-        Calendar: (data, slug) => <Calendar data={data} setComponent={setComponent} key={slug} />,
-        List: (data, slug) => <ListComponent data={data} setComponent={setComponent} key={slug} />,
-        Gallery: (data, slug) => <Gallery data={data} setComponent={setComponent} key={slug} />,
-        Table: (data, slug) => <TableComponent data={data} setComponent={setComponent} key={slug} />,
+        Board: (data) => <Board data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu }  />,
+        Empty: (data) => <EmptyPage data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
+        Calendar: (data) => <Calendar data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
+        List: (data) => <ListComponent data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
+        Gallery: (data) => <Gallery data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
+        Table: (data) => <TableComponent data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
         Default: (data) => <div>Unknown page type: {data?.type}</div>
     }
 

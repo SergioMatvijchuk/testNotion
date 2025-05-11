@@ -52,6 +52,7 @@ export const getPageBySlug = async (slug) => {
             credentials: 'include'
         });
         const data = await response.json();
+        console.log("GetPageBySlug", data);
 
         return data;
 
@@ -70,26 +71,31 @@ export const putChangesOfPage = async (page) => {
             "banner": page.banner,
             "icon": page.icon,
             "type": page.type,
-            "content": {
-                "text": page.content?.text || null,
-            },
-            "slug" : page.slug,
+            "content":
+                page.type === "Empty" ? {
+                    "text": page.content?.text || null,
+                } :
+                    {
+                        "title": page.title,
+                        "internalContent": page.content,
+                    },
+            "slug": page.slug,
         };
-        // console.log("BOOOOODY POSITIV", body);
+        console.log("BOOOOODY POSITIV", body);
 
         const response = await fetch(localHost + pathMethodPut,
             {
                 method: "PUT",
                 headers: {
                     "Authorization": `Bearer ${token}`,
-                    "Content-type" : "application/json ; charset=UTF-8"
+                    "Content-type": "application/json ; charset=UTF-8"
                 },
                 credentials: 'include',
                 body: JSON.stringify(body)
             }
         );
         const data = await response.json();
-        console.log("GET ALL PAGES", data);
+        console.log("Response", data);
         return data;
 
     } catch (error) {
@@ -103,6 +109,15 @@ export const putChangesOfPage = async (page) => {
 export const createNewPage = async (namePage, type, bannerURL, iconURL, content) => {
     console.log("Зашли в createNewPage");
     const token = getTokenFromUser();
+    const body = {
+        "title": namePage,
+        "banner": bannerURL,
+        "icon": iconURL,
+        "type": type,
+        "content": type === "Empty" ? null : {
+            "title": namePage
+        }
+    }
     const response = await fetch(localHost + pathMethodPost, {
         method: 'POST',
         headers: {
@@ -110,13 +125,7 @@ export const createNewPage = async (namePage, type, bannerURL, iconURL, content)
             "Authorization": `Bearer ${token}`,
         },
         credentials: 'include',
-        body: JSON.stringify({
-            "title": namePage,
-            "banner": bannerURL,
-            "icon": iconURL,
-            "type": type,
-            "content": null
-        })
+        body: JSON.stringify(body)
     });
     const data = await response.json();
     console.log("Вышли в createNewPage");

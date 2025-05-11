@@ -1,19 +1,10 @@
 import './MainPage.css';
 import { MainMenu } from './leftmenu/MainMenu.jsx';
 import { BannerUp } from './banner/BannerUp.jsx';
-import { NewPage } from './newPage/NewPage.jsx';
 import { useState, useEffect, useCallback } from 'react';
-import { Gallery } from './gallery/Gallery.jsx';
-import { EmptyPage } from './emptyPage/EmptyPage.jsx';
 import StartPage from './startPAge/StartPage.jsx';
-import { ListComponent } from './listComponent/ListComponent.jsx';
-import { TableComponent } from './tableComponent/TableComponent.jsx';
-import { Calendar } from './calendar/Calendar.jsx';
 import { useSelector } from 'react-redux';
-import { getTokenFromUser } from '../../utils/getUserFromCookies.js';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../reducers/userSlice.js';
-import { useNavigate } from 'react-router-dom';
+
 
 export function MainPage() {
     const [fading, setFading] = useState(false);

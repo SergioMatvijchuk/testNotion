@@ -7,7 +7,6 @@ import { ListComponent } from '../listComponent/ListComponent';
 import { TableComponent } from '../tableComponent/TableComponent';
 import { EmptyPage } from '../emptyPage/EmptyPage';
 import { TemplatesComponent } from '../templates/TemplatesComponent'
-import { useNavigate } from 'react-router-dom';
 import StartPage from '../startPAge/StartPage';
 import { createNewPage, getAllPages } from '../../../dataManager';
 

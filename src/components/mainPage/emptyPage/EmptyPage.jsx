@@ -24,7 +24,7 @@ export function EmptyPage(state) {
 
     const [page, setPage] = useState({});
     const lastPageRef = useRef({});
-
+    const updateLeftMenu = state.updateLeftMenu; //при выходе обновляем левое меню 
 
 
     useEffect(() => {
@@ -37,7 +37,7 @@ export function EmptyPage(state) {
             "content": {
                 "text": pageProps.content?.text,
             },
-            "slug" : pageProps.slug
+            "slug": pageProps.slug
         };
         setPage(initialPage)
         lastPageRef.current = initialPage;
@@ -48,16 +48,13 @@ export function EmptyPage(state) {
         lastPageRef.current = page;
     }, [page]);
 
+
     useEffect(() => {
-        console.log("Mounted Empty component");
-        return () => {
+        return async () => {
             console.log("Exit from Empty component");
-        };
-    }, []);
-    useEffect(() => {
-        return () => {
-            console.log("Exit from Empty component");
-            putChangesOfPage(lastPageRef.current);
+
+            await putChangesOfPage(lastPageRef.current);
+            await updateLeftMenu();
         };
     }, []);
 
