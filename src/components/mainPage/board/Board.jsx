@@ -24,7 +24,7 @@ export function Board(state) {
         const transformed = rawLists.map(list => ({
             id: list.id,
             title: list.title || '',
-            cards: list.internalContent || [] 
+            cards: list.internalContent || []
         }));
 
         return [...transformed, { id: 'tempId_0', title: '', cards: [] }];
@@ -61,9 +61,14 @@ export function Board(state) {
     useEffect(() => {
         setPage(prev => ({ ...prev, content: lists }));
 
-      
+
 
     }, [lists]); // Будет вызываться каждый раз, когда `lists` изменяется
+    useEffect(() => {
+        setPage(prev => ({ ...prev, title: inputNameBoard }));
+    }, [inputNameBoard]);
+
+    
     useEffect(() => {
 
         console.log("Lists", lists);

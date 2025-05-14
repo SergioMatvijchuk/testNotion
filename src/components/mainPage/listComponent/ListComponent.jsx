@@ -1,50 +1,136 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../../reducers/modalSlice'; //импортируем OpenModal
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { putChangesOfPage } from '../../../dataManager';
 import './ListComponent.css';
 
-export function ListComponent({ cardName }) {
-    const [inputNameBoard, setInputNameBoard] = useState(cardName);
-    const [collectionList, setCollectionList] = useState([
-        { id: 'card_list_0', context: 'newList', position: 1 },
-        { id: 'card_list_1', context: 'newList', position: 2 }]);
+export function ListComponent(state) {
+
+    const cardName = state.cardName;
+
+    const [inputNameBoard, setInputNameBoard] = useState(cardName || '');
+    const [collectionList, setCollectionList] = useState([]);
+    const [page, setPage] = useState({});
+
+
+    const pageProps = {
+        setComponent: state.data.setComponent,
+        updateLeftMenu: () => state.updateLeftMenu(),
+        banner: state.data.banner,
+        icon: state.data.icon,
+        id: state.data.id,
+        slug: state.data.slug,
+        title: state.data.title,
+        type: state.data.type,
+        content: state.data.content
+    };
+    const lastPageRef = useRef({});
+
+    useEffect(() => {
+        lastPageRef.current = page;
+    }, [page])
+
+
+    const modalData = useSelector((state) => state.modal.modalData);
+
+
+    useEffect(() => {
+        console.log("State", state);
+        const initialPage = {
+            "title": pageProps.title,
+            "banner": pageProps.banner,
+            "icon": pageProps.icon,
+            "type": pageProps.type,
+            "content": {
+                "title": pageProps.title,
+                "internalContent": pageProps.content?.internalContent || [],
+            },
+            "slug": pageProps.slug
+        };
+        setPage(initialPage);
+        setCollectionList(initialPage.content.internalContent);
+        setInputNameBoard(initialPage.title);
+        lastPageRef.current = initialPage;
+        return async () => {
+            console.log("page!~", lastPageRef);
+            lastPageRef.current.content = lastPageRef.current.content.map(list => ({
+                ...list,
+                id: list.id?.includes('tempId_') ? null : list.id,
+            }));
+            // const updatedPage = {
+            //     ...lastPageRef.current,
+            //     title: inputNameBoard,
+            //     content:
+            //         lastPageRef.current.content?.internalContent?.map(list => ({
+            //             ...list,
+            //             id: list.id?.includes('tempId_') ? null : list.id,
+            //         })) || [],
+            // }
+
+
+            console.log("lastPageRef.current", lastPageRef.current);
+
+            await putChangesOfPage(lastPageRef.current);
+
+            await pageProps.updateLeftMenu();
+
+        };
+    }, []);
+    useEffect(() => {
+        setPage(prev => ({
+            ...prev, title: inputNameBoard
+        }))
+    }, [inputNameBoard])
+
+    const updateLeftMenu = () => state.updateLeftMenu;
+    useEffect(() => {
+        console.log("update collectionList", lastPageRef.current);
+
+        setPage(prev => ({
+            ...prev, content: collectionList
+
+        }))
+        console.log("PAge", page);
+
+
+    }, [collectionList]);
+
+
+
+
+
     const [id, setCardId] = useState('');
     const dispatch = useDispatch();
-    const modalData = useSelector((state) => state.modal.modalData);
 
     useEffect(() => {
         if (modalData && modalData.text && modalData.id == id) {
             changeCardName(modalData.text, id);
         }
     }, [modalData]);
-    useEffect(() => {
-        console.log(collectionList); // Это будет выводить актуальное состояние после рендера
-    }, [collectionList]);
 
-    const moveCard = (draggeId, hoverId) => {
-        const updatedlist = [...collectionList];
-        const draggedIndex = updatedlist.findIndex(item => item.id === draggeId);
-        const hoverIndex = updatedlist.findIndex(item => item.id === hoverId);
-        if (draggedIndex !== -1 && hoverIndex !== -1) {
-            [updatedlist[hoverIndex].position, updatedlist[draggedIndex].position] =
-                [updatedlist[draggedIndex].position, updatedlist[hoverIndex].position];// обмен позиций между елементами
-        }
-        setCollectionList(updatedlist);
-        console.log(collectionList);
+    const moveCard = (dragId, hoverId) => {
+        const updated = [...collectionList];
+        const dragItem = updated.find(item => item.id === dragId);
+        const hoverIndex = updated.findIndex(item => item.id === hoverId);
+        const withoutDrag = updated.filter(item => item.id !== dragId);
+        withoutDrag.splice(hoverIndex, 0, dragItem);
+        const reordered = withoutDrag.map((item, index) => ({
+            ...item,
+            index,
+        }));
+        setCollectionList(reordered);
 
     }
 
-    const handleCardClick = (context, id) => {
-        dispatch(openModal({ text: context, id: id })); //передаем данные в модалку
+    const handleCardClick = (title, id) => {
+        dispatch(openModal({ text: title, id: id })); //передаем данные в модалку
     }
 
     const handleInputChange = (e, id) => {
         const newValue = e.target.value;
-        if (newValue && newValue !== undefined) {
-            changeCardName(newValue, id);
-        }
+        changeCardName(newValue, id);
     }
 
     const pathImg = 'img/mainPage/';
@@ -56,19 +142,15 @@ export function ListComponent({ cardName }) {
         staticImages[value] = pathImg + staticImages[value];
     }
 
-
-
-    const changeCardName = (newContext, id) => {
-        const newCollectionList = collectionList.map(item => item.id === id ? {
-            ...item, context: newContext
-        } : item);
-        setCollectionList(newCollectionList);
-
-
+    const changeCardName = (newTitle, id) => {
+        setCollectionList(collectionList.map(item =>
+            item.id === id ? { ...item, title: newTitle } : item
+        ));
     }
+
     const addnewElement = () => {
         setCollectionList([...collectionList, {
-            id: 'card_list_' + collectionList.length, context: "newList", position: collectionList.length + 1
+            id: 'tempId_' + collectionList.length, title: "newList", position: collectionList.length + 1
         }])
     }
     return (
@@ -85,9 +167,18 @@ export function ListComponent({ cardName }) {
                     <ul>
                         {
                             collectionList
-                                .sort((a, b) => a.position - b.position)
+                                .sort((a, b) => a.index - b.index)
                                 .map(item => (
-                                    <DraggableItem key={item.id} item={item} moveCard={moveCard} setCardId={setCardId} handleCardClick={handleCardClick} handleInputChange={handleInputChange} />
+                                    <DraggableItem
+                                        key={item.id}
+                                        item={item}
+                                        moveCard={moveCard}
+                                        changeCardName={changeCardName}
+                                        setCardId={setCardId}
+                                        handleCardClick={handleCardClick}
+                                        handleInputChange={handleInputChange}
+
+                                    />
                                 ))
                         }
 
@@ -101,10 +192,10 @@ export function ListComponent({ cardName }) {
 }
 
 
-function DraggableItem({ item, moveCard, setCardId, handleCardClick, handleInputChange }) {
+function DraggableItem({ item, moveCard, setCardId, handleCardClick, handleInputChange, changeCardName }) {
     const [{ isDragging }, drag, prewiew] = useDrag({
         type: 'CARD',
-        item: { id: item.id, position: item.position },
+        item: { id: item.id, index: item.index },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
             item: monitor.getItem(),
@@ -128,11 +219,17 @@ function DraggableItem({ item, moveCard, setCardId, handleCardClick, handleInput
             <span className="icon"
                 onClick={(e) => {
                     setCardId(item.id);
-                    handleCardClick(item.context, item.id);
+                    handleCardClick(item.title, item.id);
                 }} />
-            <input type="text" value={item.context} onChange={(e) => {
-                handleInputChange(e, item.id)
-            }} />
+            <input type="text"
+                value={item.title}
+                onChange={(e) => { handleInputChange(e, item.id) }}
+                onBlur={() => {
+                    if (!item.title.trim()) {
+                        changeCardName('newList', item.id);
+                    }
+                }}
+            />
         </li>
     )
 }

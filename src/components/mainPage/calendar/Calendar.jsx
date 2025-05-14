@@ -1,105 +1,116 @@
 import './Calendar.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../../reducers/modalSlice';
+import { putChangesOfPage } from '../../../dataManager';
 
-export function Calendar({ cardName, data }) {
-    const [inputNameBoard, setInputNameBoard] = useState(cardName);
+const path = 'img/mainPage/icons/'
+const staticImage = {
+    iconPlus: 'iconPlus4',
+    iconList: 'iconList',
+    iconBoard: 'iconBoard',
+    iconTemplates: 'iconTemplates',
+    iconTable: 'iconTable',
+    iconGallery: 'iconGallery',
+    iconCalendar: 'iconCalendar',
+    iconClose: 'iconClose',
+}
+Object.entries(staticImage).forEach(([key, value]) => {
+    staticImage[key] = path + value + '.svg'
+});
 
-    const [events, setEvents] = useState([])
-    //общая коллекция карточек
-    const [cards, setCards] = useState([]);
+
+export function Calendar(state) {
+    console.log("state", state);
+    const { setComponent, updateLeftMenu } = state;
+    const [cards, setCards] = useState([]); // карточки , которые загружаются из БД массивом - content.internalContent []
+    const [events, setEvents] = useState([]);  //ивенты которые идут в календарь
+    const [inputTitle, setInputTitle] = useState(''); // название календаря
+    const [page, setPage] = useState({}); //body  , которое будем потом отправлять.
+    const lastPageRef = useRef({});   //здесь храним ссылку на самые последние данные по page
+    const lastCardsRef = useRef([]); //здесь храним ссылку на самые последние данные по cards
+
+    const dispatch = useDispatch();//для отправки действий в редакс
+    const modalData = useSelector((state) => state.modal.modalData);  //тащим данные из модалки
+
+
+    const pageProps = {
+        banner: state.data.banner,
+        icon: state.data.icon,
+        id: state.data.id,
+        slug: state.data.slug,
+        title: state.data.title,
+        type: state.data.type,
+        content: state.data.content
+    }
+
     useEffect(() => {
+        const initialPage = {
+            "title": pageProps.title,
+            "banner": pageProps.banner,
+            "icon": pageProps.icon,
+            "type": pageProps.type,
+            "content": pageProps.content?.internalContent || [],
+            "slug": pageProps.slug
+        };
+        setPage(initialPage);
+        setCards(initialPage.content);
+        setInputTitle(initialPage.title);
 
-        if (data &&
-            data.content &&
-            Array.isArray(data.content.internalContent)) {
-            setCards(data.content.internalContent);
+
+        lastPageRef.current = initialPage;
+
+        const eventsToCalendar = initialPage.content.map(card => ({
+            id: card.id,
+            title: card.title,
+            start: card.planedDate,
+            allDay: true,
+            backgroundColor: card.color || "#3788d8",
+            description: card.description,
+            calendarId: card.calendarId,
+            files: card.files,
+            number: card.number,
+        }));
+        setEvents(eventsToCalendar);
+
+
+        return () => {
+            console.log("Exit from Componjent");
         }
-    }, [data?.content?.internalContent]);
-    //для отправки действий в редакс
-    const dispatch = useDispatch();
+    }, [])
 
-    //тащим данные из модалки
-    const modalData = useSelector((state) => state.modal.modalData);
-
-    //useEffect на модалку , чтоб все красиво изменялось
     useEffect(() => {
-        if (modalData) {
-            console.log("MODAL USE EFFECT");
+        setPage(prev => ({
+            ...prev, title: inputTitle
+        }));
+    }, [inputTitle]);
 
-            const storedCards = cards || {};
-            storedCards[modalData.id] = { ...modalData };
-            localStorage.setItem('card', JSON.stringify(storedCards));  //Здесь нужно путом закинуть карточку
-
-            console.log("StoredCards", storedCards);
-
-            const updatedEvents = Object.values(storedCards).map(card => ({
-                title: card.cardName,
-                start: new Date(card.date),
-                backgroundColor: card.color || "#3788d8",
-                allDay: true,
-                extendedProps: { ...card }
-            }));
-            setEvents(updatedEvents);
-            console.log("UpdateEvents", updatedEvents);
-
-        }
-
-    }, [modalData]);
+    useEffect(() => {
+        lastPageRef.current = page;
+    }, [page]);
     // Функция для генерации событий "+ New" на каждый день месяца
     useEffect(() => {
-        if (cards) {
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = today.getMonth(); // Текущий месяц (0 - январь)
-            const daysInMonth = new Date(year, month + 1, 0).getDate(); // Количество дней в месяце
-            const newEvents = [];
-            for (let day = 1; day <= daysInMonth; day++) {
-                newEvents.push({
-                    title: "+ New",
-                    start: new Date(year, month, day), // Дата для каждого дня
-                    allDay: true,
-                });
-            }
-            /**получаем карточки из Пропсов дата */
-            const storedCards = cards || {};
-            console.log("storedCards", storedCards);
-
-
-            const storedEvents = Object.values(storedCards).map(card => {
-                const dd = new Date(card.planedDate);
-
-                return {
-                    title: card.title,
-                    start: new Date(card.planedDate),
-                    backgroundColor: card.color || "#3788d8",
-                    allDay: true,
-                    extendedProps: {
-                        id: card.id,
-                        number: card.number,
-                        description: card.description,
-                        color: card.color,
-                        cardName: card.cardName,
-                        files: card.files,
-                        date: card.planedDate
-                    }
-                };
-            });
-            setEvents([...storedEvents]);
-
-
-        }
+        const eventsToCalendar = cards.map(card => ({
+            id: card.id,
+            title: card.title,
+            start: card.planedDate,
+            allDay: true,
+            backgroundColor: card.color || "#3788d8",
+            description: card.description,
+            calendarId: card.calendarId,
+            files: card.files,
+        }));
+        setEvents(eventsToCalendar);
+        lastCardsRef.current = cards;
     }, [cards]);
 
-
+    //вызов модалки
     const handleCardClick = (imageName, id, date, color, number, description) => {
-        console.log("handleCardClick " + JSON.stringify(date));
         dispatch(openModal({
-            cardName: imageName,
+            cardName: imageName, //вернуть в title
             id: id,
             date: date,
             description: description,
@@ -108,106 +119,96 @@ export function Calendar({ cardName, data }) {
         }));
     }
 
-
-
-    const path = 'img/mainPage/icons/'
-    const staticImage = {
-        iconPlus: 'iconPlus4',
-        iconList: 'iconList',
-        iconBoard: 'iconBoard',
-        iconTemplates: 'iconTemplates',
-        iconTable: 'iconTable',
-        iconGallery: 'iconGallery',
-        iconCalendar: 'iconCalendar',
-        iconClose: 'iconClose',
-
-
-    }
-    Object.entries(staticImage).forEach(([key, value]) => {
-        staticImage[key] = path + value + '.svg'
-    });
-
-
-
-
-
     const handleAddNote = ({ date, id }) => {
-        handleCardClick("imageName", id, date);
+        handleCardClick(`Day ${date}`, id, date);
     }
+
+    
+
+
+    useEffect(() => {
+        if (!modalData) return;
+        console.log(modalData);
+
+
+
+
+
+    }, [modalData]);
+
+
+
 
 
 
 
     return (
-        <div className="calendarComponent">
+        <div className='calendarComponent'>
             <div>
-                <input type='text' className='inputName' value={inputNameBoard} onChange={(e) => {
-                    setInputNameBoard(e.target.value);
+                <input type='text' className='inputName' value={inputTitle} onChange={(e) => {
+                    setInputTitle(e.target.value);
                 }
                 } />
 
-
                 <FullCalendar
-                    className="calender"
+                    className='calender'
+                    timeZone='UTC'
                     plugins={[dayGridPlugin, interactionPlugin]}
-                    initialView="dayGridMonth"
+                    initialView='dayGridMonth'
                     events={events}
-                    editable={true} // включаем перетаскивание событий
+                    editable={true}
+                    height="540px"
                     eventDrop={(info) => {
-                        console.log("INFO!!!" + JSON.stringify(info));
+                        console.log("EVENT DROP ", info);
 
-                        const updatedEvent = info.event; // Получаем событие с новой датой
+                        const updatedEvent = info.event;
                         const newDate = updatedEvent.start;
-                        const cardId = updatedEvent.extendedProps.id; // Используем id карточки
-
-                        // Обновляем события в state
+                        const cardId = updatedEvent.id;
                         setEvents((prevEvents) =>
                             prevEvents.map((event) =>
-                                event.id === updatedEvent.id ? { ...event, start: newDate, extendedProps: { ...event.extendedProps, date: newDate } } : event
-                            ),
+                                event.id === cardId ? { ...event, start: newDate } : event
+                            )
                         );
 
-                        // Обновляем карточки в localStorage
-                        const storedCards = cards || {};
-                        if (storedCards[cardId]) {
-                            storedCards[cardId] = {
-                                ...storedCards[cardId],
-                                date: newDate.toISOString() // Обновляем дату
-                            };
-                            //   localStorage.setItem('card', JSON.stringify(storedCards)); // Сохраняем обновленные карточки
-                        }
+                        setCards((prevCards) =>
+                            prevCards.map((card) =>
+                                card.id === cardId ? { ...card, planedDate: newDate.toISOString() } : card)
+                        );
                     }}
 
                     eventClick={(info) => {
-                        const { id, number, description, cardName, color, files, date } = info.event.extendedProps;
+                        console.log("EVENT CLICK ", info);
+                        const { description, calendarId, files } = info.event.extendedProps;
                         dispatch(openModal({
-                            cardName: cardName,
-                            id: id,
-                            date: date,
-                            description: description,
-                            number: number,
-                            color: color,
-                            files: files,
-                        }))
+                            cardName: info.event.title,
+                            id: info.event.id,
+                            date: info.event.start.toISOString(),
+                            description: description || '',
+                            number: info.event.number || '',
+                            color: info.event.color,
+                            files: files || [],
+                        }));
+
+
                     }}
-                    height="540px" // Растягивает календарь на весь экран
                     dayCellContent={(arg) => {
                         return (
                             <div className="dayBox" id={`day-${arg.date.getTime()}`}>
-
-                                <img
-                                    className="btnAddCalender"
-                                    onClick={() => handleAddNote({ date: arg.date.toISOString(), id: crypto.randomUUID() })}
+                                <img className="btnAddCalender"
+                                    onClick={() => handleAddNote({
+                                        date: arg.date.toISOString(),
+                                        id: "temp_" + crypto.randomUUID()
+                                    })}
                                     src={staticImage.iconPlus}
                                 />
                                 <span>{arg.dayNumberText}</span> {/* Число дня */}
-
                             </div>
-                        );
+                        )
                     }}
                 />
-
             </div>
         </div>
     )
+
+
 }

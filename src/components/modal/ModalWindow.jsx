@@ -239,7 +239,7 @@ export default function ModalWindow() {
 
                 </div>
                 <div className='right-modal-content-main'>
-                    <textarea className='scrolable_up' onChange={onChanges} id="#describe_text" placeholder='Add a description...' defaultValue={null} />
+                    <textarea className='scrolable_up' onChange={onChanges} id="#describe_text" placeholder='Add a description...' defaultValue={description || ''} />
                 </div>
             </div>
             <hr className='separator' />

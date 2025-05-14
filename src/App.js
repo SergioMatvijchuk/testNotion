@@ -26,25 +26,20 @@ function App() {
   const [isUserChecked, setIsUserChecked] = useState(null);
 
 
+
+  // проблема была в том ,  что роутинг отрабатывает
+  // до того, как dispatch(setUser(...)) успевает обновить Redux. Поэтому ставим етот флаг
   useEffect(() => {
     const currentUser = getUsersFromCookies();
     const currentToken = getTokenFromUser();
     if (currentUser !== null && currentUser != undefined && currentToken !== null && currentToken != undefined) {
-      console.log("user && Token OK ", currentUser + " " + currentToken);
-
       setIsUserChecked(true);
     }
     else {
-      console.log("user && Token FALSE ");
       setIsUserChecked(false);
     }
 
-
   }, [user]);
-
-
-  // проблема была в том ,  что роутинг отрабатывает
-  // до того, как dispatch(setUser(...)) успевает обновить Redux. Поэтому ставим етот флаг
 
 
   /**DeviceProvider позволит нам использовать useDevice во всех вложенных компонентах. Так

@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import './MainMenu.css';
 import { Board } from '../board/Board.jsx'; // Импортируй Board
 import { NewPage } from '../newPage/NewPage.jsx'; // Импортируй NewPage
-import { getTokenFromUser } from '../../../utils/getUserFromCookies.js';
+
 import { useEffect, useState } from 'react';
 import React from 'react';
 import { getAllPages, getPageBySlug } from '../../../dataManager.js';
@@ -17,11 +17,12 @@ export function MainMenu(state) {
     const setComponent = state.setComponent;
     const pagesInLeftMenu = state.pagesInLeftMenu;
     const setPagesInLeftMenu = state.setPagesInLeftMenu;
-
-
+    const updateLeftMenu = state.updateLeftMenu;
     useEffect(() => {
-        updateLeftMenu();
-    }, []);
+        console.log("main menu + update left menu", pagesInLeftMenu);
+
+    }, [pagesInLeftMenu]);
+
     /**работа с иконкаим */
     const pathImg = 'img/mainPage/';
     let staticImages = {
@@ -39,21 +40,8 @@ export function MainMenu(state) {
         staticImages[value] = pathImg + staticImages[value];
     }
 
-
- 
-
-    const updateLeftMenu = async () => {
-        try {
-            console.log("updateLeftMenu");
-            
-            const response = await getAllPages(); //получаем все страницы 
-            await setPagesInLeftMenu(response.data);
-        } catch (error) {
-            console.log("Error fetching data:", error);
-        }
-    };
     const typePages = {
-        Board: (data) => <Board data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu }  />,
+        Board: (data) => <Board data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
         Empty: (data) => <EmptyPage data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
         Calendar: (data) => <Calendar data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
         List: (data) => <ListComponent data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,

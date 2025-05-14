@@ -4,7 +4,7 @@ import { BannerUp } from './banner/BannerUp.jsx';
 import { useState, useEffect, useCallback } from 'react';
 import StartPage from './startPAge/StartPage.jsx';
 import { useSelector } from 'react-redux';
-
+import { getAllPages } from '../../dataManager.js';
 
 export function MainPage() {
     const [fading, setFading] = useState(false);
@@ -21,11 +21,24 @@ export function MainPage() {
     }, []);
     const [childComponent, setChildComponent] = useState(<StartPage setComponent={setComponent} />)
 
+    const updateLeftMenu = async () => {
+        try {
+            console.log("updateLeftMenu");
+            const response = await getAllPages(); //получаем все страницы 
+            setPagesInLeftMenu(response.data);
+            console.log("All...ok ? ");
 
+        } catch (error) {
+            console.log("Error fetching data:", error);
+        }
+    };
+    useEffect(() => {
+        updateLeftMenu();
+    }, []);
 
     return (
         <div className='mainPage '>
-            <MainMenu setComponent={setComponent} setPagesInLeftMenu={setPagesInLeftMenu} pagesInLeftMenu={pagesInLeftMenu} />
+            <MainMenu setComponent={setComponent} updateLeftMenu={updateLeftMenu} setPagesInLeftMenu={setPagesInLeftMenu} pagesInLeftMenu={pagesInLeftMenu} />
             <div className='contentWrapper'>
                 <div className='bannerUp'>
                     <BannerUp />

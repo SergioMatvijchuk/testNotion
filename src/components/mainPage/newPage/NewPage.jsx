@@ -14,7 +14,7 @@ export function NewPage(state) {
   const [name, setName] = useState('Untitled');
   const setComponent = state.setComponent;
   const setPagesInLeftMenu = state.setPagesInLeftMenu;
-
+  const updateLeftMenu = state.updateLeftMenu;
 
   const path = 'img/mainPage/icons/';
   const staticImage = {
@@ -43,12 +43,12 @@ export function NewPage(state) {
   };
 
   const typePages = {
-    Board: (data) => <Board data={data} setComponent={setComponent} />,
-    Empty: (data) => <EmptyPage data={data} setComponent={setComponent} />,
-    Calendar: (data) => <Calendar data={data} setComponent={setComponent} />,
-    List: (data) => <ListComponent data={data} setComponent={setComponent} />,
-    Gallery: (data) => <Gallery data={data} setComponent={setComponent} />,
-    Table: (data) => <TableComponent data={data} setComponent={setComponent} />,
+    Board: (data) => <Board data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
+    Empty: (data) => <EmptyPage data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
+    Calendar: (data) => <Calendar data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
+    List: (data) => <ListComponent data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
+    Gallery: (data) => <Gallery data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
+    Table: (data) => <TableComponent data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
     Default: (data) => <div>Unknown page type: {data?.type}</div>
   }
 
