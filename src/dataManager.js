@@ -3,7 +3,8 @@ import { getTokenFromUser } from "./utils/getUserFromCookies";
 const pagestypes = ['empty', 'board', 'list', 'calendur', 'table', 'galllery', 'library'];
 //const localHost = 'https://localhost:7114';
 //const localHost = 'http://26.211.160.167:5000'
-const localHost = 'https://26.211.160.167:7114'
+//const localHost = 'https://26.211.160.167:7114'
+const localHost = 'http://10.0.2.4';
 const methodGetAll = '/imgriff/pages/get-all';
 const pathMainController = '/imgriff/pages'; //гетСлаг 
 const pathMethodPut = '/imgriff/pages'; //изменения
@@ -185,10 +186,11 @@ export async function sendEmail(email) {
     console.log("Зашли в sendEmail", email);
     if (!email) {
         console.log("sendEmail 102 dataManager Error");
-
         throw new Error("sendEmail 102 dataManager Error");
     }
     try {
+        console.log("adress", localHost + pathGetOtp + `?email=${email}`);
+
         const response = await fetch(localHost + pathGetOtp + `?email=${email}`, {
             method: 'GET',
             headers: {
@@ -201,11 +203,12 @@ export async function sendEmail(email) {
 
         if (!response.ok) {
             console.log("ERROR (% STR ", response);
-
             throw new Error('response not OK');
         }
+        const res = await response.json();
+        console.log("RES", res);
 
-        return await response.json();
+        return res;
     } catch (error) {
         console.log("ERROR", error);
 
