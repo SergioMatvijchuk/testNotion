@@ -4,13 +4,14 @@ import { useDispatch } from "react-redux";
 import { setUser, logout } from "../../reducers/userSlice";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import { continueWithGoogle, sendEmail, sendEmailAndCode } from "../../dataManager";
+import Cookies from 'js-cookie'
+
 
 export function Login(props) {
 
     /**прокинуть пропсами ссылки на картинки  */
-    const [state, setState] = useState(props);
     const [email, setEmail] = useState();
-    const [token, setToken] = useState();
     const [loginCode, setLoginCode] = useState();
     const user = useSelector((state) => state.user);
 
@@ -18,6 +19,9 @@ export function Login(props) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        cleanCookie();
+    }, []);
     const emailChange = (e) => {
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -33,75 +37,56 @@ export function Login(props) {
         setLoginCode(e.target.value)
     }
 
+    const cleanCookie = () => {
+        console.log("CLEAN COOKIE!");
+
+        Object.keys(Cookies.get()).forEach(cookieName => {
+            Cookies.remove(cookieName, { path: '/' });
+        });
+
+    }
     const handleAuthorisation = async () => {
+
+
         if (!email || !loginCode)
             return;
+        console.log("Authorisation in process");
 
-        const requestData = {
-            email: email,
-            code: loginCode,
-        };
 
         try {
-            const response = await fetch('http://localhost:5000/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestData),
-                credentials: 'include',
-            });
 
-
-            if (!response.ok) {
+            const data = await sendEmailAndCode(email, loginCode);
+            console.log("Login DATA!!!!!",data);
+            
+            if (data.status.code < 200 || data.status.code >= 300) {
                 throw new Error('response not OK');
             }
 
-            const data = await response.json();
-            console.log(data);
-            if (data.status === 'success') {
-                dispatch(setUser(data.user));
-                console.log('авторизация норм, куки впорядке.Навигируем.');
-                navigate('/');
-            }
+            dispatch(setUser(data.data));
+            console.log('авторизация норм, куки впорядке.Навигируем.');
+            navigate('/');
+
         } catch (error) {
             console.error(`Error ` + error);
         }
     }
 
 
-    const sendEmail = async () => {
+    const handleSendEmail = async () => {
         const mail = email;
-        const requestData = {
-            email: email,
-        };
+        if (!email)
+            return;
+        console.log("handleSendEmail in process");
+        const data = await sendEmail(mail)
 
-        try {
-            const response = await fetch(`https://localhost:7114/imgriff/auth?email=${mail}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-            });
+        // if (data.status.code === 200) {
+        //     console.log("handleSendEmail  OK ", data.status);
 
-            console.log(response);
+        // }
+        // else {
+        //     console.log("handleSendEmail NOT OK ", data.status);
 
-            if (!response.ok) {
-                throw new Error('response not OK');
-            }
-
-            const data = await response.json();
-            console.log(data);
-
-            if (data.status === 'success') {
-                dispatch(setUser(data.user));
-                console.log('авторизация норм, куки впорядке.Навигируем.');
-                navigate('/');
-            }
-        } catch (error) {
-            console.error(`Error ` + error);
-        }
+        // }
 
 
     }
@@ -109,9 +94,11 @@ export function Login(props) {
 
 
 
-    const continueWirhGoole = () => {
+    const handleContinueWithGoogle = async () => {
+        //кидается переадресация на логин с подтвержденным гуглом 
+        console.log("handleContinueWithGoogle");
+        await continueWithGoogle();
 
-        //     navigate("https://localhost:7114/imgriff/auth/login");  // Redirect to backend
     }
 
 
@@ -128,14 +115,14 @@ export function Login(props) {
             <div className="RegistrationBox">
                 <div>
                     <p>Log in</p>
-                    <a href="" onClick={continueWirhGoole}><img src={objState.google_icon} alt=""
+                    <a onClick={handleContinueWithGoogle}><img src={objState.google_icon} alt=""
                     />Continue with Google</a>
                     <hr />
                 </div>
                 <div>
                     <p>Email</p>
                     <input type="text" placeholder="Enter your email" onChange={emailChange} />
-                    <button onClick={sendEmail}>Check your inbox</button>
+                    <button onClick={handleSendEmail}>Check your inbox</button>
                 </div>
                 <div>
                     <p>Login code</p>

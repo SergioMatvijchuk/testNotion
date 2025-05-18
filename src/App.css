@@ -4,11 +4,15 @@
 }
 
 .App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  width: 100%;
-
+  width: 100vw;
   overflow: hidden;
   min-width: 250px;
+
+
 }
 
 .App-logo {
@@ -24,7 +28,6 @@
 
 .App-header {
   background-color: #282c34;
- 
   width: 100vw;
   display: flex;
   flex-direction: column;

@@ -15,11 +15,11 @@ export function Faq(props) {
             <div>
                 <p>FAQ</p>
                 <ul>
-                    <li><hr />What can your site be used for?</li>
-                    <li><hr />Can I use your site for work?</li>
-                    <li><hr />Is there a limit to the number of notes I can create?</li>
-                    <li><hr />Can I add images and attachments to my notes?</li>
-                    <li><hr />How secure is my data?</li>
+                    <li><hr />What can your site be used for?  <i className="fa-brands fa-codepen" aria-hidden="true">+</i></li>
+                    <li><hr />Can I use your site for work?  <i className="fa-brands fa-codepen" aria-hidden="true">+</i></li>
+                    <li><hr />Is there a limit to the number of notes I can create?  <i className="fa-brands fa-codepen" aria-hidden="true">+</i></li>
+                    <li><hr />Can I add images and attachments to my notes?  <i className="fa-brands fa-codepen" aria-hidden="true">+</i></li>
+                    <li><hr />How secure is my data?  <i className="fa-brands fa-codepen" aria-hidden="true">+</i></li>
                     <li><hr /></li>
                 </ul>
 

@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef , useEffect} from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 const ItemTypes = {
@@ -7,7 +7,11 @@ const ItemTypes = {
 // В Card.js
 export function Card({ card, index, moveCard, handleInputChange, listId, onExternalDrop }) {
     const ref = useRef(null);
-
+    useEffect(() => {
+        console.log("CARD" , card);
+        
+    
+    }, []);
     const [, drop] = useDrop({
         accept: ItemTypes.CARD,
         hover(item, monitor) {
@@ -56,7 +60,8 @@ export function Card({ card, index, moveCard, handleInputChange, listId, onExter
         <textarea
             ref={ref}
             className={`cardBox  scrollableVertical ${isDragging ? 'dragging' : ''}`}
-            value={card.value}
+            value={card.title}
+            title={card.title}
             onChange={(e) => handleInputChange(e, index)}
             placeholder="Card_name"
         />

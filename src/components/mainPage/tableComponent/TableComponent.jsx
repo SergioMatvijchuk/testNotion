@@ -1,12 +1,11 @@
 import './TableComponent.css';
 import { useState } from 'react';
 
-
-
-
-export function TableComponent({ cardName }) {
-    const [inputNameBoard, setInputNameBoard] = useState(cardName);
-
+export function TableComponent(state) {
+    console.log(state);
+    const [inputNameBoard, setInputNameBoard] = useState(state.data.title);
+    
+    
     const path = 'img/mainPage/icons/'
     const staticImage = {
         iconPlus: 'iconPlus2',
@@ -90,10 +89,7 @@ export function TableComponent({ cardName }) {
                 <table>
                     <thead>
                         <tr>
-                            {/* Например, можно добавить заголовки столбцов */}
-                            <th>Header 1</th>
-                            <th>Header 2</th>
-                            {/* и так далее */}
+                     
                         </tr>
                     </thead>
                     <tbody>

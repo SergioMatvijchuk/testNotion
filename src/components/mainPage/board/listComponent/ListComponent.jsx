@@ -1,6 +1,6 @@
 import './ListComponent.css'
 import { Card } from './cardComponent/CardComponent';
-import { use, useState, React, useRef } from 'react'
+import { use, useState, React, useRef, useEffect } from 'react'
 import { useDrag, useDrop } from 'react-dnd';
 
 const staticImage = {
@@ -14,20 +14,24 @@ const ItemTypes = {
 };
 
 
-export function ListComponent({ listId, cards, updateList, moveCardBetweenLists, addNewList }) {
+export function ListComponent({ listId, cards, updateList, moveCardBetweenLists, addNewList, title }) {
     const [isInputName, setIsInputName] = useState(false);
-    const [inputName, setInputName] = useState('');
+    const [inputName, setInputName] = useState(title ?? '');
+    useEffect(() => {
+        if (title)
+            setIsInputName(true);
+    }, []);
     // add new card to list
     const addCard = () => {
         // Используем Date.now() для уникального id
-        const newCard = { id: Date.now(), value: '' };
+        const newCard = { id: `temp_${Date.now()}`, title: '' };
         updateList(listId, { cards: [...cards, newCard] });
     };
 
     // Обработка изменения текста карточки
     const handleInputChange = (e, index) => {
         const newCards = [...cards];
-        newCards[index].value = e.target.value;
+        newCards[index].title = e.target.value;
         updateList(listId, { cards: newCards });
     };
 
@@ -52,28 +56,34 @@ export function ListComponent({ listId, cards, updateList, moveCardBetweenLists,
     });
 
     const clickHandle = () => {
-        addNewList();
+        addNewList(inputName, listId);
         setIsInputName(true);
     }
 
     return (
         <div ref={drop} className="listComponentBox">
-            {isInputName === true ? (
-                <><input type="text" value={inputName} onChange={(e) => setInputName(e.target.value)} className='nameListComponentCreated' />
-
-                    {cards.map((card, index) => (
-                        <Card
-                            key={card.id}
-                            index={index}
-                            card={card}
-                            moveCard={moveCard}
-                            handleInputChange={handleInputChange}
-                            listId={listId}
-                            onExternalDrop={(card, sourceListId, destListId, dropIndex) => {
-                                moveCardBetweenLists(card, sourceListId, destListId, dropIndex);
-                            }}
-                        />
-                    ))}
+            {isInputName ? (
+                <><input
+                    type="text"
+                    value={inputName}
+                    onChange={(e) => setInputName(e.target.value)}
+                    className='nameListComponentCreated' />
+                    {cards.length === 0 ? (
+                        <p>No cards yet</p>
+                    ) :
+                        (cards.map((card, index) => (
+                            <Card
+                                key={card.id}
+                                index={index}
+                                card={card}
+                                moveCard={moveCard}
+                                handleInputChange={handleInputChange}
+                                listId={listId}
+                                onExternalDrop={(card, sourceListId, destListId, dropIndex) => {
+                                    moveCardBetweenLists(card, sourceListId, destListId, dropIndex);
+                                }}
+                            />
+                        )))}
                     <button onClick={addCard}>Add Card</button>
                 </>
             ) : (

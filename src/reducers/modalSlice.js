@@ -14,7 +14,7 @@ const modalSlice = createSlice({
         openModal(state, action) {
             state.isModalOpen = true;
             state.modalData = action.payload; // данные передаваемые при открытии
-        
+
         },
         closeModal(state) {
             state.isModalOpen = false;
@@ -35,7 +35,7 @@ const modalSlice = createSlice({
         },
         setModalNumber(state, action) {
             if (state.modalData) {
-                state.modalData.number = action.payload
+                state.modalData.number = action.payload;
             }
         },
         setModalColor(state, action) {

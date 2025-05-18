@@ -264,12 +264,16 @@
     color: rgba(255, 255, 255);
     opacity: 0.6;
     transition: 0.3s ease-in-out;
-
+   
     &:hover {
         opacity: 1;
         border-radius: 10px;
         background: #2E2E2E;
     }
+}
+
+.gallery_card_property input{
+  width: 100%;
 }
 
 
