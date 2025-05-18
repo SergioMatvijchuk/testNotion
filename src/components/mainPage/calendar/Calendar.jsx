@@ -78,6 +78,20 @@ export function Calendar(state) {
 
 
         return () => {
+            const c = lastCardsRef.current;
+            const p = lastPageRef.current;
+            p.content = c
+                .filter(item => item.date || item.planedDate)
+                .map(item => ({
+                    ...item,
+                    id: item.id?.includes("temp_") ? null : item.id
+                }));
+
+            console.log("P", p);
+            console.log("state", state);
+
+            putChangesOfPage(p);
+            updateLeftMenu();
             console.log("Exit from Componjent");
         }
     }, [])
@@ -120,25 +134,39 @@ export function Calendar(state) {
     }
 
     const handleAddNote = ({ date, id }) => {
-        handleCardClick(`Day ${date}`, id, date);
+        const shortDate = new Date(date).toISOString().split('T')[0];
+        handleCardClick(`Day ${shortDate}`, id, date);
     }
 
-    
+
 
 
     useEffect(() => {
         if (!modalData) return;
-        console.log(modalData);
+        console.log("modal Object", modalData);
 
+        const card = {
+            id: modalData.id,
+            title: modalData.cardName || '',
+            date: new Date(modalData.date).toISOString().split('T')[0],
+            planedDate: new Date(modalData.date).toISOString().split('T')[0],
+            description: modalData.description || '',
+            number: modalData.number || '',
+            files: modalData.files || [],
+            color: modalData.color || '#3788d8',
+        }
 
-
-
+        const index = cards.findIndex(item => item.id === card.id);
+        if (index !== -1) {
+            const updatedCards = [...cards];
+            updatedCards[index] = card;
+            setCards(updatedCards);
+        }
+        else {
+            setCards([...cards, card])
+        }
 
     }, [modalData]);
-
-
-
-
 
 
 
@@ -184,8 +212,8 @@ export function Calendar(state) {
                             id: info.event.id,
                             date: info.event.start.toISOString(),
                             description: description || '',
-                            number: info.event.number || '',
-                            color: info.event.color,
+                            number: info.event.extendedProps.number || '',
+                            color: info.event.extendedProps.color || info.event.backgroundColor || '#3788d8',
                             files: files || [],
                         }));
 
