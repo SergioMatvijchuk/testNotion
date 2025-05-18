@@ -1,6 +1,7 @@
 import './Gallery.css';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { GalleryCard } from './galleryCard/GalleryCard';
+import { updateModalData } from '../../../reducers/modalSlice';
 const staticImage = {
   imageSimple: 'img/mainPage/gallery/1729314189.jpg',
   iconPlus: 'img/mainPage/icons/iconPlus3.svg',
@@ -19,8 +20,8 @@ export function Gallery(state) {
     type: state.data.type,
     content: state.data.content
   }
-  const [inputNameBoard, setInputNameBoard] = useState(pageProps.title);
-  const [inputNewImageCard, setInputNewImageCard] = useState([]);
+
+  const [inputTitle, setInputTitle] = useState(pageProps.title); // название галереи
   const [page, setPage] = useState({});
   const [cards, setCards] = useState([]);
   const lastPageRef = useRef({});
@@ -39,42 +40,76 @@ export function Gallery(state) {
     setPage(initialPage);
     lastPageRef.current = initialPage;
     setCards(initialPage.content);
-    lastPageRef.current = initialPage.cards;
-
+    lastCardsRef.current = initialPage.cards;
 
 
     return () => {
       console.log("Exit from Component!");
+      console.log(cards);
 
     };
   }, []);
 
+  useEffect(() => {
+    setPage(prev => ({
+      ...prev, title: inputTitle
+    }));
+  }, [inputTitle]);
+
+  useEffect(() => {
+    lastPageRef.current = page;
+  }, [page]);
+
+  useEffect(() => {
+    lastCardsRef.current = cards;
+  }, [cards]);
 
 
-  const addnewGalleryCard = () => {
-    setInputNewImageCard((inputNewImageCard) =>
-      [...inputNewImageCard,
-      <GalleryCard key={inputNewImageCard.length} staticImage={staticImage} id={`card${inputNewImageCard?.length || 0}`} />
-      ]);
+
+  /** */
+
+
+
+
+  const addNewCard = () => {
+    const newCard = {
+      "id": null,
+      "title": "123",
+      "description": "123",
+      "color": "#ffffff",
+      "number": "123",
+      "planedDate": new Date().toISOString(),
+      "files": [staticImage.imageSimple]
+    }
+    setCards([...cards, newCard]);
+    console.log("cards", cards);
+
   }
 
 
 
   return (
     <div className='galleryBox'>
-
       <div>
-        <input type='text' className='inputName' value={inputNameBoard} onChange={(e) => {
-          setInputNameBoard(e.target.value);
+        <input type='text' className='inputName' value={inputTitle} onChange={(e) => {
+          setInputTitle(e.target.value);
         }
         } />
-
         <hr />
       </div>
 
       <div className="boxForGalleryImages scrollable">
-        {inputNewImageCard}
-        <div className='addNewImageToGallery' onClick={addnewGalleryCard}>
+        {cards.map((card, index) => (
+          <GalleryCard
+            key={index}
+            staticImage={staticImage}
+            card={card}
+            setCards={setCards}
+          />
+        ))}
+
+
+        <div className='addNewImageToGallery' onClick={addNewCard}>
           <img src={staticImage.iconPlus} alt="Plus" />
           <p> New</p>
         </div>
@@ -84,56 +119,3 @@ export function Gallery(state) {
     </div>);
 
 }
-
-
-
-/**import './Gallery.css';
-import { useState } from 'react';
-import { GalleryCard } from './galleryCard/GalleryCard';
-
-const staticImage = {
-  imageSimple: 'img/mainPage/gallery/1729314189.jpg',
-  iconPlus: 'img/mainPage/icons/iconPlus3.svg',
-  iconClose: 'img/mainPage/icons/iconClose.svg',
-};
-
-export function Gallery({ cardName }) {
-  const [inputNameBoard, setInputNameBoard] = useState(cardName);
-  const [cards, setCards] = useState([]);
-
-  const addNewGalleryCard = () => {
-    setCards(prev => [
-      ...prev,
-      {
-        id: `card${prev.length}`,
-        image: staticImage,
-      },
-    ]);
-  };
-
-  return (
-    <div className='galleryBox'>
-      <div>
-        <input
-          type='text'
-          className='inputName'
-          value={inputNameBoard}
-          onChange={(e) => setInputNameBoard(e.target.value)}
-        />
-        <hr />
-      </div>
-
-      <div className="boxForGalleryImages scrollable">
-        {cards.map((card, index) => (
-          <GalleryCard key={card.id} staticImage={card.image} id={card.id} />
-        ))}
-
-        <div className='addNewImageToGallery' onClick={addNewGalleryCard}>
-          <img src={staticImage.iconPlus} alt="Plus" />
-          <p>New</p>
-        </div>
-      </div>
-    </div>
-  );
-}
- */

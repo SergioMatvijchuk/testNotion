@@ -135,7 +135,7 @@ export default function ModalWindow() {
             ...prevState, cardName: e.target.value,
         }));
         console.log(formData);
-        
+
         dispatch(setModalDescription(e.target.value));
     }
 
@@ -159,6 +159,8 @@ export default function ModalWindow() {
             ...prevState, number: e.target.value,
         }));
         dispatch(setModalNumber(e.target.value));
+        console.log("Modal , number", e.target.value);
+
 
         setShowPicker(false);
     }

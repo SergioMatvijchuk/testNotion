@@ -116,6 +116,7 @@ export function Calendar(state) {
             description: card.description,
             calendarId: card.calendarId,
             files: card.files,
+            number: card.number,
         }));
         setEvents(eventsToCalendar);
         lastCardsRef.current = cards;
@@ -212,7 +213,7 @@ export function Calendar(state) {
                             id: info.event.id,
                             date: info.event.start.toISOString(),
                             description: description || '',
-                            number: info.event.extendedProps.number || '',
+                            number: info.event.extendedProps.number || info.event.number || '',
                             color: info.event.extendedProps.color || info.event.backgroundColor || '#3788d8',
                             files: files || [],
                         }));

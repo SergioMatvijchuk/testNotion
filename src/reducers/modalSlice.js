@@ -35,7 +35,7 @@ const modalSlice = createSlice({
         },
         setModalNumber(state, action) {
             if (state.modalData) {
-                state.modalData.number = action.payload
+                state.modalData.number = action.payload;
             }
         },
         setModalColor(state, action) {
