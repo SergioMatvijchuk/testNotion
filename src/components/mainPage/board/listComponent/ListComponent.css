@@ -123,3 +123,133 @@
     /* Применяем динамическую величину для translateY */
     transition: transform 0.2s ease;
 }
+
+
+
+
+@media(max-width: 768px) {
+    .listComponentBox {
+        align-items: center;
+        background: #1E1E1E;
+        border-radius: 6px;
+        box-sizing: border-box;
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 10px;
+        margin-top: 20px;
+        min-width: 60vw;
+        padding: 15px 10px;
+        overflow: auto;
+
+    }
+
+    .nameListComponent {
+        align-items: center;
+        background: transparent;
+        border: 1px solid #434BF3;
+        border-radius: 6px;
+        box-sizing: border-box;
+        color: #D9D9D9;
+        display: flex;
+        flex: none;
+        flex-direction: row;
+        flex-grow: 0;
+        font-family: 'Jost';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        gap: 7px;
+        height: 33px;
+        line-height: 20px;
+        order: 0;
+        outline: none;
+        padding: 0px 13px;
+        user-select: none;
+        width: 95%;
+
+    }
+
+    .nameListComponent::placeholder {
+        color: #505050;
+    }
+
+    .nameListComponentCreated {
+
+        align-items: center;
+        background: transparent;
+        border: none;
+        border-radius: 6px;
+        box-sizing: border-box;
+        color: #D9D9D9;
+        display: flex;
+        flex: none;
+        flex-direction: row;
+        flex-grow: 0;
+        font-family: 'Jost';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        gap: 7px;
+        height: 33px;
+        line-height: 20px;
+        order: 0;
+        outline: none;
+        padding: 0px 13px;
+        user-select: none;
+        width: 95%;
+
+    }
+
+    .listComponentBox>button {
+        align-items: center;
+        background: transparent;
+        border: 1px solid #BCBCBC;
+        border-radius: 6px;
+        box-sizing: border-box;
+        color: #D9D9D9;
+        display: flex;
+        flex: none;
+        flex-direction: row;
+        flex-grow: 0;
+        gap: 7px;
+        height: 33px;
+        order: 1;
+        padding: 0px 13px 0px 15px;
+        width: 95%;
+
+    }
+
+    .listComponentBox>button>img {
+        height: 18px;
+        width: 18px;
+    }
+
+    .cardBox {
+        background: #2E2E2E;
+        border-radius: 6px;
+        padding: 10px;
+        font-family: 'Jost';
+        font-size: 14px;
+        color: #BCBCBC;
+        resize: none;
+        width: 100%;
+        height: 6vh;
+        min-height: 6vh;
+        overflow: auto;
+
+        &:focus {
+            border: 1px solid #434BF3;
+            outline: none;
+        }
+    }
+
+
+    .list-item.dragging {
+        opacity: 0.7;
+        transform: scale(1.05) translateY(var(--dragging-translate-y, -5px));
+        /* Применяем динамическую величину для translateY */
+        transition: transform 0.2s ease;
+    }
+}

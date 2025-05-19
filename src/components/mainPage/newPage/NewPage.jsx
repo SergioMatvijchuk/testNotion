@@ -1,5 +1,5 @@
 import './NewPage.css';
-import { useState } from 'react';
+import { useState , useEffect } from 'react';
 import { Board } from '../board/Board';
 import { Gallery } from '../gallery/Gallery';
 import { Calendar } from '../calendar/Calendar';
@@ -41,7 +41,10 @@ export function NewPage(state) {
     Gallery: 'Gallery',
 
   };
+  useEffect(() => {
+    console.log("New Page", state);
 
+  }, []);
   const typePages = {
     Board: (data) => <Board data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
     Empty: (data) => <EmptyPage data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,

@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom';
 import './MainMenu.css';
 import { Board } from '../board/Board.jsx'; // Импортируй Board
 import { NewPage } from '../newPage/NewPage.jsx'; // Импортируй NewPage
-
 import { useEffect, useState } from 'react';
 import React from 'react';
 import { getAllPages, getPageBySlug } from '../../../dataManager.js';
@@ -11,6 +10,8 @@ import { Calendar } from '../calendar/Calendar.jsx';
 import { ListComponent } from '../listComponent/ListComponent.jsx';
 import { Gallery } from '../gallery/Gallery.jsx';
 import { TableComponent } from '../tableComponent/TableComponent.jsx';
+import { useDevice } from '../../../deviceProvider.js';
+
 
 export function MainMenu(state) {
 
@@ -18,6 +19,14 @@ export function MainMenu(state) {
     const pagesInLeftMenu = state.pagesInLeftMenu;
     const setPagesInLeftMenu = state.setPagesInLeftMenu;
     const updateLeftMenu = state.updateLeftMenu;
+
+    const { isMobile, isDesktop } = useDevice();
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+    }
+
+
     useEffect(() => {
         console.log("main menu + update left menu", pagesInLeftMenu);
 
@@ -66,12 +75,13 @@ export function MainMenu(state) {
 
     const handleSetnewPageComponent = async () => {
 
-        setComponent(<NewPage setComponent={setComponent} setPagesInLeftMenu={setPagesInLeftMenu} />);
+        setComponent(<NewPage setComponent={setComponent} setPagesInLeftMenu={setPagesInLeftMenu} updateLeftMenu={updateLeftMenu} />);
 
     }
 
     return (
         <div className='mainMenu'>
+
             <aside >
                 <div className='sideBarFirstBlock'>
                     <img src={staticImages.iconImgriff} alt="imgriff_icon" />

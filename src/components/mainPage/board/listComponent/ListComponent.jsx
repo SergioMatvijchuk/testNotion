@@ -68,9 +68,7 @@ export function ListComponent({ listId, cards, updateList, moveCardBetweenLists,
                     value={inputName}
                     onChange={(e) => setInputName(e.target.value)}
                     className='nameListComponentCreated' />
-                    {cards.length === 0 ? (
-                        <p>No cards yet</p>
-                    ) :
+                    {
                         (cards.map((card, index) => (
                             <Card
                                 key={card.id}

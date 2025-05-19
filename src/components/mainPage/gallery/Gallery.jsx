@@ -2,6 +2,9 @@ import './Gallery.css';
 import { useRef, useState, useEffect } from 'react';
 import { GalleryCard } from './galleryCard/GalleryCard';
 import { updateModalData } from '../../../reducers/modalSlice';
+import { putChangesOfPage } from '../../../dataManager';
+
+
 const staticImage = {
   imageSimple: 'img/mainPage/gallery/1729314189.jpg',
   iconPlus: 'img/mainPage/icons/iconPlus3.svg',
@@ -26,9 +29,11 @@ export function Gallery(state) {
   const [cards, setCards] = useState([]);
   const lastPageRef = useRef({});
   const lastCardsRef = useRef([]);
-
+  const updateLeftMenu = state.updateLeftMenu;
 
   useEffect(() => {
+    console.log("State", state);
+
     const initialPage = {
       "title": pageProps.title,
       "banner": pageProps.banner,
@@ -45,7 +50,24 @@ export function Gallery(state) {
 
     return () => {
       console.log("Exit from Component!");
-      console.log(cards);
+
+
+
+      const p = {
+        "title": lastPageRef.current.title,
+        "banner": lastPageRef.current.banner,
+        "icon": lastPageRef.current.icon,
+        "type": lastPageRef.current.type,
+        "content": lastCardsRef.current.map(item => ({
+          ...item,
+          id: item.id?.includes("temp_") ? null : item.id
+        })),
+        "slug": lastPageRef.current.slug
+      };
+
+
+      putChangesOfPage(p);
+      updateLeftMenu();
 
     };
   }, []);
@@ -73,17 +95,16 @@ export function Gallery(state) {
 
   const addNewCard = () => {
     const newCard = {
-      "id": null,
+      "id": `temp_${crypto.randomUUID()}`,
       "title": "123",
       "description": "123",
       "color": "#ffffff",
       "number": "123",
-      "planedDate": new Date().toISOString(),
-      "files": [staticImage.imageSimple]
+      "date": new Date().toISOString(),
+      "url": staticImage.imageSimple
     }
-    setCards([...cards, newCard]);
+    setCards(prevCards => [...prevCards, newCard]);
     console.log("cards", cards);
-
   }
 
 

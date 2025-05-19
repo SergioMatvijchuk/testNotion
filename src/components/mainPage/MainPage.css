@@ -45,9 +45,6 @@
     align-items: center;
     background-color: #0000009f;
 
-    /* Добавлено */
-
-
 }
 
 
@@ -131,11 +128,46 @@
     transition: opacity 300ms ease-in-out;
 }
 
-
-
 .contentWrapper {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+
+@media (max-width: 768px) {
+    html{
+        overflow-y: hidden;
+    }
+
+    .mainPage>:nth-child(1) {
+        width: 5px !important;
+        min-width: 0px;
+        display: flex;
+        max-width: 5px;
+        background: transparent;
+    }
+
+
+    .mainPage>:nth-child(2)>:nth-child(1) {
+        width: 100%;
+        height: 35vh;
+    }
+
+    .mainContent {
+        width: 100%;
+        min-height: 55vh;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        background-color: #0000009f;
+        margin: 0;
+        padding: 1%;
+    }
+
+
+
+
 }

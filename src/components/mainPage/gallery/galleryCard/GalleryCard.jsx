@@ -15,25 +15,26 @@ export function GalleryCard(state) {
         id: state.card?.id,
         color: state.card.color,
         description: state.card.description,
-        planedDate: state.card.planedDate,
-        files: state.card.files,
+        date: state.card.date,
+        url: state.card.url,
         number: state.card.number,
         title: state.card.title,
     }
-    // useEffect(() => {
-    //     setCards(card);
-    // }, [card]);
+
+    useEffect(() => {
+        setCards(prevCards => prevCards.map(c => c.id === card.id ? card : c));
+    }, [card]);
 
 
 
     useEffect(() => {
-        console.log("STATE", state);
+        console.log("STATE Card", state);
         const initialPage = {
             id: pageProps.id || `temp_` + crypto.randomUUID(),
             color: pageProps.color,
             description: pageProps.description,
-            planedDate: pageProps.planedDate,
-            files: pageProps.files || [],
+            date: pageProps.date,
+            url: pageProps.url,
             number: pageProps.number,
             title: pageProps.title,
         }
@@ -51,15 +52,13 @@ export function GalleryCard(state) {
                 id: modalData.id,
                 color: modalData.color,
                 description: modalData.description,
-                planedDate: modalData.date,
+                date: modalData.date,
                 number: modalData.number,
                 title: modalData.cardName,
-                files: modalData.files,
+                url: modalData.files,
             }
             setCard(card);
         }
-
-
 
     }, [modalData]);
 
@@ -68,13 +67,12 @@ export function GalleryCard(state) {
         dispatch(openModal({
             cardName: card.title, //вернуть в title
             id: card.id,
-            date: card.planedDate,
+            date: card.date,
             description: card.description,
             number: card.number,
             color: card.color,
-            files: pageProps.files || [],
+            files: card.url,
         }));
-
 
     }
 
@@ -82,7 +80,7 @@ export function GalleryCard(state) {
 
         <>
             <div onClick={handleCardClick}>
-                <img src={card.files?.[0]} alt="image" />
+                <img src={card.url} alt="image" />
                 <p>{card.title}</p>
             </div>
         </>
