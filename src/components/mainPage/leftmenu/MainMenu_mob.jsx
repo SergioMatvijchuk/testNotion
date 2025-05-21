@@ -20,15 +20,11 @@ export function MainMenu(state) {
     const updateLeftMenu = state.updateLeftMenu;
     const { isMobile, isDesktop } = useDevice();
     const [isOpen, setIsOpen] = useState(false);
+
     const toggleMenu = () => {
-        setIsOpen(!isOpen);
+        console.log("ISOPEN???????????", isOpen);
+        setIsOpen(false);
     }
-
-
-    useEffect(() => {
-        console.log("main menu + update left menu", pagesInLeftMenu);
-
-    }, [pagesInLeftMenu]);
 
     /**работа с иконкаим */
     const pathImg = 'img/mainPage/';
@@ -72,45 +68,53 @@ export function MainMenu(state) {
     }
 
     const handleSetnewPageComponent = async () => {
-
+        toggleMenu();
         setComponent(<NewPage setComponent={setComponent} setPagesInLeftMenu={setPagesInLeftMenu} updateLeftMenu={updateLeftMenu} />);
+
 
     }
 
     return (<>
-        {isMobile && (<Menu left>
-            <div className='menuContainer'>
-                <div className='menuContainerPart1'>
-                    <img src={staticImages.iconImgriff} alt="imgriff_icon" />
-                    <ul>
-                        <li><img src={staticImages.iconSearch} alt="search" />Search...<hr /></li>
+        {isMobile && (
+            <Menu
+                left
+                isOpen={isOpen}
+                onStateChange={({ isOpen }) => setIsOpen(isOpen)}
+            >
+                <div className='menuContainer'>
+                    <div className='menuContainerPart1'>
+                        <img src={staticImages.iconImgriff} alt="imgriff_icon" />
+                        <ul>
+                            <li onClick={toggleMenu}><img src={staticImages.iconSearch} alt="search" />Search...<hr /></li>
+                            <li onClick={handleSetnewPageComponent}><img src={staticImages.iconPlus} alt="plus" />New Page</li>
+                        </ul>
+                    </div>
+                    <div className='menuContainerPart2'> <ul>
+                        {pagesInLeftMenu?.length ? (
+                            pagesInLeftMenu.map((page) => (
+                                <li key={page.id} onClick={() => {
+                                    handleGetPageBySlug(page.slug);
+                                    toggleMenu();
+                                }}>
+                                    <img src={staticImages.iconPlus} alt="page" />{page.title}
+                                </li>
+                            ))
 
-                        <li onClick={handleSetnewPageComponent}><img src={staticImages.iconPlus} alt="plus" />New Page</li>
-                    </ul>
+                        ) : (
+                            <li>Нет страниц</li>
+                        )}
+
+
+                    </ul></div>
+                    <div className='menuContainerPart3'>  <ul>
+                        <li><img src={staticImages.iconSettings} alt="settings" />Settings</li>
+                        <li><img src={staticImages.iconTrasch} alt="trash" />Trash</li>
+                    </ul></div>
+
                 </div>
-                <div className='menuContainerPart2'> <ul>
-                    {pagesInLeftMenu?.length ? (
-                        pagesInLeftMenu.map((page) => (
-                            <li key={page.id} onClick={() => handleGetPageBySlug(page.slug)}>
-                                <img src={staticImages.iconPlus} alt="page" />{page.title}
-                            </li>
-                        ))
-
-                    ) : (
-                        <li>Нет страниц</li>
-                    )}
 
 
-                </ul></div>
-                <div className='menuContainerPart3'>  <ul>
-                    <li><img src={staticImages.iconSettings} alt="settings" />Settings</li>
-                    <li><img src={staticImages.iconTrasch} alt="trash" />Trash</li>
-                </ul></div>
-
-            </div>
-
-
-        </Menu>
+            </Menu>
         )}
 
 
