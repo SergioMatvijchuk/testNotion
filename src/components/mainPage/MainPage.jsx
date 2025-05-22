@@ -1,15 +1,28 @@
 import './MainPage.css';
-import { MainMenu } from './leftmenu/MainMenu.jsx';
+import { MainMenu } from './leftmenu/MainMenu_mob.jsx';
 import { BannerUp } from './banner/BannerUp.jsx';
 import { useState, useEffect, useCallback } from 'react';
 import StartPage from './startPAge/StartPage.jsx';
 import { useSelector } from 'react-redux';
 import { getAllPages } from '../../dataManager.js';
+import { useDevice } from '../../deviceProvider.js';
+
 
 export function MainPage() {
     const [fading, setFading] = useState(false);
     const user = useSelector((state) => state.user);
     const [pagesInLeftMenu, setPagesInLeftMenu] = useState(null);
+
+    const { isMobile, isDesktop } = useDevice();
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+    }
+
+
+
+
+
     const setComponent = useCallback((component) => {
         setFading(true);
         setTimeout(() => {

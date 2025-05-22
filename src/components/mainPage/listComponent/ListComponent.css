@@ -6,6 +6,8 @@
     flex-direction: column;
     /* overflow: auto; */
 
+
+
 }
 
 .listComponent>:nth-child(1) {
@@ -176,4 +178,29 @@
 .listComponent input:focus {
     border: 2px solid #434BF3;
     outline: none;
+}
+
+
+@media(max-width: 768px) {
+    .listComponent {
+        width: 100%;
+        max-width: 100vw;
+        height: 70vh;
+        max-height: 100%;
+        flex-direction: column;
+        overflow: auto;
+        /* overflow: hidden; */
+        box-sizing: border-box;
+
+    }
+
+    .listComponent>:nth-child(1) {
+        height: 15%;
+        width: 100%;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+    }
+
+
 }

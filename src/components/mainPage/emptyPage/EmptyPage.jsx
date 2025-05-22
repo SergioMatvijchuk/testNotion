@@ -51,8 +51,6 @@ export function EmptyPage(state) {
 
     useEffect(() => {
         return async () => {
-            console.log("Exit from Empty component");
-
             await putChangesOfPage(lastPageRef.current);
             await updateLeftMenu();
         };

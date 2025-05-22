@@ -198,10 +198,6 @@
 
 
 
-
-
-
-
 /*Day cards*/
 .cardContainer {
     display: flex;
@@ -218,3 +214,4 @@
     min-width: 100px;
     text-align: center;
 }
+
