@@ -6,7 +6,7 @@ const pagestypes = ['empty', 'board', 'list', 'calendur', 'table', 'galllery', '
 //const localHost = 'https://26.211.160.167:7114'
 
 //const localHost = 'https://10.0.2.4';
-const localHost = `notion-backend-bwaahqdgcybafrfy.northeurope-01.azurewebsites.net`;
+const localHost = `https://notion-backend-bwaahqdgcybafrfy.northeurope-01.azurewebsites.net`;
 console.log("HiH");
 
 
