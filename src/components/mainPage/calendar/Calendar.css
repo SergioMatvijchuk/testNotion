@@ -215,3 +215,20 @@
     text-align: center;
 }
 
+
+@media(max-width: 768px) {
+    .inputName {
+        font-size: 18px !important;
+
+    }
+
+    .fc-toolbar-title {
+        font-size: 18px !important;
+
+    }
+
+    .fc .fc-col-header-cell-cushion {
+        display: revert !important;
+    }
+
+}

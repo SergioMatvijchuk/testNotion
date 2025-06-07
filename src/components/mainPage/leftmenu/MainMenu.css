@@ -333,3 +333,22 @@
 .menuContainerPart3>ul>li>img {
     margin-right: 15px;
 }
+
+.title-class {
+
+    position: relative;
+
+
+    &:hover::after {
+        content: attr(title);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #333;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        z-index: 100;
+        /*  Для отображения над другими элементами */
+    }
+}

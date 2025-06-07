@@ -12,16 +12,11 @@ export function MainPage() {
     const [fading, setFading] = useState(false);
     const user = useSelector((state) => state.user);
     const [pagesInLeftMenu, setPagesInLeftMenu] = useState(null);
-
     const { isMobile, isDesktop } = useDevice();
     const [isOpen, setIsOpen] = useState(false);
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     }
-
-
-
-
 
     const setComponent = useCallback((component) => {
         setFading(true);

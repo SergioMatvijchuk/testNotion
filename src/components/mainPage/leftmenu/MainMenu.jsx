@@ -94,14 +94,17 @@ export function MainMenu(state) {
                     </div>
                 </div>
                 <hr />
-                <div className='sideBarSecondBlock'>
+                <div className='sideBarSecondBlock '>
                     <div>
                         <ul>
                             {pagesInLeftMenu ? (
                                 pagesInLeftMenu.map((page) => (
 
                                     <li key={page.id} >
-                                        <a onClick={() => handleGetPageBySlug(page.slug)}><img src={staticImages.iconPlus} />{page.title}</a>
+                                        <a onClick={() => handleGetPageBySlug(page.slug)} title={page.title}>
+                                            <img src={staticImages.iconPlus} />
+                                            {page.title.length > 20 ? page.title.slice(0, 20) + '…' : page.title}
+                                        </a>
                                     </li>
                                 ))
                             ) : (

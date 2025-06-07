@@ -1,5 +1,5 @@
 import './NewPage.css';
-import { useState , useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Board } from '../board/Board';
 import { Gallery } from '../gallery/Gallery';
 import { Calendar } from '../calendar/Calendar';
@@ -62,6 +62,8 @@ export function NewPage(state) {
 
   const handleCreateNewPage = async (type, iconUrl) => {
     const page = await createNewPage(name, type, staticBanner, iconUrl);
+    console.log("PAGE", page);
+
     const response = await getAllPages(); //получаем все страницы 
     await setPagesInLeftMenu(response.data);  //обновляем левое меню
     //render new Component

@@ -1,8 +1,4 @@
 import {
-    getEmptyPagesFromLocalStorage,
-    setEmptyPagesToLoclStorage,
-    updateEmptyPageInLocalStorage,
-    deleteEmptyPageFromLocalStorage,
     putChangesOfPage
 } from '../../../dataManager';
 import './EmptyPage.css';
@@ -11,7 +7,7 @@ import { useEffect, useState, useRef } from 'react';
 
 export function EmptyPage(state) {
     const pageProps = {
-        setComponent: state.data.setComponent,
+        setComponent: state.data.setComponent || "null",
         banner: state.data.banner,
         icon: state.data.icon,
         id: state.data.id,
@@ -28,7 +24,7 @@ export function EmptyPage(state) {
 
 
     useEffect(() => {
-        console.log("Entry to  Empty component");
+        console.log("Entry to  Empty component", state);
         const initialPage = {
             "title": pageProps.title,
             "banner": pageProps.banner,
@@ -50,6 +46,8 @@ export function EmptyPage(state) {
 
 
     useEffect(() => {
+        console.log("State", state);
+
         return async () => {
             await putChangesOfPage(lastPageRef.current);
             await updateLeftMenu();
