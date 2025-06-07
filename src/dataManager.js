@@ -156,7 +156,7 @@ export const putChangesOfPage = async (page) => {
                 "Authorization": `Bearer ${token}`,
                 
             },
-            credentials: 'include',
+            credentials: 'includec',
             body: formData
         });
 
