@@ -24,7 +24,7 @@ Object.entries(staticImage).forEach(([key, value]) => {
 
 
 export function Calendar(state) {
-    console.log("state", state);
+
     const { setComponent, updateLeftMenu } = state;
     const [cards, setCards] = useState([]); // карточки , которые загружаются из БД массивом - content.internalContent []
     const [events, setEvents] = useState([]);  //ивенты которые идут в календарь
@@ -84,8 +84,12 @@ export function Calendar(state) {
                 .filter(item => item.date || item.planedDate)
                 .map(item => ({
                     ...item,
-                    id: item.id?.includes("temp_") ? null : item.id
+                    id: item.id?.includes("temp_") ? null : item.id,
+                    files: Array.isArray(item.files)
+                        ? item.files.map(file => ({ uploadedFile: file }))
+                        : []
                 }));
+
 
             console.log("P", p);
             console.log("state", state);
@@ -130,7 +134,9 @@ export function Calendar(state) {
             date: date,
             description: description,
             number: number,
-            color: color
+            color: color,
+
+
         }));
     }
 

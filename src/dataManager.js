@@ -69,47 +69,105 @@ export const getPageBySlug = async (slug) => {
     }
 }
 
+// export const putChangesOfPage = async (page) => {
+
+//     console.log("Page", page);
+
+
+//     try {
+//         const token = getTokenFromUser();
+//         const body = {
+//             "title": page.title,
+//             "banner": page.banner,
+//             "icon": page.icon,
+//             "type": page.type,
+//             "content":
+//                 page.type === "Empty" ? {
+//                     "text": page.content?.text || null,
+//                 } :
+//                     {
+//                         "title": page.title,
+//                         "internalContent": page.content,
+//                     },
+//             "slug": page.slug,
+//         };
+//         console.log("BOOOOODY POSITIV", body);
+
+//         const response = await fetch(localHost + pathMethodPut,
+//             {
+//                 method: "PUT",
+//                 headers: {
+//                     "Authorization": `Bearer ${token}`,
+//                     "Content-type": "application/json ; charset=UTF-8"
+//                 },
+//                 credentials: 'include',
+//                 body: JSON.stringify(body)
+//             }
+//         );
+//         const data = await response.json();
+//         console.log("Response", data);
+//         return data;
+
+//     } catch (error) {
+//         console.log(`error`);
+//         return null;
+//     }
+
+// }
 export const putChangesOfPage = async (page) => {
-    console.log("SAVECHANGESDATA MANAGER", page);
+    console.log("Page", page);
+
     try {
         const token = getTokenFromUser();
-        const body = {
-            "title": page.title,
-            "banner": page.banner,
-            "icon": page.icon,
-            "type": page.type,
-            "content":
-                page.type === "Empty" ? {
-                    "text": page.content?.text || null,
-                } :
-                    {
-                        "title": page.title,
-                        "internalContent": page.content,
-                    },
-            "slug": page.slug,
-        };
-        console.log("BOOOOODY POSITIV", body);
+        const formData = new FormData();
 
-        const response = await fetch(localHost + pathMethodPut,
-            {
-                method: "PUT",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-type": "application/json ; charset=UTF-8"
-                },
-                credentials: 'include',
-                body: JSON.stringify(body)
-            }
-        );
+        formData.append("title", page.title);
+        formData.append("type", page.type);
+        formData.append("slug", page.slug);
+
+        // Примеры: добавляем файлы только если есть
+        if (page.banner instanceof File) {
+            formData.append("banner", page.banner);
+        }
+
+        if (page.icon instanceof File) {
+            formData.append("icon", page.icon);
+        }
+
+        // Контент в зависимости от типа
+        if (page.type === "Empty") {
+            formData.append("content", JSON.stringify({
+                text: page.content?.text || null
+            }));
+        } else {
+            formData.append("content", JSON.stringify({
+                title: page.title,
+                internalContent: page.content
+            }));
+        }
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}:`, value);
+        }
+
+
+        const response = await fetch(localHost + pathMethodPut, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                
+            },
+            credentials: 'include',
+            body: formData
+        });
+
         const data = await response.json();
         console.log("Response", data);
         return data;
 
     } catch (error) {
-        console.log(`error`);
+        console.log("error", error);
         return null;
     }
-
 }
 
 

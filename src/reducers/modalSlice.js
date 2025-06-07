@@ -47,10 +47,15 @@ const modalSlice = createSlice({
             if (state.modalData) {
                 state.modalData.date = action.payload
             }
+        },
+        setModalFile(state, action) {
+            if (state.modalData) {
+                state.modalData.files = action.payload
+            }
         }
     },
 });
 
 //Экспрт actions и редьюсер
-export const { openModal, closeModal, updateModalData, setModalCardName, setModalDescription, setModalNumber, setModalColor, setModalDate } = modalSlice.actions;
+export const { openModal, closeModal, setModalFile, updateModalData, setModalCardName, setModalDescription, setModalNumber, setModalColor, setModalDate } = modalSlice.actions;
 export default modalSlice.reducer;
