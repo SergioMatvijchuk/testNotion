@@ -2,7 +2,7 @@
 
 import { configureStore } from '@reduxjs/toolkit';  // импортируем configureStore для создания хранилища
 import modalSlice from './reducers/modalSlice'; // редьюсер для модалки
-import  userReducer    from './reducers/userSlice';
+import userReducer from './reducers/userSlice';
 
 const store = configureStore({
     reducer: {
@@ -12,6 +12,10 @@ const store = configureStore({
          То есть, мы говорим Redux, что для состояния с именем modal
           нужно использовать редьюсер modalReducer. */
         user: userReducer,
-    }
+    },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
 });
 export default store;

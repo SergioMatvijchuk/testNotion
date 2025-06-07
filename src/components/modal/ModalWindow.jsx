@@ -7,7 +7,8 @@ import {
     setModalDescription,
     setModalNumber,
     setModalColor,
-    setModalDate
+    setModalDate,
+    setModalFile
 } from '../../reducers/modalSlice';
 import './ModalWindow.css';
 import DatePicker from "react-datepicker";
@@ -80,6 +81,7 @@ export default function ModalWindow() {
             date: null,
             description: null,
             color: null,
+            imageFile: null,
 
         });
     };
@@ -159,9 +161,6 @@ export default function ModalWindow() {
             ...prevState, number: e.target.value,
         }));
         dispatch(setModalNumber(e.target.value));
-        console.log("Modal , number", e.target.value);
-
-
         setShowPicker(false);
     }
 
@@ -185,9 +184,12 @@ export default function ModalWindow() {
 
     const onFileChange = (e) => {
         const file = e.target.files[0];
-        if (file) {
-            alert("yes")
-        }
+        if (!file) return;
+        setFormData(prevState => ({
+            ...prevState, imageFile: file,
+        }));
+        dispatch(setModalFile(e.target.files[0]));
+
     }
     const togglePicker = () => {
         setShowPicker(prev => !prev);  // Более явное обновление состояния
@@ -217,7 +219,7 @@ export default function ModalWindow() {
                         </li>
                         <li>
                             <div className='gallery_card_property'>
-                                <p onClick={onDownloadFile}><img src={staticImage.iconFile} alt="file" />Files</p><p>Empty</p>
+                                <p onClick={onDownloadFile}><img src={staticImage.iconFile} alt="file" />Files</p><p>{formData.imageFile?.name || "empty"}</p>
                             </div>
                         </li>
                         <li>

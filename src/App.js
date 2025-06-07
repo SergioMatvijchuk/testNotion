@@ -36,7 +36,7 @@ function App() {
       setIsUserChecked(true);
     }
     else {
-      setIsUserChecked(true);
+      setIsUserChecked(false);
     }
 
   }, [user]);
