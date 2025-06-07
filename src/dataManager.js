@@ -2,11 +2,11 @@ import { getTokenFromUser } from "./utils/getUserFromCookies";
 
 const pagestypes = ['empty', 'board', 'list', 'calendur', 'table', 'galllery', 'library'];
 //const localHost = 'https://localhost:7114';
-//const localHost = 'http://26.211.160.167:5000'
-//const localHost = 'https://26.211.160.167:7114'
+//const localHost = 'http://26.211.160.167:7115';
+const localHost = 'https://26.211.160.167:7114';
 
 //const localHost = 'https://10.0.2.4';
-const localHost = `https://notion-backend-bwaahqdgcybafrfy.northeurope-01.azurewebsites.net`;
+//const localHost = `https://notion-backend-bwaahqdgcybafrfy.northeurope-01.azurewebsites.net`;
 console.log("HiH");
 
 

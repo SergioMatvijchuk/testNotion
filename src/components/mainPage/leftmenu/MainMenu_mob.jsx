@@ -76,6 +76,7 @@ export function MainMenu(state) {
 
     return (<>
         {isMobile && (
+
             <Menu
                 left
                 isOpen={isOpen}
@@ -138,8 +139,12 @@ export function MainMenu(state) {
                                 {pagesInLeftMenu ? (
                                     pagesInLeftMenu.map((page) => (
 
-                                        <li key={page.id} >
-                                            <a onClick={() => handleGetPageBySlug(page.slug)}><img src={staticImages.iconPlus} />{page.title}</a>
+                                        <li key={page.id} title={page.title}>
+                                            <a onClick={() => handleGetPageBySlug(page.slug)} >
+                                                <img src={staticImages.iconPlus} />
+                                                {page.title.length > 15 ? page.title.slice(0, 15) + '…' : page.title}
+
+                                            </a>
                                         </li>
                                     ))
                                 ) : (
@@ -152,6 +157,7 @@ export function MainMenu(state) {
                     <div className='sideBarThirdBlock'>
                         <div>
                             <ul>
+                                <li></li>
                                 <li><img src={staticImages.iconImport} />Import</li>
                                 <li><img src={staticImages.iconSettings} />Settings</li>
                                 <li><img src={staticImages.iconTrasch} />Trash</li>
