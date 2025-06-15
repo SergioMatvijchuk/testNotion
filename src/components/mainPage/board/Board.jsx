@@ -36,7 +36,7 @@ export function Board(state) {
     const [inputNameBoard, setInputNameBoard] = useState(pageProps.title);
 
     useEffect(() => {
-        console.log(state);
+        console.log("STATE", state);
 
         console.log("Entry to  Board component");
         const initialPage = {
@@ -68,7 +68,7 @@ export function Board(state) {
         setPage(prev => ({ ...prev, title: inputNameBoard }));
     }, [inputNameBoard]);
 
-    
+
     useEffect(() => {
 
         console.log("Lists", lists);

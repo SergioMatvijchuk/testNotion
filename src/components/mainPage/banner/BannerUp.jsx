@@ -1,11 +1,12 @@
 import './BannerUp.css';
 import { useState, useEffect } from 'react';
-
-
-
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../../../reducers/userSlice';
+import { useDispatch } from 'react-redux';
 
 export function BannerUp() {
-
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [bannerPath, setBannerPath] = useState('img/mainPage/bannerUp/Anime/anime_ban_1.svg');
     const mainPath = 'img/mainPage/bannerUp/';
     const staticImage = {
@@ -43,6 +44,13 @@ export function BannerUp() {
         ]
     }
 
+    const Logout = () => {
+        dispatch(logout());
+        navigate('/');
+    };
+
+
+
     useEffect(() => {
 
         const bannerImage = staticImage.bannerImage;
@@ -67,7 +75,7 @@ export function BannerUp() {
                 }
             }
         }, 3000);
-        
+
         return () => clearInterval(interval);
     },
 
@@ -78,7 +86,7 @@ export function BannerUp() {
             <div className='bannerUserInfo'>
                 <div>
                     <img src={staticImage.iconDots} alt="..." />
-                    <img src={staticImage.iconAvatar} alt="" />
+                    <img src={staticImage.iconAvatar} className='imgLogout' alt="" onClick={Logout} />
                 </div>
             </div>
             <img src={bannerPath} alt="" />

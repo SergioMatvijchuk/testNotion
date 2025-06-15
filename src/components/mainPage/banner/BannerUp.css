@@ -1,5 +1,5 @@
 .bannerUpComp {
-    
+
     display: flex;
     flex-wrap: wrap;
     height: 100%;
@@ -15,7 +15,7 @@
 }
 
 .bannerUserInfo {
- 
+
     background-color: rgba(0, 0, 0, 0.6);
     position: absolute;
     top: 0;
@@ -26,7 +26,7 @@
     align-items: center;
     justify-content: right;
     gap: 8px;
- 
+
 }
 
 .bannerUserInfo>:first-child {
@@ -52,4 +52,13 @@
     width: auto;
     margin-right: 30px;
     opacity: 1;
+}
+
+
+.imgLogout {
+
+
+    &:hover {
+        background: red;
+    }
 }

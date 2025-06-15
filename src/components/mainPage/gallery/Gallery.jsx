@@ -96,15 +96,15 @@ export function Gallery(state) {
   const addNewCard = () => {
     const newCard = {
       "id": `temp_${crypto.randomUUID()}`,
-      "title": "123",
-      "description": "123",
+      "title": "No_Name",
+      "description": "",
       "color": "#ffffff",
-      "number": "123",
+      "number": "",
       "date": new Date().toISOString(),
-      "url": staticImage.imageSimple
+      "img": staticImage.imageSimple
     }
     setCards(prevCards => [...prevCards, newCard]);
-    console.log("cards", cards);
+
   }
 
 

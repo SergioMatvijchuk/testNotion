@@ -28,7 +28,7 @@ export function GalleryCard(state) {
 
 
     useEffect(() => {
-        console.log("STATE Card", state);
+
         const initialPage = {
             id: pageProps.id || `temp_` + crypto.randomUUID(),
             color: pageProps.color,
@@ -45,7 +45,6 @@ export function GalleryCard(state) {
 
 
     useEffect(() => {
-
         if (modalData && modalData.id === card.id) {
             console.log("modalData", modalData);
             const card = {
@@ -57,6 +56,9 @@ export function GalleryCard(state) {
                 title: modalData.cardName,
                 url: modalData.files,
             }
+
+            console.log("CARD", card);
+
             setCard(card);
         }
 
@@ -80,7 +82,7 @@ export function GalleryCard(state) {
 
         <>
             <div onClick={handleCardClick}>
-                <img src={card.url} alt="image" />
+                <img src={card.url?.fileUrl} alt="image" />
                 <p>{card.title}</p>
             </div>
         </>

@@ -1,29 +1,141 @@
 import './TableComponent.css';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { putChangesOfPage } from '../../../dataManager';
+
 
 export function TableComponent(state) {
-    console.log(state);
-    const [inputNameBoard, setInputNameBoard] = useState(state.data.title);
-    
-    
+
     const path = 'img/mainPage/icons/'
     const staticImage = {
         iconPlus: 'iconPlus2',
         iconList: 'iconList',
     }
+
+    const { setComponent, updateLeftMenu } = state;
+    const [cards, setCards] = useState([]);
+    const [inputTitle, setInputTitle] = useState('');
+    const [page, setPage] = useState({});
+    const lastPageRef = useRef({});
+    const lastCardsRef = useRef([]);
+
+
+
+
+
+
+
     Object.entries(staticImage).forEach(([key, value]) => {
         staticImage[key] = path + value + '.svg'
     });
-
-
-
     const [data, setData] = useState(
         [
-            [4, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9],
+            [``, ``, ``],
+            [``, ``, ``],
+            [``, ``, ``],
         ]
     )
+
+
+    const pageProps = {
+        banner: state.data.banner,
+        icon: state.data.icon,
+        id: state.data.id,
+        slug: state.data.slug,
+        title: state.data.title,
+        type: state.data.type,
+        content: state.data.content
+    }
+
+
+    useEffect(() => {
+        console.log("State", state);
+
+        const initialPage = {
+            "title": pageProps.title,
+            "banner": pageProps.banner,
+            "icon": pageProps.icon,
+            "type": pageProps.type,
+            "content": pageProps.content?.internalContent || [],
+            "slug": pageProps.slug
+        };
+        setPage(initialPage);
+        setCards(initialPage.content);
+        setInputTitle(initialPage.title);
+
+        lastPageRef.current = initialPage;
+
+
+        return () => {
+
+            console.log("Data", data);
+
+
+
+
+            const transformedArr = data?.flatMap((rowArr, rowIndex) =>
+                rowArr.map((cell, colIndex) => ({
+                    data: cell,
+                    row: rowIndex,
+                    col: colIndex,
+                    foreground: "#000000",
+                    background: "#ffffff",
+                }))
+            );
+
+
+            const c = transformedArr;
+            const p = lastPageRef.current;
+            p.content = c
+                .map(item => ({
+                    ...item,
+                    id: item.id?.includes("temp") ? null : item.id,
+                    files: Array.isArray(item.files)
+                        ? item.files.map(file => (file))
+                        : []
+                }));
+
+
+            putChangesOfPage(p);
+            updateLeftMenu();
+        }
+    }, []);
+
+    useEffect(() => {
+        setPage(prev => ({
+            ...prev, title: inputTitle
+        }));
+    }, [inputTitle]);
+
+    useEffect(() => {
+        lastPageRef.current = page;
+    }, [page])
+
+
+    useEffect(() => {
+        setPage(prev => ({
+            ...prev, content: cards
+        }))
+        lastCardsRef.current = cards;
+    }, [cards]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     const addNewCol = () => {
         const newArr = data.map(row => [...row, '']);
@@ -78,9 +190,9 @@ export function TableComponent(state) {
                 <input
                     type='text'
                     className='inputName'
-                    value={inputNameBoard}
+                    value={inputTitle}
                     onChange={(e) => {
-                        setInputNameBoard(e.target.value);
+                        setInputTitle(e.target.value);
                     }}
                 />
                 <hr />
@@ -89,7 +201,7 @@ export function TableComponent(state) {
                 <table>
                     <thead>
                         <tr>
-                     
+
                         </tr>
                     </thead>
                     <tbody>

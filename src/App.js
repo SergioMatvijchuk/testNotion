@@ -51,8 +51,7 @@ function App() {
       <div className="App">
         <Router>
           <Routes>
-            <Route path='/' element={isUserChecked ? <MainPage /> : <Navigate to='/login' />} />
-            <Route path='/landing' element={isUserChecked ? <Landing /> : <Navigate to='/login' />} />
+            <Route path='/' element={isUserChecked ? <MainPage /> : <Landing />} />
             <Route path='/login' element={isUserChecked ? <Navigate to='/' /> : <Login />} />
             <Route path='/login/success' element={<LoginSuccess />} />
             <Route path='*' element={<NotFound />} />

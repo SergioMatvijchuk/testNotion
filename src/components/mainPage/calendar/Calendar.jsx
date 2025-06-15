@@ -32,7 +32,6 @@ export function Calendar(state) {
     const [page, setPage] = useState({}); //body  , которое будем потом отправлять.
     const lastPageRef = useRef({});   //здесь храним ссылку на самые последние данные по page
     const lastCardsRef = useRef([]); //здесь храним ссылку на самые последние данные по cards
-
     const dispatch = useDispatch();//для отправки действий в редакс
     const modalData = useSelector((state) => state.modal.modalData);  //тащим данные из модалки
 
@@ -48,6 +47,8 @@ export function Calendar(state) {
     }
 
     useEffect(() => {
+
+        console.log("State ", state);
         const initialPage = {
             "title": pageProps.title,
             "banner": pageProps.banner,
@@ -86,17 +87,12 @@ export function Calendar(state) {
                     ...item,
                     id: item.id?.includes("temp_") ? null : item.id,
                     files: Array.isArray(item.files)
-                        ? item.files.map(file => ({ uploadedFile: file }))
+                        ? item.files.map(file => (file))
                         : []
                 }));
 
-
-            console.log("P", p);
-            console.log("state", state);
-
             putChangesOfPage(p);
             updateLeftMenu();
-            console.log("Exit from Componjent");
         }
     }, [])
 
@@ -151,7 +147,6 @@ export function Calendar(state) {
     useEffect(() => {
         if (!modalData) return;
         console.log("modal Object", modalData);
-
         const card = {
             id: modalData.id,
             title: modalData.cardName || '',
@@ -159,9 +154,14 @@ export function Calendar(state) {
             planedDate: new Date(modalData.date).toISOString().split('T')[0],
             description: modalData.description || '',
             number: modalData.number || '',
-            files: modalData.files || [],
             color: modalData.color || '#3788d8',
         }
+        if (modalData.files) {
+            const arrFiles = new Array();
+            arrFiles.push(modalData.files);
+            card.files = arrFiles;
+        }
+        console.log("Card", card);
 
         const index = cards.findIndex(item => item.id === card.id);
         if (index !== -1) {
@@ -212,8 +212,7 @@ export function Calendar(state) {
                     }}
 
                     eventClick={(info) => {
-                        console.log("EVENT CLICK ", info);
-                        const { description, calendarId, files } = info.event.extendedProps;
+                        const { description, files } = info.event.extendedProps;
                         dispatch(openModal({
                             cardName: info.event.title,
                             id: info.event.id,

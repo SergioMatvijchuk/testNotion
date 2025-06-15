@@ -10,6 +10,7 @@ import {
     setModalDate,
     setModalFile
 } from '../../reducers/modalSlice';
+import { sendFileToServer } from '../../dataManager';
 import './ModalWindow.css';
 import DatePicker from "react-datepicker";
 import ColorPicker from './ColorPicker';
@@ -136,7 +137,7 @@ export default function ModalWindow() {
         setModalDescription(prevState => ({
             ...prevState, cardName: e.target.value,
         }));
-        console.log(formData);
+
 
         dispatch(setModalDescription(e.target.value));
     }
@@ -182,13 +183,23 @@ export default function ModalWindow() {
 
 
 
-    const onFileChange = (e) => {
+    const onFileChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
         setFormData(prevState => ({
             ...prevState, imageFile: file,
         }));
-        dispatch(setModalFile(e.target.files[0]));
+
+        try {
+            const response = await sendFileToServer(file);
+            
+            dispatch(setModalFile(await response.data));
+        }
+        catch (error) {
+            console.log("error file", error);
+
+        }
+
 
     }
     const togglePicker = () => {

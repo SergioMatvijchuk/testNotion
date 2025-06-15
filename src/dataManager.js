@@ -4,10 +4,9 @@ const pagestypes = ['empty', 'board', 'list', 'calendur', 'table', 'galllery', '
 //const localHost = 'https://localhost:7114';
 //const localHost = 'http://26.211.160.167:7115';
 const localHost = 'https://26.211.160.167:7114';
-
 //const localHost = 'https://10.0.2.4';
 //const localHost = `https://notion-backend-bwaahqdgcybafrfy.northeurope-01.azurewebsites.net`;
-console.log("HiH");
+const pointUploadFile = `/imgriff/files/user-files`;
 
 
 const methodGetAll = '/imgriff/pages/get-all';
@@ -24,7 +23,6 @@ const pathSendPostEmailAndCode = '/imgriff/auth/';
 export const getAllPages = async () => {
     try {
         const token = getTokenFromUser();
-
         const response = await fetch(localHost + methodGetAll,
             {
                 method: "GET",
@@ -59,8 +57,6 @@ export const getPageBySlug = async (slug) => {
             credentials: 'include'
         });
         const data = await response.json();
-        console.log("GetPageBySlug", data);
-
         return data;
 
     } catch {
@@ -69,101 +65,73 @@ export const getPageBySlug = async (slug) => {
     }
 }
 
-// export const putChangesOfPage = async (page) => {
-
-//     console.log("Page", page);
 
 
-//     try {
-//         const token = getTokenFromUser();
-//         const body = {
-//             "title": page.title,
-//             "banner": page.banner,
-//             "icon": page.icon,
-//             "type": page.type,
-//             "content":
-//                 page.type === "Empty" ? {
-//                     "text": page.content?.text || null,
-//                 } :
-//                     {
-//                         "title": page.title,
-//                         "internalContent": page.content,
-//                     },
-//             "slug": page.slug,
-//         };
-//         console.log("BOOOOODY POSITIV", body);
 
-//         const response = await fetch(localHost + pathMethodPut,
-//             {
-//                 method: "PUT",
-//                 headers: {
-//                     "Authorization": `Bearer ${token}`,
-//                     "Content-type": "application/json ; charset=UTF-8"
-//                 },
-//                 credentials: 'include',
-//                 body: JSON.stringify(body)
-//             }
-//         );
-//         const data = await response.json();
-//         console.log("Response", data);
-//         return data;
 
-//     } catch (error) {
-//         console.log(`error`);
-//         return null;
-//     }
 
-// }
 export const putChangesOfPage = async (page) => {
-    console.log("Page", page);
+    try {
+        const token = getTokenFromUser();
+        const body = {
+            "title": page.title,
+            "banner": page.banner,
+            "icon": page.icon,
+            "type": page.type,
+            "content":
+                page.type === "Empty" ? {
+                    "text": page.content?.text || null,
+                } :
+                    {
+                        "title": page.title,
+                        "internalContent": page.content,
+                    },
+            "slug": page.slug,
+        };
+        console.log("BOOOOODY POSITIV", body);
 
+        const response = await fetch(localHost + pathMethodPut,
+            {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-type": "application/json ; charset=UTF-8"
+                },
+                credentials: 'include',
+                body: JSON.stringify(body)
+            }
+        );
+        const data = await response.json();
+        console.log("Response", data);
+        return data;
+
+    } catch (error) {
+        console.log(`error`);
+        return null;
+    }
+}
+export const sendFileToServer = async (file) => {
     try {
         const token = getTokenFromUser();
         const formData = new FormData();
 
-        formData.append("title", page.title);
-        formData.append("type", page.type);
-        formData.append("slug", page.slug);
-
-        // Примеры: добавляем файлы только если есть
-        if (page.banner instanceof File) {
-            formData.append("banner", page.banner);
+        if (!(file instanceof File)) {
+            console.log("Incorrect file");
         }
+        formData.append("uploadedFile", file);
 
-        if (page.icon instanceof File) {
-            formData.append("icon", page.icon);
-        }
-
-        // Контент в зависимости от типа
-        if (page.type === "Empty") {
-            formData.append("content", JSON.stringify({
-                text: page.content?.text || null
-            }));
-        } else {
-            formData.append("content", JSON.stringify({
-                title: page.title,
-                internalContent: page.content
-            }));
-        }
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-        }
-
-
-        const response = await fetch(localHost + pathMethodPut, {
-            method: "PUT",
+        const response = await fetch(localHost + pointUploadFile, {
+            method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,
-                
             },
-            credentials: 'includec',
+            credentials: 'include',
             body: formData
         });
 
         const data = await response.json();
         console.log("Response", data);
         return data;
-
     } catch (error) {
         console.log("error", error);
         return null;
@@ -248,7 +216,6 @@ export async function continueWithGoogle() {
 export async function sendEmail(email) {
     console.log("Зашли в sendEmail", email);
     if (!email) {
-        console.log("sendEmail 102 dataManager Error");
         throw new Error("sendEmail 102 dataManager Error");
     }
     try {
@@ -277,10 +244,6 @@ export async function sendEmail(email) {
 
     }
 }
-
-
-
-
 
 
 
