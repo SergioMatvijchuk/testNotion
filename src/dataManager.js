@@ -1,5 +1,5 @@
 import { getTokenFromUser } from "./utils/getUserFromCookies";
-
+import { useNavigate } from "react-router-dom";
 const pagestypes = ['empty', 'board', 'list', 'calendur', 'table', 'galllery', 'library'];
 //const localHost = 'https://localhost:7114';
 //const localHost = 'http://26.211.160.167:7115';
@@ -17,6 +17,9 @@ const pathAuthbyEmail = '/imgriff/auth/user-by-email';
 const pathAuthLogin = '/imgriff/auth/login';
 const pathGetOtp = '/imgriff/auth/get-otp'
 const pathSendPostEmailAndCode = '/imgriff/auth/';
+
+
+
 
 
 /**добавить тьокен? юзера */
@@ -45,8 +48,9 @@ export const getAllPages = async () => {
 
 
 export const getPageBySlug = async (slug) => {
-    console.log('зашли в getPageBySlug');
+
     const token = getTokenFromUser();
+
     try {
 
         const response = await fetch(`${localHost}${pathMainController}?slug=${slug}`, {
@@ -57,6 +61,7 @@ export const getPageBySlug = async (slug) => {
             credentials: 'include'
         });
         const data = await response.json();
+ 
         return data;
 
     } catch {
