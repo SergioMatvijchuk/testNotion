@@ -11,6 +11,7 @@ import { Gallery } from '../gallery/Gallery.jsx';
 import { TableComponent } from '../tableComponent/TableComponent.jsx';
 import { useDevice } from '../../../deviceProvider.js';
 import { bubble as Menu } from 'react-burger-menu';
+import { useNavigate } from 'react-router-dom';
 
 
 export function MainMenu(state) {
@@ -20,9 +21,9 @@ export function MainMenu(state) {
     const updateLeftMenu = state.updateLeftMenu;
     const { isMobile, isDesktop } = useDevice();
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
-        console.log("ISOPEN???????????", isOpen);
         setIsOpen(false);
     }
 
@@ -56,6 +57,7 @@ export function MainMenu(state) {
     const handleGetPageBySlug = async (slug) => {
         try {
             const response = await getPageBySlug(slug);
+        
             const pageType = response?.data?.type || 'Default';
             const Component = typePages[pageType];
             const element = Component(response.data, response.data.slug);
