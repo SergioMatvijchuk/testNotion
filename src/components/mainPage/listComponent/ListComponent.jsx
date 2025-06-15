@@ -8,16 +8,17 @@ import './ListComponent.css';
 
 export function ListComponent(state) {
 
-    const cardName = state.cardName;
-
-    const [inputNameBoard, setInputNameBoard] = useState(cardName || '');
-    const [collectionList, setCollectionList] = useState([]);
+    const { setComponent, updateLeftMenu } = state;
+    const [cards, setCards] = useState([]);
+    const [inputTitle, setInputTitle] = useState('');
     const [page, setPage] = useState({});
-
+    const lastPageRef = useRef({});
+    const lastCardsRef = useRef([]);
+    const dispatch = useDispatch();
+    const modalData = useSelector((state) => state.modal.modalData);
+    const [id, setCardId] = useState('');
 
     const pageProps = {
-        setComponent: state.data.setComponent,
-        updateLeftMenu: () => state.updateLeftMenu(),
         banner: state.data.banner,
         icon: state.data.icon,
         id: state.data.id,
@@ -25,93 +26,107 @@ export function ListComponent(state) {
         title: state.data.title,
         type: state.data.type,
         content: state.data.content
-    };
-    const lastPageRef = useRef({});
+    }
+
+    useEffect(() => {
+
+        console.log("STATE", state);
+
+        const initialPage = {
+            "title": pageProps.title,
+            "banner": pageProps.banner,
+            "icon": pageProps.icon,
+            "type": pageProps.type,
+            "content": pageProps.content?.internalContent || [],
+            "slug": pageProps.slug
+        };
+        setPage(initialPage);
+        setCards(initialPage.content);
+        setInputTitle(initialPage.title);
+
+
+        lastPageRef.current = initialPage;
+
+
+
+        return () => {
+            const c = lastCardsRef.current;
+            const p = lastPageRef.current;
+            p.content = c
+                .map(item => ({
+                    ...item,
+                    id: item.id?.includes("temp") ? null : item.id,
+                    files: Array.isArray(item.files)
+                        ? item.files.map(file => (file))
+                        : []
+                }));
+
+    
+            putChangesOfPage(p);
+            updateLeftMenu();
+        }
+    }, []);
+
+    useEffect(() => {
+        setPage(prev => ({
+            ...prev, title: inputTitle
+        }));
+    }, [inputTitle]);
 
     useEffect(() => {
         lastPageRef.current = page;
     }, [page])
 
 
-    const modalData = useSelector((state) => state.modal.modalData);
 
-
-    useEffect(() => {
-        console.log("State", state);
-        const initialPage = {
-            "title": pageProps.title,
-            "banner": pageProps.banner,
-            "icon": pageProps.icon,
-            "type": pageProps.type,
-            "content": {
-                "title": pageProps.title,
-                "internalContent": pageProps.content?.internalContent || [],
-            },
-            "slug": pageProps.slug
-        };
-        setPage(initialPage);
-        setCollectionList(initialPage.content.internalContent);
-        setInputNameBoard(initialPage.title);
-        lastPageRef.current = initialPage;
-        return async () => {
-            console.log("page!~", lastPageRef);
-            lastPageRef.current.content = lastPageRef.current.content.map(list => ({
-                ...list,
-                id: list.id?.includes('tempId_') ? null : list.id,
-            }));
-            // const updatedPage = {
-            //     ...lastPageRef.current,
-            //     title: inputNameBoard,
-            //     content:
-            //         lastPageRef.current.content?.internalContent?.map(list => ({
-            //             ...list,
-            //             id: list.id?.includes('tempId_') ? null : list.id,
-            //         })) || [],
-            // }
-
-
-            console.log("lastPageRef.current", lastPageRef.current);
-
-            await putChangesOfPage(lastPageRef.current);
-
-            await pageProps.updateLeftMenu();
-
-        };
-    }, []);
     useEffect(() => {
         setPage(prev => ({
-            ...prev, title: inputNameBoard
+            ...prev, content: cards
         }))
-    }, [inputNameBoard])
+        lastCardsRef.current = cards;
+    }, [cards]);
 
-    const updateLeftMenu = () => state.updateLeftMenu;
-    useEffect(() => {
-        console.log("update collectionList", lastPageRef.current);
-
-        setPage(prev => ({
-            ...prev, content: collectionList
-
-        }))
-        console.log("PAge", page);
-
-
-    }, [collectionList]);
-
-
-
-
-
-    const [id, setCardId] = useState('');
-    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (modalData && modalData.text && modalData.id == id) {
-            changeCardName(modalData.text, id);
+
+        if (!modalData) return;
+        let rawDate = new Date(modalData.date);
+        const isValidDate = !isNaN(rawDate.getTime());
+        const formattedDate = isValidDate
+            ? rawDate.toISOString().split('T')[0]
+            : new Date().toISOString().split('T')[0];
+
+        const card = {
+            id: modalData.id,
+            title: modalData.cardName || '',
+            date: formattedDate,
+            planedDate: formattedDate,
+            description: modalData.description || '',
+            number: modalData.number || '',
+            color: modalData.color || '#3788d8',
+        };
+        if (modalData.files) {
+            const arrFiles = new Array();
+            arrFiles.push(modalData.files);
+            card.files = arrFiles;
         }
+
+        console.log("Card", card);
+        const index = cards.findIndex(item => item.id === card.id);
+        if (index !== -1) {
+            const updatedCards = [...cards];
+            updatedCards[index] = card;
+            setCards(updatedCards);
+        }
+        else {
+            setCards([...cards, card])
+        }
+
     }, [modalData]);
 
+
     const moveCard = (dragId, hoverId) => {
-        const updated = [...collectionList];
+        const updated = [...cards];
         const dragItem = updated.find(item => item.id === dragId);
         const hoverIndex = updated.findIndex(item => item.id === hoverId);
         const withoutDrag = updated.filter(item => item.id !== dragId);
@@ -120,12 +135,22 @@ export function ListComponent(state) {
             ...item,
             index,
         }));
-        setCollectionList(reordered);
+        setCards(reordered);
 
     }
 
-    const handleCardClick = (title, id) => {
-        dispatch(openModal({ text: title, id: id })); //передаем данные в модалку
+    const handleCardClick = (imageName, id, date, color, number, description) => {
+
+        console.log(imageName, id, date, color, number, description);
+
+        dispatch(openModal({
+            cardName: imageName,
+            id: id,
+            date: date,
+            description: description,
+            number: number,
+            color: color,
+        }));
     }
 
     const handleInputChange = (e, id) => {
@@ -143,22 +168,24 @@ export function ListComponent(state) {
     }
 
     const changeCardName = (newTitle, id) => {
-        setCollectionList(collectionList.map(item =>
+        setCards(cards.map(item =>
             item.id === id ? { ...item, title: newTitle } : item
         ));
     }
 
     const addnewElement = () => {
-        setCollectionList([...collectionList, {
-            id: 'tempId_' + collectionList.length, title: "newList", position: collectionList.length + 1
+        setCards([...cards, {
+            id: 'tempId_' + cards.length, title: "newList", position: cards.length + 1, date: new Date(), color: '', number: '', description: ''
         }])
+
+
     }
     return (
         <DndProvider backend={HTML5Backend}>
             <div className="listComponent">
                 <div>
-                    <input type='text' className='inputName' value={inputNameBoard} onChange={(e) => {
-                        setInputNameBoard(e.target.value);
+                    <input type='text' className='inputName' value={inputTitle} onChange={(e) => {
+                        setInputTitle(e.target.value);
                     }
                     } />
                     <hr />
@@ -166,7 +193,7 @@ export function ListComponent(state) {
                 <div className='scrollableVertical'>
                     <ul>
                         {
-                            collectionList
+                            cards
                                 .sort((a, b) => a.index - b.index)
                                 .map(item => (
                                     <DraggableItem
@@ -193,7 +220,7 @@ export function ListComponent(state) {
 
 
 function DraggableItem({ item, moveCard, setCardId, handleCardClick, handleInputChange, changeCardName }) {
-    const [{ isDragging }, drag, prewiew] = useDrag({
+    const [{ isDragging }, drag] = useDrag({
         type: 'CARD',
         item: { id: item.id, index: item.index },
         collect: (monitor) => ({
@@ -213,13 +240,13 @@ function DraggableItem({ item, moveCard, setCardId, handleCardClick, handleInput
 
     return (
         <li ref={(node) => drag(drop(node))}
-            className={`list-item ${isDragging ? 'dragging' : ''}`}
-
-        >
+            className={`list-item ${isDragging ? 'dragging' : ''}`}>
             <span className="icon"
                 onClick={(e) => {
                     setCardId(item.id);
-                    handleCardClick(item.title, item.id);
+                    console.log("ITEM|", item);
+
+                    handleCardClick(item.title, item.id, item.date, item.color, item.number, item.description);
                 }} />
             <input type="text"
                 value={item.title}

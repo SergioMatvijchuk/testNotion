@@ -7,16 +7,14 @@ const userSlice = createSlice({
     initialState: null,
     reducers: {
         setUser: (state, action) => {
-            console.log("Set User Ti Cookie");
-            console.log("ACTION PAYLOAD CREATE SLICE", action.payload);
+            setUserToCookie(action.payload.user);
+            setTokenToCookie(action.payload.jwt);
 
-             setUserToCookie(action.payload.user);
-             setTokenToCookie(action.payload.jwt);
-            
             return action.payload;
         },
         logout: (state) => {
-            Cookies.remove('user');
+            Cookies.remove('token', { path: '/' });
+            Cookies.remove('user', { path: '/' });
             return null;
         },
     },
