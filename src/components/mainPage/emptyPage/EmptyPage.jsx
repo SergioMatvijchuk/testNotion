@@ -7,14 +7,14 @@ import { useEffect, useState, useRef } from 'react';
 
 export function EmptyPage(state) {
     const pageProps = {
-        setComponent: state.data.setComponent || "null",
-        banner: state.data.banner,
-        icon: state.data.icon,
-        id: state.data.id,
-        slug: state.data.slug,
-        title: state.data.title,
-        type: state.data.type,
-        content: state.data.content
+        setComponent: state.data?.setComponent || "null",
+        banner: state.data?.banner,
+        icon: state.data?.icon,
+        id: state.data?.id,
+        slug: state.data?.slug,
+        title: state.data?.title,
+        type: state.data?.type,
+        content: state.data?.content
 
     };
 
@@ -24,6 +24,8 @@ export function EmptyPage(state) {
 
 
     useEffect(() => {
+        console.log("Data", state);
+
         console.log("Entry to  Empty component", state);
         const initialPage = {
             "title": pageProps.title,
