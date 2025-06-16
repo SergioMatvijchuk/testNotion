@@ -27,14 +27,13 @@ export function MainPage() {
             }, 300);
         }, 300);
     }, []);
-    const [childComponent, setChildComponent] = useState(<StartPage setComponent={setComponent} />)
 
     const updateLeftMenu = async () => {
         try {
             console.log("updateLeftMenu");
             const response = await getAllPages(); //получаем все страницы 
             setPagesInLeftMenu(response.data);
-            console.log("All...ok ? ");
+         
 
         } catch (error) {
             console.log("Error fetching data:", error);
@@ -43,6 +42,7 @@ export function MainPage() {
     useEffect(() => {
         updateLeftMenu();
     }, []);
+    const [childComponent, setChildComponent] = useState(<StartPage setComponent={setComponent} updateLeftMenu={updateLeftMenu} setPagesInLeftMenu={setPagesInLeftMenu} />)
 
     return (
         <div className='mainPage '>

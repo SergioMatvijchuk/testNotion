@@ -41,10 +41,7 @@ export function NewPage(state) {
     Gallery: 'Gallery',
 
   };
-  useEffect(() => {
-    console.log("New Page", state);
 
-  }, []);
   const typePages = {
     Board: (data) => <Board data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
     Empty: (data) => <EmptyPage data={data} setComponent={setComponent} updateLeftMenu={updateLeftMenu} />,
@@ -62,7 +59,6 @@ export function NewPage(state) {
 
   const handleCreateNewPage = async (type, iconUrl) => {
     const page = await createNewPage(name, type, staticBanner, iconUrl);
-    console.log("PAGE", page);
 
     const response = await getAllPages(); //получаем все страницы 
     await setPagesInLeftMenu(response.data);  //обновляем левое меню

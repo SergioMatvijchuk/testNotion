@@ -23,6 +23,14 @@ export function MainMenu(state) {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
 
+
+    useEffect(() => {
+        console.log("State ", state);
+
+        return () => {
+
+        };
+    }, []);
     const toggleMenu = () => {
         setIsOpen(false);
     }
@@ -57,7 +65,7 @@ export function MainMenu(state) {
     const handleGetPageBySlug = async (slug) => {
         try {
             const response = await getPageBySlug(slug);
-        
+
             const pageType = response?.data?.type || 'Default';
             const Component = typePages[pageType];
             const element = Component(response.data, response.data.slug);
