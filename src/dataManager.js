@@ -249,7 +249,7 @@ export async function sendEmail(email) {
 
     }
 }
-
+``
 
 
 const list = {
