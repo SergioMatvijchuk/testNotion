@@ -18,6 +18,7 @@ import LoginSuccess from './components/loginpage/LoginSuccess.jsx';
 
 
 function App() {
+  console.log("Start App , Hello ");
 
   const dispatch = useDispatch();
   const isModalOpen = useSelector((state) => state.modal.isModalOpen); // получаем состояние модалки
