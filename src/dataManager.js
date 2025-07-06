@@ -34,7 +34,6 @@ export const getAllPages = async () => {
             }
         );
         const data = await response.json();
-        console.log("GET ALL PAGES", data);
         return data;
 
     } catch (error) {
@@ -84,7 +83,7 @@ export const putChangesOfPage = async (page) => {
                     },
             "slug": page.slug,
         };
-        console.log("BOOOOODY POSITIV", body);
+
 
         const response = await fetch(localHost + pathMethodPut,
             {
@@ -98,7 +97,7 @@ export const putChangesOfPage = async (page) => {
             }
         );
         const data = await response.json();
-        console.log("Response", data);
+
         return data;
 
     } catch (error) {
@@ -127,7 +126,6 @@ export const sendFileToServer = async (file) => {
         });
 
         const data = await response.json();
-        console.log("Response", data);
         return data;
     } catch (error) {
         console.log("error", error);
@@ -136,7 +134,6 @@ export const sendFileToServer = async (file) => {
 }
 
 export const createNewPage = async (namePage, type, bannerURL, iconURL, content) => {
-    console.log("Зашли в createNewPage");
     const token = getTokenFromUser();
     const body = {
         "title": namePage,
@@ -164,8 +161,6 @@ export const createNewPage = async (namePage, type, bannerURL, iconURL, content)
 }
 
 export async function AuthByEmail(email) {
-    console.log("Зашли в authByEmail");
-
     const response = await fetch(localHost + pathAuthbyEmail + `?email=${email}`, {
         method: 'get',
         headers: {
@@ -182,7 +177,6 @@ export async function AuthByEmail(email) {
 }
 
 export async function sendEmailAndCode(email, code) {
-    console.log("Зашли в sendEmailAndCode");
     const requestData = {
         "email": email,
         "passcode": code,
@@ -203,8 +197,6 @@ export async function sendEmailAndCode(email, code) {
 
 
 export async function continueWithGoogle() {
-    console.log("Зашли в Continue with Google");
-
     return await (window.location.href = localHost + pathAuthLogin);
 }
 
@@ -214,8 +206,6 @@ export async function sendEmail(email) {
         throw new Error("sendEmail 102 dataManager Error");
     }
     try {
-        console.log("adress", localHost + pathGetOtp + `?email=${email}`);
-
         const response = await fetch(localHost + pathGetOtp + `?email=${email}`, {
             method: 'GET',
             headers: {
@@ -224,14 +214,11 @@ export async function sendEmail(email) {
             credentials: 'include',
         });
 
-        console.log("RESPONSE DATA MANAGER ", response);
-
         if (!response.ok) {
             console.log("ERROR (% STR ", response);
             throw new Error('response not OK');
         }
         const res = await response.json();
-        console.log("RES", res);
 
         return res;
     } catch (error) {
