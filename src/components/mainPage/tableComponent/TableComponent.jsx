@@ -23,8 +23,6 @@ export function TableComponent(state) {
 
 
 
-
-
     Object.entries(staticImage).forEach(([key, value]) => {
         staticImage[key] = path + value + '.svg'
     });
@@ -35,6 +33,10 @@ export function TableComponent(state) {
             [``, ``, ``],
         ]
     )
+    const dataRef = useRef(data);
+    useEffect(() => {
+        dataRef.current = data;
+    }, [data]);
 
 
     const pageProps = {
@@ -63,19 +65,34 @@ export function TableComponent(state) {
         setCards(initialPage.content);
         setInputTitle(initialPage.title);
 
+        const rows = Math.max(...initialPage.content.map(c => c.row)) + 1;
+        const cols = Math.max(...initialPage.content.map(c => c.col)) + 1;
+
+        const table = Array.from({ length: rows }, (_, row) =>
+            Array.from({ length: cols }, (_, col) =>
+                initialPage.content.find(c => c.row === row && c.col === col) || {
+                    id: 'temp_',
+                    row,
+                    col,
+                    data: '',
+                    foreground: '#000000',
+                    background: '#ffffff',
+                }
+            )
+        );
+
+        setData(table);
         lastPageRef.current = initialPage;
 
 
         return () => {
-
-            console.log("Data", data);
-
+            console.log("data", dataRef.current);
 
 
-
-            const transformedArr = data?.flatMap((rowArr, rowIndex) =>
+            const transformedArr = dataRef.current?.flatMap((rowArr, rowIndex) =>
                 rowArr.map((cell, colIndex) => ({
-                    data: cell,
+                    id: cell.id,
+                    data: cell.data,
                     row: rowIndex,
                     col: colIndex,
                     foreground: "#000000",
@@ -86,6 +103,8 @@ export function TableComponent(state) {
 
             const c = transformedArr;
             const p = lastPageRef.current;
+         
+
             p.content = c
                 .map(item => ({
                     ...item,
@@ -95,6 +114,7 @@ export function TableComponent(state) {
                         : []
                 }));
 
+            console.log("PPPPPP", p);
 
             putChangesOfPage(p);
             updateLeftMenu();
@@ -119,32 +139,38 @@ export function TableComponent(state) {
         lastCardsRef.current = cards;
     }, [cards]);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     const addNewCol = () => {
-        const newArr = data.map(row => [...row, '']);
+        const newArr = data.map((row, rowIndex) => {
+            const newColIndex = row.length;
+            return [
+                ...row,
+                {
+                    id: "temp_" + row + rowIndex,
+                    row: rowIndex,
+                    col: newColIndex,
+                    data: '',
+                    foreground: '#000000',
+                    background: '#ffffff',
+                }
+            ];
+        });
         setData(newArr);
     }
 
     const addNewRow = () => {
-        const newArr = [...data, new Array(data[0].length).fill('')];
-        setData(newArr);
+        const newRowIndex = data.length;
+        const cols = data[0]?.length || 0;
+
+        const newRow = Array.from({ length: cols }, (_, colIndex) => ({
+            id: "temp_" + newRowIndex + cols,
+            row: newRowIndex,
+            col: colIndex,
+            data: '',
+            foreground: '#000000',
+            background: '#ffffff',
+        }));
+
+        setData([...data, newRow]);
     }
 
     /**предотвращение неудачного сброса */
@@ -181,9 +207,6 @@ export function TableComponent(state) {
     }
 
 
-
-
-
     return (
         <div className="tableComponent">
             <div>
@@ -205,6 +228,8 @@ export function TableComponent(state) {
                         </tr>
                     </thead>
                     <tbody>
+                        {console.log("DATA", data)
+                        }
                         {data.map((row, rowIndex) => (
                             <tr key={rowIndex}>
                                 {row.map((cell, colIndex) => (
@@ -217,10 +242,12 @@ export function TableComponent(state) {
                                     >
                                         <input
                                             type="text"
-                                            value={cell}
+                                            value={cell.data}
                                             onChange={(e) => {
                                                 const updatedData = [...data];
-                                                updatedData[rowIndex][colIndex] = e.target.value;
+                                                console.log("UpdatedData", updatedData);
+
+                                                updatedData[rowIndex][colIndex].data = e.target.value;
                                                 setData(updatedData);
                                             }}
                                         />

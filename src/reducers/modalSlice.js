@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-
 //slice for modal window
 
 const modalSlice = createSlice({
