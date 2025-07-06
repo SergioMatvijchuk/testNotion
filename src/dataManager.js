@@ -17,9 +17,6 @@ const pathSendPostEmailAndCode = '/imgriff/auth/';
 
 
 
-
-
-
 export const getAllPages = async () => {
     try {
         const token = getTokenFromUser();
