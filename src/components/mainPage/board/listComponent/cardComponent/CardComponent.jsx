@@ -1,4 +1,4 @@
-import { useRef , useEffect} from 'react';
+import { useRef, useEffect } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 const ItemTypes = {
@@ -8,9 +8,10 @@ const ItemTypes = {
 export function Card({ card, index, moveCard, handleInputChange, listId, onExternalDrop }) {
     const ref = useRef(null);
     useEffect(() => {
-        console.log("CARD" , card);
-        
-    
+
+        console.log("CARD", card);
+
+
     }, []);
     const [, drop] = useDrop({
         accept: ItemTypes.CARD,

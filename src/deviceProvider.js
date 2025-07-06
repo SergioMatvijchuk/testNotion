@@ -9,7 +9,6 @@ export const DeviceProvider = ({ children }) => {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const isDesktop = useMediaQuery({ query: '(min-width: 769px)' });
 
-
     return (
         <DeviceContext.Provider value={{ isMobile, isDesktop }}>
             {children}

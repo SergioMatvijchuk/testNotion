@@ -9,7 +9,6 @@ const userSlice = createSlice({
         setUser: (state, action) => {
             setUserToCookie(action.payload.user);
             setTokenToCookie(action.payload.jwt);
-
             return action.payload;
         },
         logout: (state) => {

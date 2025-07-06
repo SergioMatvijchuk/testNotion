@@ -36,9 +36,6 @@ export function Board(state) {
     const [inputNameBoard, setInputNameBoard] = useState(pageProps.title);
 
     useEffect(() => {
-        console.log("STATE", state);
-
-        console.log("Entry to  Board component");
         const initialPage = {
             "title": pageProps.title,
             "banner": pageProps.banner,
@@ -51,6 +48,8 @@ export function Board(state) {
             "slug": pageProps.slug
         };
         setPage(initialPage);
+
+
         lastPageRef.current = initialPage;
     }, [state]);
 

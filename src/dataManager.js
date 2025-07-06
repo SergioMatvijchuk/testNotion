@@ -1,11 +1,8 @@
 import { getTokenFromUser } from "./utils/getUserFromCookies";
 import { useNavigate } from "react-router-dom";
 const pagestypes = ['empty', 'board', 'list', 'calendur', 'table', 'galllery', 'library'];
-//const localHost = 'https://localhost:7114';
-//const localHost = 'http://26.211.160.167:7115';
-//const localHost = 'https://26.211.160.167:7114';
-//const localHost = 'https://10.0.2.4';
 const localHost = `https://notion-back.azurewebsites.net`;
+//const localHost = `https://26.211.160.167:7114`
 const pointUploadFile = `/imgriff/files/user-files`;
 
 
@@ -20,12 +17,6 @@ const pathSendPostEmailAndCode = '/imgriff/auth/';
 
 
 
-
-
-
-
-
-/**добавить тьокен? юзера */
 export const getAllPages = async () => {
     try {
         const token = getTokenFromUser();
@@ -49,13 +40,12 @@ export const getAllPages = async () => {
     }
 }
 
-
 export const getPageBySlug = async (slug) => {
 
     const token = getTokenFromUser();
 
     try {
-
+      
         const response = await fetch(`${localHost}${pathMainController}?slug=${slug}`, {
             method: "GET",
             headers: {
@@ -64,7 +54,7 @@ export const getPageBySlug = async (slug) => {
             credentials: 'include'
         });
         const data = await response.json();
- 
+
         return data;
 
     } catch {
@@ -72,11 +62,6 @@ export const getPageBySlug = async (slug) => {
         return null;
     }
 }
-
-
-
-
-
 
 export const putChangesOfPage = async (page) => {
     try {
@@ -118,6 +103,7 @@ export const putChangesOfPage = async (page) => {
         return null;
     }
 }
+
 export const sendFileToServer = async (file) => {
     try {
         const token = getTokenFromUser();
@@ -145,7 +131,6 @@ export const sendFileToServer = async (file) => {
         return null;
     }
 }
-
 
 export const createNewPage = async (namePage, type, bannerURL, iconURL, content) => {
     console.log("Зашли в createNewPage");
@@ -220,7 +205,6 @@ export async function continueWithGoogle() {
     return await (window.location.href = localHost + pathAuthLogin);
 }
 
-
 export async function sendEmail(email) {
     console.log("Зашли в sendEmail", email);
     if (!email) {
@@ -252,7 +236,7 @@ export async function sendEmail(email) {
 
     }
 }
-``
+
 
 
 const list = {
