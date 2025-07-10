@@ -10,7 +10,6 @@ import Cookies from 'js-cookie'
 
 export function Login(props) {
 
-    /**прокинуть пропсами ссылки на картинки  */
     const [email, setEmail] = useState();
     const [loginCode, setLoginCode] = useState();
     const user = useSelector((state) => state.user);
@@ -38,8 +37,6 @@ export function Login(props) {
     }
 
     const cleanCookie = () => {
-        console.log("CLEAN COOKIE!");
-
         Object.keys(Cookies.get()).forEach(cookieName => {
             Cookies.remove(cookieName, { path: '/' });
         });
@@ -50,20 +47,15 @@ export function Login(props) {
 
         if (!email || !loginCode)
             return;
-        console.log("Authorisation in process");
-
 
         try {
 
             const data = await sendEmailAndCode(email, loginCode);
-            console.log("Login DATA!!!!!",data);
-            
             if (data.status.code < 200 || data.status.code >= 300) {
                 throw new Error('response not OK');
             }
 
             dispatch(setUser(data.data));
-            console.log('авторизация норм, куки впорядке.Навигируем.');
             navigate('/');
 
         } catch (error) {
@@ -76,27 +68,13 @@ export function Login(props) {
         const mail = email;
         if (!email)
             return;
-        console.log("handleSendEmail in process");
         const data = await sendEmail(mail)
-
-        // if (data.status.code === 200) {
-        //     console.log("handleSendEmail  OK ", data.status);
-
-        // }
-        // else {
-        //     console.log("handleSendEmail NOT OK ", data.status);
-
-        // }
-
-
     }
 
 
 
 
     const handleContinueWithGoogle = async () => {
-        //кидается переадресация на логин с подтвержденным гуглом 
-        console.log("handleContinueWithGoogle");
         await continueWithGoogle();
 
     }
