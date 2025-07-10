@@ -2,15 +2,9 @@ import { getTokenFromUser } from "./utils/getUserFromCookies";
 import { useNavigate } from "react-router-dom";
 const pagestypes = ['empty', 'board', 'list', 'calendur', 'table', 'galllery', 'library'];
 
-
-
 //const localHost = `https://26.211.160.167:7114`;
 const localHost = `https://notion-back.azurewebsites.net`;
-
-
 const pointUploadFile = `/imgriff/files/user-files`;
-
-
 const methodGetAll = '/imgriff/pages/get-all';
 const pathMainController = '/imgriff/pages'; //гетСлаг 
 const pathMethodPut = '/imgriff/pages'; //изменения
