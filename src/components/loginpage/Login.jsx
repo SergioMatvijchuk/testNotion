@@ -10,7 +10,7 @@ import Cookies from 'js-cookie'
 
 export function Login(props) {
 
-``    const [email, setEmail] = useState();
+    const [email, setEmail] = useState();
     const [loginCode, setLoginCode] = useState();
     const user = useSelector((state) => state.user);
 
