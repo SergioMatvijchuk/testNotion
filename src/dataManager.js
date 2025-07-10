@@ -1,8 +1,8 @@
 import { getTokenFromUser } from "./utils/getUserFromCookies";
 import { useNavigate } from "react-router-dom";
 const pagestypes = ['empty', 'board', 'list', 'calendur', 'table', 'galllery', 'library'];
-//const localHost = `https://notion-back.azurewebsites.net`;
-const localHost = `https://26.211.160.167:7114`
+const localHost = `https://notion-back.azurewebsites.net`;
+//const localHost = `https://26.211.160.167:7114`
 const pointUploadFile = `/imgriff/files/user-files`;
 
 
